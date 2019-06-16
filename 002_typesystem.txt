@@ -1,0 +1,77 @@
+type system
+  extensionname-items.xml, not mandatory
+  type
+    new
+	extends existing
+	add attribute for existing
+  items declaration order: follow the order rule
+  each attr => 1 column
+  create xxxModel and Generatedxxx
+  deployment 
+    co => create table, no => add to parent table, default is GenericItem (if build.development.mode=false, if true=> build fail, not prefered)  
+    if parent already has deployment => consider not using in child (join table)
+  generate (classes - build)
+    "true" => generate related classes for this type
+	"false" => update existing
+  autocreate (table - update/initialize)
+  autocreate and generate false thuong dung khi update e.g. add new column to existing type (add District to existing Address item)
+  typecode: used internal for Hybris (PK generation), 32767>x>10000, duplicate => build fail
+  read/write/search/optional
+  persistence type
+    property: used as column in db
+	dynamic: not store in db, e.g. moi lan get ra can tinh lai e.g. age of customer in system
+  define collection
+  map
+  enum
+    dynamic enum: can change at runtime using backoffice/impex
+  relation
+  collecion vs relation: 1 way and 2 way mapping, collection is better in performance
+  redeclare attribute in child (e.g. add read only, change datatype (only sub type is allowed))
+  https://help.hybris.com/1808/hcd/8c755da8866910149c27ec908fc577ef.html  
+  best practice: https://help.hybris.com/1808/hcd/8ecae959b9bd46b8b426fa8dbde5cac4.html
+
+
+model(platform/bootstrap/gensrc): unifying all attributes from all extensions from xxx-items.xml (same code)
+  model class generation: compile - e.g. ProductModel for all items with code="product"
+	suppress generate model (and subtypes)/an attribute: <model generate="false"/>
+	custome generated constructor/getter/setter
+  model life cycle
+	instantiating model (new/load from db)
+	modifying
+	saving: ModelService.save (all models)
+	removing
+  hybis default lazing loading: config - servicelayer.prefetch: 
+	'all' (load also reference) 
+	or 'literal'
+	or 'none': default
+  best practice: trong truong hop relation/collection nhieu data -> getter/setter can return many records and will be cached -> tang memory => should use flexible search => return 1 value.  	
+  model context: manage models - only when create/load with modelService
+	attach/detach model to model context: attach/detach
+	belong to HybrisRequestScope (only 1 thread request) => when finish request/close session => auto release all models
+	not thread safe => using SessionService?
+	not use olds model reference after transaction rolled back
+  modelService
+    creating model
+	  using constructor: attach when call save/attach, not have default values in items.xml util save,if want call initDefaults
+	  using factory method:  modelService.create => in the context
+	loading model
+	  using pk
+	  using flexibleSearchService: search()/searchUnique()
+	  using sample model with flexibleSearchService: using new vs modelService.create()//have default values
+	  search by localized attribute //need to attach to modelContext
+	saving model
+      save model with newly created & unsaved reference -> reference also is saved
+	  save model with existing reference -> reference is not saved
+	  saveAll()
+	  collection: collection getter return unmodified list => need to create a new collection => modify and set again
+	removing model
+	refreshing model: refresh unsaved changes
+	converting model and item?why?
+
+Generating java beans and enums
+e.g. ProductData - merge accross extensions
+not implement equals() and hashcode() by default
+more: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/6.7.0.0/en-US/8bc53579866910149472ccbef0222ec5.html
+
+equals and hashcode in hybris
+  already implement using ItemModelContext: based on PK and tenant id

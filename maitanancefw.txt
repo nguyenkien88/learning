@@ -1,0 +1,14 @@
+Maintenance framework: https://help.hybris.com/1808/hcd/8b9ba2218669101483e7f2ca38a2de96.html
+performance tuning: https://help.hybris.com/1808/hcd/8c2780e686691014a134cc8fd1091aa3.html
+  cleanup savedvalues and savedvalueentry
+    item
+      each will helds savedvalues (not impex)
+  	  each will helds savedvalueentries (changed attrs)
+    how? - built in (hmc.storing.modifiedvalues.size and CleanupSavedValuesStrategy) only clean up SavedValues
+      default: max 20 editor - can override: hmc.storing.modifiedvalues.size
+  	  or using cronjob with CleanupSavedValuesStrategy (same effect but can run by yourself)
+  	  truong hop current table already have edited items over threadhold -> next change or run cron job
+    update/delete data
+	  impex
+	  modelservice
+	  native sql

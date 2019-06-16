@@ -1,0 +1,16 @@
+email
+  terms
+    email template: subject, body
+    email page
+    email process: generate, send, remove
+    email context
+  how?
+    need model contains some info in email (e.g. Consignment)
+	define process: generate (new bean), send, remove
+	create new email context (hold all data that sent to template)
+	create email templates for subject and body using Velocity template
+	impex: 
+	  RendererTemplate - connect Context and vm file
+	  EmailPageTemplate: create template with subject and body defined in RendererTemplate
+	  EmailPage: instance of template
+	config

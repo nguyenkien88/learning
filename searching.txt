@@ -1,0 +1,47 @@
+Search mechanism
+  Flexible search
+    search for items (sap type system)
+	used in hac or java query (dao)
+    similar to sql using itemtype to query: order, join...
+    conveted to sql to query (in hac)
+    sub type: select * from {Product} => subtype of Product will also retrieved
+    search with runtime value
+    flexibleSearchService.search(query, params)
+	
+	search result depends on the context of user: access right, catalog version, restriction...
+	keyword and function: https://help.hybris.com/1808/hcd/8bc399c186691014b8fce25e96614547.html
+		
+	restrictions
+      narrow the result of flexible search, default not affect to admingroup
+      apply for type (and subtype) and user/usergroup (all members of the groups) - add AND {additional query} to WHERE clause
+      not affect 3rd search engine
+	  create/edit?
+	    java api (SearchRestrictionModel)
+	    using impex
+		using backoffice
+
+search mechanisms
+  only search for items
+  flexible search
+    hac/using api (flexibleSearchService)
+	search context: current session (with current user) => same query => differ result
+	  effect by: type access rights (these affect the Backoffice search results only), restrictions, catalog versions, and categories
+	  default is based on annonymous => need to set session user
+	syntax: https://help.hybris.com/1808/hcd/8bc399c186691014b8fce25e96614547.html
+	  {Product!} => no sub types
+	disable caching: apply cho query that cache ko co tac dung - search theo time change frequently (differ moi lan search)
+	paging support
+	
+  viewtype: https://help.hybris.com/1808/hcd/c97c0ac3701b400b915a8f774f06045e.html#loioc97c0ac3701b400b915a8f774f06045e
+  generics search
+    wrap flexible search (use in Backoffice)
+	in bo/api
+	error in compiletimess
+	
+	     
+restrictions
+  for components and pages
+    types of restrictions: category, time, user/usergroup...
+    using smartedit (category, time, user/usergroup) or cms cockpit
+  for searching 
+  

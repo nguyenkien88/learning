@@ -1,0 +1,39 @@
+Base store
+  represent whole application - codengai
+  can has many sites associated with
+CommerceStockService, StockService, WarehousingCommerceStockService, xxxStrategy, xxxProvider
+verify (CommerceCartService) when 
+  add to cart
+  update quantity
+  click checkout
+
+Warehouse and POS
+  warehouse: kho (used to calculated stock)
+  POS: diem ban hang (lay hang tu warehouse)
+  Neo logic
+    1 product thuoc 1 bp, available in 1 warehouse (moi bp 1 warehouse)
+	point of service available: used to enable pick up in store option
+Stock level
+  warehouse stock level (in store stock) - availabel at specific kho (store can associated with many warehouses) - thuong stock are update predically -> not equal calculated stock
+  local stock level (web stock): all warehouses
+  a product contains Set of <StockLevelModel> - each associated with a warehouse
+  Stock level of X = stock level of Warehouse1 + stock level of Warehouse2 + stock level of Warehouse3
+  available and reserved (already ordered): actualStockAmount = stockLevel.getAvailable() - stockLevel.getReserved();
+Order spliting (split to consignments): OrderSplittingService
+  SplitingStrategy (by warehouse, by delivery mode...)
+Reverse and Realease stock
+Force in stock (ko con ma muon ban)/force out of stock
+Overselling: cho phep ban nhieu hon available some item
+Availibility message
+Stock and return: RestockXXX, RestockConfig(code, return in days...), RestockWarehouseSelectionStrategy
+
+Concurrent modify stock?
+  itemLockingService
+  
+  
+  
+  
+  
+
+
+  

@@ -1,0 +1,168 @@
+hybris
+S0020108066
+$7=9H+%}
+
+
+extract => set ant env => run ant to create config... directory 
+=> create symbolic link for custom, local.properties and localextensions.xml
+=> add 3 addons
+=> ant clean all
+=> start server to check if ok
+=> if yes, stop server
+=> ant initialize
+=> start server
+=> change host neo.local
+
+
+mklink /D C:\opt\HYBRIS_HOME\hybris\bin\custom C:\work\neo\neo-tl\hybris\custom
+mklink C:\opt\HYBRIS_HOME\hybris\config\local.properties C:\work\neo\neo-tl\build\enviroments\local\local.properties
+mklink C:\opt\HYBRIS_HOME\hybris\config\localextensions.xml
+
+
+ant addoninstall -Daddonnames="codengaiASMstorefront" -DaddonStorefront.yacceleratorstorefront="codengaistorefront"
+ant addoninstall -Daddonnames="smarteditaddon" -DaddonStorefront.yacceleratorstorefront="codengaistorefront"
+ant addoninstall -Daddonnames="codengaiCTaddon" -DaddonStorefront.yacceleratorstorefront="codengaistorefront"
+
+
+not found java class: sometime need to manual delete generated file
+platform/tomcat/server/server.xml => config site 
+compile error: doi khi ant khong tu dong xoa duoc cac generated files => manually
+
+can not search product (product.impex)
++ ant updatesystem
++ config solr index: override stopwords-th, 2schema.xml, solrconfig.xml (C:\work\neo\neo-tl\build\enviroments\common\solr\instances\default\configsets)
++ backoffice: Facet Search Configurations => run index
++ preferredCountry/province for customer
++ country of business partner
++ service area of business partner
++ staged and online status of product (sua truc tiep file impex/using backoffice => index)
++ check index with solr admin - https://localhost:8983/solr/: solradmin/admin123
+
+
+login ko duoc
++ check activate email
++ disable login
+
+
+change label cockpit
+  change in resources/xxx-config.xml
+  update using HAC (all option)
+  restart application
+  
+enable add to cart
+  customer location
+  bp location
+  product
+ 
+
+loi change enum type (items.xml) => ko affect - e.g. No enum constant de.hybris.platform.basecommerce.enums.ConsignmentStatus.PARTIALLY_DELIVERED
+  check db: select * from {EnumerationValue}: van thay type cu
+  => 
+  delete from {EnumerationValue} where {code} = 'PARTIALLY_DELIVERED'
+Or delete from {ConsignmentStatus} using sql query in commit mode (final solution)
+Or delete from C:\opt\HYBRIS_HOME\hybris\bin\platform\eclipsebin\bootstrap\classes\de\hybris\platform\basecommerce\enums\ConsignmentStatus.class =>van thay enum cũ =>delete and build lai hoặc run eclipse refresh and build
+
+Mat other content in homepage: run cms-homepage.impex (Staged and Online)
+
+Impex ko effect (search trong hac ko co) => 
+chon nhieu record len 
+Or 
+
+Out of stock => updatesystem (running)
+Overweight checkout cart: store.impex
+
+Place order error: clean all, update system running, restart server
+
+Imagemagick windows not found dir: cai truc tiep vao tomcat/bin (default chay tren current dir)
+
+Email change template (backoffice) not effects: backoffice turn off multilanguage mode -> just affect on 1 language =((
+
+Update system 
+Core-items.xml => build to generate class, updatesystem to create database (update only in running system)
+Model class not generate with ant clean all?
+Vm (email), impex => update specific projects only (core)
+
+
+Impex import field bi empty e.g. INSERT_UPDATE NeoHeaderQuickLinkComponent;$contentCV[unique=true];uid[unique=true];name;url;&linkRef;&componentRef;target(code)[default='newWindow']
+;;NeoNavLinkDealsOfTheDay;NeoNavLinkDealsOfTheDay;"/#neo__deals-day";NeoNavLinkDealsOfTheDay;NeoNavLinkDealsOfTheDay; (url bi empty sau khi import)
+=> run update running system with that project (not run directly with hac)
+
+
+Can not access https://neo.local:9002/codengai/en/ => clean build + restart server
+
+
+Define relation between component instance and content slot name: 2 ways
+Normal
+Using content group: https://dmitrykrivenko.blogspot.com/2017/11/manage-cms-pages-in-hybris-as-and.html?view=snapshot 
+restrictedPageTypes
+
+Cookie
+Http servlet
+CookieGenerator Spring
+Example in app
+;&componentRef
+
+Contentslotname: define valid component type (smart edit), using impex can insert any component type
+compTypeGroup???
+
+Generator pattern
+
+Event handling in hybris: 
+When
+How: publish, receive and consume
+
+Read more about cookie (httpOnly)
+
+CodengaiStoreSystemSetup
+
+Multi-Country Site: http://javainsimpleway.com/multi-country-site-in-hybris/
+
+Modify Eclipse runtime debug value
+ServletContext
+
+equals/hashcode in hybris model
+Jalo session
+
+Context path
+
+Facebook app register and redirect
+
+Store session facade
+
+Action la gi
+
+https://help.hybris.com/1808/hcd/dc259a9f232a469ca8da3cf22f34839c.html
+Imagmagick
+
+Toi: https://www.stackextend.com/hybris/install-hybris-b2c-accelerator-step-by-step/ + action + stock level
+widget
+Jsp useBean
+
+
+Terms: Widget definition, widget instance, widget connection, widget socket
+Widget connection: broadcast event based, say routing the information from one widget to another
+Widget input/output (socket): connect widgets - match output and input
+When a widget sends one of its outputs, the Backoffice Framework engine passes the event to every widget that is connected with that output
+Widget tree, parent and child widget, widget slot
+Widget slot: place where child can be placed into
+Exactly 1 child
+Or children
+Zul extension - ZK framework
+https://help.hybris.com/1808/hcd/633a1253bf3844eea4ac13f681c198da.html#loio633a1253bf3844eea4ac13f681c198da 
+
+
+Orchestor: f4
+
+https://help.hybris.com/1808/hcd/8bb7ed5b8669101487f2a7bc6b015366.html#loio8bb7ed5b8669101487f2a7bc6b015366
+
+  
+
+cockpit ui configuration: https://help.hybris.com/1808/hcd/8c75bc0a86691014af5affcff22bb0a2.html
+  using xml: resources/xxx-config.xml
+  updatesystem => restart server
+  type of configuration component: listview, editor area, label…
+Using files
+Cockpit-config.xml: orchestrator
+Extensionname-backoffice-config.xml
+Widge specific
+Security and user management

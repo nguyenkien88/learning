@@ -1,0 +1,12 @@
+cron job
+  execute some business logic (job) manually or auto via Trigger, run in backgound at own Thread
+  use for long/periodic task
+  how?
+    CronJob hold the job and the input for each run
+	Job: hold logic
+	  HelloWorldCronJob model extends CronJob (hold data the job needs): identity of the job (items.xml)
+	  HelloWorldJob extends AbstractJobPerformable 
+	  create instance of ServicelayerJob (impex)
+	  create instance of HelloWorldCronJob (impex): contains Job instance and input => run this cron job with logic in this job and this input
+	  create instance of Trigger (impex - using cron expression or explicit time) => run the cronjob at specific time
+  more: composite CronJob https://www.stackextend.com/hybris/use-composite-cronjob-in-hybris/

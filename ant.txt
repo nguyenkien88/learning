@@ -1,0 +1,11 @@
+project: name, default (target), basedir
+property
+target: set of tasks e.g. all, compile, distribute
+task: code that can execute (inside or outside target, thuong la inside)
+  attributes
+  built-in task: http://ant.apache.org/manual/tasklist.html - da so la su dung built-in task, hiem khi define task moi
+    <tstamp/> => get the current time for later use e.g. ${DSTAMP}
+  refer to another task in java: project.getReference("task1")
+  
+  
+  

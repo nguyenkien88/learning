@@ -1,0 +1,91 @@
+backoffice framework: purpose - simplify development of backoffice application
+  backoffice application is built on top of Backoffice framework, say, bo framework => widgets => bo application
+  backoffice framework vs old Cockpit framework
+  built by ZK Framework with bunch of widgets(e.g. Advanced Search widget, Editor Area widget): component to add to frontend (later)-application is made up from connecting (but stand-alone) widgets 
+  
+  cockpits (old cockpits and backoffice fw based cockpits)
+    many cockpits with own purpose
+	easily adapt day to day changes
+    mcc: multi channel cockpit
+	backoffice cockpit: sum of (product cockpit, customer service cockpit, ...)
+	hac (admin console cockipit)
+	admincockpit: user and validation
+	smartedit/wcms
+	cockpits are developed by ZK (zkoss) framework: web/mobile compability
+	zul content will be saved/copied at server for next request => faster
+	when zul - when site with many dynamic data (ex: cockpit page), when jsp - when most are static data?
+    some backoffice cockpits (update to date)
+      administration cockpit
+      product cockpit
+      adaptive search cockpit
+      customer Support cockpit
+      data hub cockpit
+      order fulfillment cockpit
+  the codengaibackoffice is an application build on top of Backoffice framework
+  
+  widget
+    available widgets
+    widget uses action (edit/delete...) and editor (checkbox, localize...): special predefined components can be added to widget	
+    widget definition
+	widget instance
+	1 widget tree for a application
+	moi widget co 1 slotid (left/right...), co controller, model rieng
+	widget communication by message (with configure to action when messge come), easy be removed/added
+	input/output (socket) declaration
+	  say input socket notify the widget when something happen
+	  should use json for in/output
+	connection between 2 widgets (source and target)
+  architecture: 2 importants extensions
+    backoffice: standard widgets and components
+	ybackoffice: for custom
+  currentObject: selected object
+  how to?
+    use existing widget
+    define new custom widget: https://hybrisdiary.com/2018/10/15/backoffice-customization/ 
+      widget definition
+      widget view: zul
+      widget service
+      widget controller
+	  deploy and add using Application Orchestrator 
+  some config path: https://help.hybris.com/1808/hcd/8bd4366a86691014b818f8dd642790a8.html
+  passing data between widget
+  parameterize widget (read setting infor from definition file - later)
+  layout: actually a widget with some predefined slots
+  composed widget
+    widgetslot and widgetchildren
+  wizard widget (e.g. add a new product): https://help.hybris.com/1808/hcd/8bd6b110866910149666f5b05fb95681.html
+    wz:flow (flow element)
+	wz:step
+	wz:info
+	wz:content
+	wz:property-list
+	wz:property
+	wz:navigation
+	wz:cancel
+	wz:next
+	wz:done
+	wysiwyg editor
+	dropdown (auto)
+	redirect base on condition of current step
+	passing context map e.g. ctx.TYPE_CODE
+  extends existing widget (same view)
+  widget group (later)
+  config positions of a widget: declared order and merging algorithm
+  context: widget and type e.g. editor area for Product type
+    merge type: parent and child
+	position: https://help.hybris.com/1808/hcd/8be26f9a86691014a90cfc9d0f34cf43.html
+  config set of editors, actions on widgets base on type and user role and other info...
+  From admin orchestrator
+    Widgets.xml - merged app widgets (<widget>)
+    Cockpit-config.xml - merged app ui config (<context>)
+    Base configuration: provide string representation of a object (belong to a type, using Spring expression language)
+    Label provider
+    @label
+	Collection browser(new) and listview widget(old): table
+    
+  
+  make change in widget without rebuild (not including label change)
+    backoffice.cockpitng.additionalResourceLoader.enabled=true
+    backoffice.cockpitng.uifactory.cache.enabled=false
+    backoffice.cockpitng.widgetclassloader.resourcecache.enabled=false
+    backoffice.cockpitng.resourceloader.resourcecache.enabled=false

@@ -1,0 +1,57 @@
+hybris is a platform that serve many purpose in business life cycle (not all)
+flexible for db and web server
+sap hybris family
+  Hybris commerce
+  Hybris billing
+  Hybris marketing
+  Hybris cloud for Customer Sales
+  Hybris cloud for Customer Service
+hybris provides   
+   APIs (Service layer, Web service...)
+   Extensions
+   Platform (persistence layer, caching, security, transaction, conron job...)
+   Application server: tomcat
+   DB
+   
+architecture
+  front end: jsp
+  accelerator (pre built b2b, b2c...- install by recipe => custom them), production?? => install (override) extension (module gen)
+  a bunch of a ready to use extensions that comes with pre-built eCommerce key features, e.g. (Web Content Management, Product Details, Search and Navigation, Order Management, Payment, Checkout…), say install accelerator => install pre-built extensions with sample data
+  some accelerators
+    b2c accelerator
+    b2b accelerator
+    telco accelerator
+    china accelerator
+    travel accelerator
+    ...
+  example for b2c accelerator components
+    storefront
+    core (service)
+    facade (data model <-> dto)
+    fulfillmentprocess
+    cockpit/backoffice
+    initialdata
+    => development process using accelerator?	
+   
+spring in hybris
+  features usage
+    di
+    aop
+    mvc
+    security
+  spring profile: seperate beans definition for different environments  
+  new scope: yrequest
+
+  context
+    application context: 1 global application context for all extensions (many xml files e.g. global-catalog-spring.xml, global-core-spring.xml)
+    each tenant: 
+      1 for core application context (core application context - many xml files): project.properties: <extname>.application-context = <extname>-spring.xml
+  	  n web application context, each for web extensions (many xml files) (session and request scope)
+    in other word, each extension has many xml files: for global, core, web context
+    => context anh huong den visibility of beans between extensions and tenants
+  override bean between extensions: same id, depend on build order (extensioninfo.xml <requires-extension>)
+  https://help.hybris.com/1808/hcd/8c63621986691014a7e0a18695d7d410.html 
+
+  
+  
+  
