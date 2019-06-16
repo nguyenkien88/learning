@@ -1,0 +1,31 @@
+Internationalization: logic based on location (currency, country...)
+Localization: fetch resource (String, ResourceBundle)
+service
+  i18nService (general)/commonI18nService (hybris specific): transfrom between java related locale (Locale, Currency) and hyris related locale (LanguageModel, CountryModel...)
+  api from Java I18n: Locale, NumberFormat, resources bundle
+language fallback (later)
+
+affect?
+  files related to databse need to run ant all on the extension and update system with localization
+  dynamic properties just need refresh
+types of file
+  type system localization: e.g. codengaicore/resources/localization/codengaicore-locales_en.properties
+    for system model attribute
+	convention construction
+    .name and .description
+	database type
+  cockpit framework: e.g. codengaincockpits/resources/localization/i3-label_th.properties
+    database type
+  report with jasper: resourceBundle attribute e.g. codengaincockpits/resources/localization/jasperreport_en.properties
+  ui-storefront: e.g. web/webroot/WEB-INF/messages/base_en.properties: jsp
+    dynamic type
+
+default system language vs default user language
+
+localize
+  overview: see javacore
+  in hybris: some functions that touch locale
+    jsp (spring:theme)
+    properties message: getMessageSource().getMessage(...Locale)
+    email template (## messageSource=classpath:/codengaicore/messages/email-customerRegistration_$lang.properties)
+    sms template: messageTemplate.getName(currentLocale)

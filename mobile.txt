@@ -1,0 +1,16 @@
+mobileservice extension
+  Server side service: base on Action framework and process engine
+  Cockpit for configuration
+  Oneway and twoway message
+  Phone is validated theo country
+  IncomingSMSMessageGateway/DefaultIncomingSMSMessageGateway 
+   textService.sendMessage or textService.sendLink
+  SMSEngine: communicate with external system, many kinds of engine.
+  MessageContextModel
+  Terms
+  Aggregator
+  Short code (user send message to this number)
+  CDMA/GSM networks
+  Keyword
+  https://help.hybris.com/1811/hcd/8c13383b866910149abadd87828b08bc.html
+	

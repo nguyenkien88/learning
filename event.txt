@@ -1,0 +1,9 @@
+event
+  when use? let main thread keep running - send mail, save audit info...
+    longtime run
+	separate thread
+	low priority
+  how?
+    Event extends AbstractEvent
+	EventListener extends AbstractEventListener
+	EventService publish event

@@ -1,0 +1,159 @@
+impex: an extension in platform for import/export data
+  when: runtime/update/initialize
+  export: e.g. when need initialize lai => export to csv, then import after initialize
+  config running impex file during update/initialize in java code with @SytemSetup
+  mode: insert/insert_update/update/removed/added
+  modifier e.g. unique=true
+  double quote for quote/line break
+  macro e.g. $lang=lang_th
+  comment
+  impex complex type e.g. Product(code) => using code of Product
+  impex using ServiceLayer => validators, triggers...also apply
+  using convention over configuration
+    essential data: before
+	project data: after
+  how to run?
+    backoffice tools
+	cronjob
+	using hac
+	import api (java)
+  data inclusion: inputstream, media, database
+  resolving (by parser): 
+    unresolved lines are dumped into a temporary file => run again after the current file finished (it not about the error when import and only affect on the current file)
+    if dump file contains not resolved => continue create new dump file untitl the 2 files has same sizz => error
+  header abbreviation (later)
+  validation mode (when runing import)
+    strict mode: default
+	import relaxed: disable some checks??
+  customization (later)
+    cellDecorator modifier: change the import value base on some logic (implement in java class)
+  user rights using impex (later) - see user access rights first
+  multi-thread import
+  
+  essential data - template from yacceleratorcore (=> codengai core)
+    Create languages, currencies, delivery options, themes, and URL bindings.
+    Create CMS components, page templates, and pages and configure CMS restrictions.
+    Configure system user groups and roles
+  sample - electronics site
+    just example
+	
+  convention
+    my_products.impex => automy_products_en.impex... (https://help.hybris.com/1808/hcd/8ad2f0a7866910149c31803942c91149.html)
+	
+  use ServiceLayer (co the switch qua JaloLayer neu muon) behind the scene
+  extension running order: build order
+  
+  how to specify the files will be run?
+    convention over configuration
+	  position: /resources/impex
+	  override in local.properties: essentialdata-impex-pattern e.g. codengaicore.essentialdata-impex-pattern=**/*.impex (all impex file under resources directory)
+        essentialdata*.impex
+          all necessary
+          always be imported when initialize/update
+        projectdata*.impex
+          sample data - when click checkbox project data in hac
+        cac file chay ko theo thu tu, how to specify import order => include files (and rename included files to not matching convention)
+	or using code
+	  @SystemSetup
+	  what and when (Process.INIT/UPDATE/ALL) impex files will be imported
+	or both
+	  
+  During an initialization, only creating project data is optional, the rest is always executed.
+  During an update, you can select a number of options, see Updating from the SAP Commerce Administration Console.
+  yacceleratorinitialize: contains many templates for ImpEx (product, cms...)
+
+  thu tu chay impex
+    first essential data
+      follow project build order
+	  trong 1 project: random (muon order thi order trong java file hoac include vao 1 impex file)
+    then project data
+	  follow projects build order
+	  trong 1 project: random ((muon order thi order trong java file hoac include vao 1 impex file)  
+    co the hieu essential data la data ko depend vao data khac - nhieu data khac se depend vao essential data	  
+
+
+impex: 
+  essential data - template from yacceleratorcore (=> codengai core)
+    Create languages, currencies, delivery options, themes, and URL bindings.
+    Create CMS components, page templates, and pages and configure CMS restrictions.
+    Configure system user groups and roles
+  sample - electronics site
+    just example
+	
+  convention
+    my_products.impex => automy_products_en.impex... (https://help.hybris.com/1808/hcd/8ad2f0a7866910149c31803942c91149.html)
+	
+  use ServiceLayer (co the switch qua JaloLayer neu muon) behind the scene
+  extension running order: build order
+  
+  how to specify the files will be run?
+    convention over configuration
+	  position: /resources/impex
+	  override in local.properties: essentialdata-impex-pattern e.g. codengaicore.essentialdata-impex-pattern=**/*.impex (all impex file under resources directory)
+        essentialdata*.impex
+          all necessary
+          always be imported when initialize/update
+        projectdata*.impex
+          sample data - when click checkbox project data in hac
+        cac file chay ko theo thu tu, how to specify import order => include files (and rename included files to not matching convention)
+	or using code
+	  @SystemSetup
+	  what and when (Process.INIT/UPDATE/ALL) impex files will be imported
+	or both
+	  
+  During an initialization, only creating project data is optional, the rest is always executed.
+  During an update, you can select a number of options, see Updating from the SAP Commerce Administration Console.
+
+
+  yacceleratorinitialize: contains many templates for ImpEx (product, cms...)
+  
+remain
+  email. vm how to import?
+  validate impex - localhost???? 
+    
+  
+how to structure?
+  codengaicore: dont care (just some data get form yacceleratorcore)
+  codengaiinitialdata
+    core and sample have same structure
+    core data
+      essential data: just some like currencies, title(salutation) => do not need: let it be
+	  project data: catalog, email, cms, store - electronics hien tai o het trong coredata
+	sample (example cho user easy to use - user co the tu add them vao duoc) data: data rieng, ko co cung duoc => whitepage 
+	
+steps
+  structure lai
+  may ko ko thuoc convention thi nhet vao trong code  
+	  
+mai
+  content catalog??
+  check duplicate: xem sap file
+  initialize ra log file => verify
+  remove electronics impex
+  
+  
+CodengaiStoreSystemSetup
+  start setup params
+  then create essential data
+  then create project data
+    which create core data
+	  which import: common, emails, stores, process....data
+	and create sample data
+	  which import: backoffice 
+  system setup
+  context
+  
+  
+thu tu chay impex
+  first essential data
+    follow project build order
+	trong 1 project: random (muon order thi order trong java file hoac include vao 1 impex file)
+  then project data
+	follow projects build order
+	trong 1 project: random ((muon order thi order trong java file hoac include vao 1 impex file)
+	  
+  co the hieu essential data la data ko depend vao data khac - nhieu data khac se depend vao essential data	  
+	  
+	  
+	  
+  

@@ -1,0 +1,40 @@
+wcms: content types in storefront is built/managed by wcms module
+  from extensions: CMS2, CMS2Lib, CMSCockpit => way to create/maintain website content
+  content types
+    structed content: from db
+	unstructed: free textService
+	dynamic: based on condition (e.g. user group)
+	static: always the same for all users
+  build: normal (need to follow wcms concept e.g. template, component...)
+    moi lan tao insert_update => tao new instance e.g. of page template, of page, of component - all link together using uid
+    page template: contains some contain slots names (position of a slot in template)
+	  template model
+	  jsp
+	    template:page
+		cms:pageSlot
+		cms:component: to put component in later
+	  INSERT_UPDATE PageTemplate...
+    content slot: container of components - ContentSlotForPageTemplate, ContentSlotForPage
+	  INSERT_UPDATE ContentSlotName
+    page: actual displayed page e.g. product details page, bp landing page - AbstractPage, say a page uses a template
+	  ko co jsp file for page: dung jsp cua page template + data from model (pass from controller)
+	  truong hop nhieu pages share chung components luon thi co the add direct to template
+	  item extens AbstractPage
+	  instance of a page
+	  INSERT_UPDATE Mypage
+    component: say, add a component to a content slot
+	  many built in components e.g. minicart, banner: INSERT_UPDATE CMSParagraphComponent
+      custom cms component: https://www.stackextend.com/hybris/create-a-custom-cms-component-in-hybris/
+	    how?
+		  indentify the dynamic attributes of the components
+		  create item model: co the extends from existing model
+		  create jsp file (using model attributes)
+		  create controller
+		  => after build and update system, the component is ready for use like built-in one
+		  change the vm file to get in the wcms cockpit??
+	attach component to a page
+	  create content slot (for a component): INSERT_UPDATE ContentSlot
+	  attach it to specific page/template (common component): INSERT_UPDATE ContentSlotForPage/INSERT_UPDATE ContentSlotForTempate 
+	note: dev create components, admin can use hac/smartedit/wcms cockpit to dynamic create/modify/remove/attach to specific pate/template  
+		
+  non-dev manage: usings tools e.g. CMScockpit (depreacated by SmartEdit), HMC or SmartEdit: ok

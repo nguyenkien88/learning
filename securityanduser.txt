@@ -1,0 +1,59 @@
+security and user management
+  access rights
+    permission service framework
+    say define permission for types/items (instance)/attributes for user/user group
+    principal: user and user group
+	permission inherit
+	permission stage: CRUD - can add custom???
+	permission can be positive/negative
+	types of permission
+	  global permission: apply for user when no other permission defined
+	  types permission: apply for a type data - CRUD, say customer user has only read right on the type system
+	  item permission: for specific item instances (can be differ based on catalog version)
+	  attribute
+	how?
+	  using permission service api
+	    PermissionManagementService and PermissionCheckingService
+	  or impex
+	  default is deny
+	normal: assign permision for user group and checking permission for user
+	change will take affect immediatey at runtime
+	
+	  
+	permission conflict resolve (effective permission)
+	  specific win general
+	  negative win positive (same hierachy level)
+	  admingroup and admin user always has full access right
+	  see more: https://help.hybris.com/1808/hcd/8b4aa00e866910148df2920f69d68b27.html 
+	  see more: https://help.hybris.com/1808/hcd/8b4aa00e866910148df2920f69d68b27.html 
+	  
+	user roles
+      storefront
+        Principal
+          User
+            Employee
+        	Customer
+          PrincipalGroup
+            UserGroup
+        default principal: admin, admingroup, anonymous
+        Rule Framework does not run for admin => full access
+        Delivery and payment info is copied to order to keep unchanged
+        localize based on customer??
+        permission of user can be affected by
+          Permissions services framework
+          Restrictions (flexible search)
+        should deactivate user instead of remove: because order still have the ref to
+        user group purpose: https://help.hybris.com/1808/hcd/8c0dc93f866910149803aa4fa6b8ac71.html 
+      backoffice
+	  
+	visibility control
+      front end
+        restriction
+      category visibility
+      product approval status
+      frontend technique (jsp)
+      see more: rule framework
+      backoffice
+        ui-config.xml
+	....
+access right with impex   

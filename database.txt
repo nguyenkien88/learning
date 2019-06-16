@@ -1,0 +1,18 @@
+database internal
+  initialize and update process
+  HybrisSchemaGenerator.initialize(): get the info from -items file => create sql files (DropDDL, DDL, DML) in temp directory to execute using Spring JDBC
+  table types
+    item table
+	  hjmpTS (old use aCLTS/propTS): a version to support optimistic locking by hibernate
+	  createdTS
+	  modifiedTS
+	  TypePkString
+	localized table: 
+	  store localized values in separate table
+	  suffix with lp e.g. productslp, LANGPK column - sql query: SELECT * FROM productslp item_t0
+	generic audit table: 
+	  history tables: data before/after, who, when, what (delete/update/create)
+	  created for all items automatically
+	  need to activate to auto save history ??how (auto created for all types, just do the job for active type)
+	  ootb already activated some: https://help.hybris.com/6.7.0/hcd/3e2b8491449d43b391eb1ce9c73cbb7f.html 
+      

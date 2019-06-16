@@ -1,0 +1,12 @@
+tenant
+  same code, different
+    properties file: e.g.tenant_junit.properties 
+    database
+	currency, data format, timezone
+    available extensions: allowed.extensions/forbidden.extensions => co the dan den different type systems
+  types
+    master
+	and slaves
+  de.hybris.platform.util.Utilities for avoid get info from JVM e.g. timezone
+  more: https://help.hybris.com/1808/hcd/8c14e7ae866910148e59ebf4a2685857.html
+  thuong se run integration test (extends HybrisJUnit4Test) tren 1 tenant rieng (junit ko can tenant)

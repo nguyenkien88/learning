@@ -1,0 +1,31 @@
+validation
+  storefront
+	how -  spring validator with BindingResult => send error message to UI?
+  	  pojo (not model) class e.g. SupportTicketForm with annotation
+	  normal java code - return error messages map
+  model oriented - using Hybris Validation Framework
+    how?
+	  Constraint impex
+	  or Constraint using backoffice
+	  or Inteceptor
+    JSR303
+    run when? 
+      implicit through ValidationInterceptor when modelService.save() => validate model attribute
+    or explicit through validationService.validate()
+    AbstractConstraint, 
+      needReload
+    severity
+    constraint group
+      when to validate constraint in specific/active group(s)
+      setActiveConstraintGroups (for active session only)
+    defaultGroup is default - validations from other group are useless
+    constraint types?
+      attribute
+    type
+    dynamic
+    custom
+      AttributeConstraint vs TypeConstraint - need new backoffice editor to add the constraint using backoffice
+    dynamic constraint
+      still java but can change at runtime using BeanShell
+    impex
+      load at runtime by validation engine -> can edit at runtime

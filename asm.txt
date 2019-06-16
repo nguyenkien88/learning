@@ -1,0 +1,9 @@
+user login
+  => set sessionuser and sessioncart
+asagent login and start session
+  => load cart and customer (userid, cartid) to asagent session
+  => click end session
+    => that will set currentuser to anonymous (DefaultAssistedServiceFacade - UserService - in asagent session)
+	  => that trigger changeUserEvent (AfterSessionUserChangeEvent)
+	    => that make AfterSessionUserChangeListener changeCurrentCartUser to anonymous
+		  => that make NeoCartService (extends DefaultCartService) change the user of cart to anonymous and save => make error when user load cart

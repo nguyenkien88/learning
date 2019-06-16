@@ -1,0 +1,222 @@
+solr next
+  solr data import (e.g. from relational db - chapter 12)
+  say, index contains (indexed) documents
+  
+running solr
+  solr instance: solr directory - say solr home server for examples
+  change default port (8983)
+  core/instance(s): each core has own dir (under solr dir) with config and data
+    say, a core for houses and a core for land listing
+	schema.xml: configuration for indexing
+	solrconfig.xml
+  
+query
+  solr query form: query parameters
+  ranking with score, boot score ipod^2
+  admin and solritas
+  facet: group to help user refine (keep explore) the result
+  admin tools, core tools
+
+
+concepts
+  full-text search: search all text (not specific column)
+  document: datasource (relational db, nosql db, text files...) => documents (fields with value) => indexing with solr
+  schema.xml: contain fields type
+  say, mapping documents to an inverted index - single terms along with (contained document. position)
+  (search terms): require, optional, negate
+  phrase => search using term position
+  group expression
+  fuzzy matching
+    wildcard - not work for phare search e.g. "*ing hou?e" => store entire phrase as a term
+	leading wildcard e.g. *ence - expensive => using ReversedWildCardFilterFactory (config - double index)
+	range query: price:[10 TO 20] or price:[10 TO 20}
+	edit-distance searching (based on Damerau-Levenshtein distances): e.g. adapt~2 say administrator is one distance away from the original word: administrator - should limit tu 2 tro xuong
+	proximity searching: "chef officer"~1 - chef and officer max 1 distance away
+  relevancy - Similarity classes - scoring algorithm
+    term vector for the query
+	term vector for each document
+	small angel => more similar
+	details (later)
+  accuracy
+    precision: correct return/total return (1 found, 1 corect -> 1.0 - thieu cung ok) => co chinh xac ko?
+    recall: correct return/all corect => co miss nhieu ko?
+	how to increase both? => boots high scores len top pages (high Precision) and included poor scores (high Recall)
+  searching at scale (documents number and query number)
+    denormailize documents: self contained - all info of the document inside itself (duplicated between documents) vs relation (foreign key) in ralational db
+	=> extremely scability horizontally with multiple server - distributed searching
+	say, each server - multi cores, each core - one index => aggregate result
+	solr scales nearly linear
+
+configuration
+  start server 
+  ->read solr.xml: system configuration
+  ->read core.properties for earch core - auto discover core (otherwise must config in solr.xml)
+      name, core config file, data, log...
+  ->read solrconfig.xml
+      lucene version
+	  lib
+	  
+	
+  
+  
+
+
+
+	
+populator and converter
+  controller
+    will use facade
+	  that will use converter
+	    that will use populator/other converter
+		  that will use other populator
+  data object (e.g. ProductData - dto - defined as bean)
+  say, converter return target(xxxData) object - used in ui, populator just populate()- filling up some part of data object
+  converter: convert model to data object - not have .java class, just a bean (Converter type) - contains other converters/populators - used in Facade
+  populator: used by converter to fill info from model to data object
+  converter should use populator, not vice versa - ProductDetailsConverter (tuong ung tren ui) should use ProductPricePopulator + ProductBasicInfoConverter??? - contains other populators
+  how to use?
+    define populator (java code)
+	define converter (spring bean with list of populators)
+	call converter.convert()
+  ProductOption enum
+  
+cuoi tuan nay
+  dynamic process + payment gateway + solr
+  
+    
+    
+Contentslotname: define valid component type (smart edit), using impex can insert any component type
+compTypeGroup=> for restrict group
+
+Validate
+Items.xml optional
+validator
+
+report cockpit and jasper
+
+process problem
+  impex (dev and release/theo sprint???)
+  data migration (import or ???)
+
+
+remain
+  validation techniques
+  equals/hashcode in hybris model
+  Multi-Country Site: http://javainsimpleway.com/multi-country-site-in-hybris/
+  
+  
+user roles
+storefront
+  Principal
+    User
+      Employee
+  	Customer
+    PrincipalGroup
+      UserGroup
+  default principal: admin, admingroup, anonymous
+  Rule Framework does not run for admin => full access
+  Delivery and payment info is copied to order to keep unchanged
+  localize based on customer??
+  permission of user can be affected by
+    Permissions services framework
+    Restrictions (flexible search)
+  should deactivate user instead of remove: because order still have the ref to
+  user group purpose: https://help.hybris.com/1808/hcd/8c0dc93f866910149803aa4fa6b8ac71.html 
+backoffice
+
+visibility control
+  front end
+    restriction
+	category visibility
+	product approval status
+	frontend technique (jsp)
+	see more: rule framework
+  backoffice
+    ui-config.xml
+	....
+access right with impex    
+  
+  
+
+
+
+tenant
+  same code, different
+    properties file: e.g.tenant_junit.properties 
+    database
+	currency, data format, timezone
+    available extensions: allowed.extensions/forbidden.extensions => co the dan den different type systems
+  types
+    master
+	and slaves
+  de.hybris.platform.util.Utilities for avoid get info from JVM e.g. timezone
+  more: https://help.hybris.com/1808/hcd/8c14e7ae866910148e59ebf4a2685857.html
+  thuong se run integration test (extends HybrisJUnit4Test) tren 1 tenant rieng (junit ko can tenant)
+
+    
+Maintenance framework: https://help.hybris.com/1808/hcd/8b9ba2218669101483e7f2ca38a2de96.html
+performance tuning: https://help.hybris.com/1808/hcd/8c2780e686691014a134cc8fd1091aa3.html
+  cleanup savedvalues and savedvalueentry
+    item
+      each will helds savedvalues (not impex)
+  	  each will helds savedvalueentries (changed attrs)
+    how? - built in (hmc.storing.modifiedvalues.size and CleanupSavedValuesStrategy) only clean up SavedValues
+      default: max 20 editor - can override: hmc.storing.modifiedvalues.size
+  	  or using cronjob with CleanupSavedValuesStrategy (same effect but can run by yourself)
+  	  truong hop current table already have edited items over threadhold -> next change or run cron job
+    update/delete data
+	  impex
+	  modelservice
+	  native sql
+
+search mechanisms
+  only search for items
+  flexible search
+    hac/using api (flexibleSearchService)
+	search context: current session (with current user) => same query => differ result
+	  effect by: type access rights (these affect the Backoffice search results only), restrictions, catalog versions, and categories
+	  default is based on annonymous => need to set session user
+	syntax: https://help.hybris.com/1808/hcd/8bc399c186691014b8fce25e96614547.html
+	  {Product!} => no sub types
+	disable caching: apply cho query that cache ko co tac dung - search theo time change frequently (differ moi lan search)
+	paging support
+	
+  viewtype: https://help.hybris.com/1808/hcd/c97c0ac3701b400b915a8f774f06045e.html#loioc97c0ac3701b400b915a8f774f06045e
+  generics search
+    wrap flexible search (use in Backoffice)
+	in bo/api
+	error in compiletimess
+	
+	     
+restrictions
+  for components and pages
+    types of restrictions: category, time, user/usergroup...
+    using smartedit (category, time, user/usergroup) or cms cockpit
+  for searching
+  
+    
+		 
+search restrictions
+  
+
+
+
+access right
+virtualjsbc driver
+flexible search
+strategy pattern (maintainance clean up)
+
+select count(*) from Props
+	
+	
+	
+	'+ SavedValues and SavedValueEntry: Currently, the configuration for the clean up  is: 
+hmc.storing.modifiedvalues.size=20 -> system will automatically clean up old data (keep most recent 20 edited values) - no need cron job
+
+
+8796158591476
+	
+  
+  
+  
+  

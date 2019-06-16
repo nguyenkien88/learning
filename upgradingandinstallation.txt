@@ -1,0 +1,130 @@
+installation: dev vs production
+  1. unzip
+  2. build and initialize system
+    cach 1: using recipe e.g. b2c_acc (sample b2c acc, electronic site) - only for development and demo purpose (e.g. installer-18.11.0-M6.jar)
+	  setup (graddle task): add some config, dirs, copy some files to config using graddle, add require extensions to local_extension.xml
+	  initialize
+      after install accelerator => co 1 system hoan chinh (include sample data) can running on port 9002
+      custom: add them/modify extensions, addons, add more sample data... => need ant build/updatesystem
+	    modulegen: to add custom extensions based on installed accelerator
+	cach 2: mannual
+	  ant clean all - choose dev or prod template: add some config, dirs, build java, only basic extensions
+	  ant initialize (database)
+  3. start server and enjoy
+  note: all config should be in config folder, when run => hybris copy to appropriate dir (inside platform) 
+  initialize vs updateSystem different
+    other dirs (not bin)
+    .java
+    database
+  update online and offline system
+
+	
+configuration
+  properties files
+	local.properties in config overrides
+	project.properties in each extension overrides
+    project.properties in platform
+  change
+    runtime: using HAC, only effect in memory, when restart, config is load again from config file
+    permanent: config file, before start server
+
+license
+  + temp (license.bat)
+  + regular (license.bat)
+  + permanent: support
+
+say, upgrading  Commerce B2C Accelerator from 1811 to 1905, need update all dependencies
+do not mix version in a installation
+update software
+  Upgrade all regular extensions (for example solrfacetsearch, backoffice)
+  Do not upgrade template extensions (for example the Accelerator extensions)
+  Reuse custom extensions
+update data: systemupdate
+
+
+for development: with and without recipe
+for production: https://help.sap.com/viewer/a74589c3a81a4a95bf51d87258c0ab15/1905/en-US/8c5ba18a866910149f55fd04c6ca26ed.html
+
+configure behavior
+  runtime
+    volatile using hac
+	or using runtime.config.file.path
+  config file
+  where?
+    jvm runtime arguments e.g. -Ddb.url
+	environment variables: for secret info e.g. db.password=<CHANGE_ME> -> y_db_password
+    local.properties
+	extension project.properties (not ordered loaded)
+	global project.properties
+	application code (default value)
+  how to get? - properties are belong to global application context
+	spring bean ${key} (read when load bea - start server only): hybrisPropertiesConfigurer and hybrisProperties (hold all properties)
+	java code
+	
+configuration template (install without recipe) - when config directory is not exist
+  related to
+    local.properties
+    tomcat config
+    license
+  dev vs production (config dir): some different about performance, debugging, security config
+  switching between some configurations: change the HYBRIS_CONFIG_DIR
+    eclipse: vm arguments
+	tomcat: ant -DHYBRIS_CONFIG_DIR=<directory>
+  optional configuration dir: [2digit number]-local.properties
+  
+integrate sap commerse with 3rd software
+  db: https://help.sap.com/viewer/a74589c3a81a4a95bf51d87258c0ab15/1905/en-US/8bc8abba86691014b2b9c761e88fa207.html
+  ...
+  
+SAP Commerce Server: prebundle apache tomcat (with setting)
+  embeddedserver
+  tomcatembeddedserver
+config server
+  tomcat: default in platform/project.properties
+    e.g. tomcat.debugjavaoptions=-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,address=8000,suspend=n => config in eclipse cho dung
+	/tomcat/config is rarely need to change, just for advanced
+  sap commerce specific
+  log
+
+run sap commerce server as windows service: https://help.sap.com/viewer/a74589c3a81a4a95bf51d87258c0ab15/1905/en-US/62a33716bc7d475caef574687f3d3119.html
+
+installation vs deployment
+  installation: build platform, generate config, initialize db... - almost similar in dev and prod, just differ some config file
+  deployment: make the modified extensions effect 
+    in dev environment just need to build and restart server
+	in prod environment - can deploy extensions only (usual) or platform only or both - run ant production to get the zip file of platform and exts
+	  hybrisServer-Platform.zip - sap commerce server
+	  hybrisServer-AllExtensions.zip - extx => clean build and restart server
+	  
+env.properties
+  store env variables neccessary for build process
+  can change system environment variable or argument of ant call
+  
+  
+build and import impext order
+  platform build vs specific extension build
+  not desterministic but respect the order between extensions
+  build step
+    preparation (all ant target): check some environment directory, resolve dependencies, generate build.xml, src
+	extenal dependency (first build): thong thuong cac dependencies are shipped with the platform, in case want to archive exteral dependencies => 
+	  using external-dependencies.xml (maven) and set extensioninfo.xml usemaven="true" - whenever commit a jar file -> think about this (ant build in platform - hybis ko auto down transitive???)
+	    https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1811/en-US/120f6d7b89a745018cb28b5e34318fa4.html
+	    external-dependencies.xml in /lib (global access) or web-inf/lib (for web module only)
+	  or unmanaged-dependencies.txt (specific jar file)
+	buiding extensions
+	  before_build callback
+	  build
+	  after_build callback
+  available ant target: ant -p
+  want custom build process? e.g. remove file A after platform extension is built => using buildcallbacks.xml - can refer to another extension also
+  variables: e.g. ${platformhome}, ${ext.name_of_extension.path}
+  ant customize: e.g. muon change hybris.min.css, see: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1811/en-US/8b6ded0d86691014a6fab18e171c1f91.html
+  
+	
+  
+	  
+	  
+	  
+	  
+	  
+	  

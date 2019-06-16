@@ -1,0 +1,97 @@
+code layer
+  jalo layer
+    e.g. xxxGenerated.java
+    deprecated => move to service layer - https://help.hybris.com/1811/hcd/8c00066686691014a5a5d19875a1525b.html
+	truoc day contains all business and dao logic (not used jalo layer anymore, there are some old extensions still used => ignore)
+  
+  service layer
+    functionality of extensions
+    normally depends on: other service, persistence, strategy objects (all are beans)
+	many built-in services: platform/servicelayer
+	  3 grous - business service (order, cart), infrastructure service (multi language, import/export), system service (session)
+	  FlexibleSearchService
+	  SessionService
+	  TimeService
+	  UserService
+	  ...
+	can use existing, extends or define new service
+	hook into model life cycle event
+	hook into system life cycle (initialize/update)
+	model (service layer) vs item (jalo layer)
+	strategy
+	  like strategy pattern: break service to smaller part with specific algorithms
+	  think about NeoSmsPromotechStrategy, later can implement using other provider/other strategy
+	  many built-in strategies
+    interceptor: https://help.hybris.com/1808/hcd/8bfbf43e8669101480d0f060d79b1baa.html
+	  a spring bean
+	  based on model life cycle to do some additional work (e.g. validate)
+	  types
+	    InitDefaultsInterceptor
+		LoadInterceptor
+		PrepareInterceptor: before validate
+		ValidateInterceptor
+		RemoveInterceptor
+	  how?
+	    implement the Inteceptor: info - the model and InterceptorContext
+		register as spring bean
+		define mapping
+		multiple interceptor for the model (and subtype) -> order, if not set: not difined order
+		question: if use tool like impex -> is interceptor trigger => yes
+	  disable interceptor
+	    programming using sessionService
+		declare in impex import: e.g. INSERT_UPDATE Currency[disable.interceptor.types=validate];isocode[unique=true];symbol;digits;
+    event system
+	  can across cluster nodes
+	  event
+	  event listener: extends AbstractEventListener
+	  EventService.publishEvent()
+	  register event
+	    spring beans with parent="AbstractEventListener"
+		eventService.registerEventListener
+	  by default the event on thread local listeners run synchronous, in cluster run asynchronous (same node still synchronous)
+	  built-in events
+      cluster aware event: publish event to nodes in cluster, ClusterAwareEvent
+	  transaction aware event: only publish at the end of transaction: https://help.hybris.com/1808/hcd/8bbbc04e866910149e93ca9faad254eb.html
+	  using script to create event listener (no need rebuild and restart server): https://help.hybris.com/1808/hcd/8c53e973866910149f7f95676060d3de.html
+    working with service layer: https://help.hybris.com/1808/hcd/8c5a3f0b86691014ba52a4ef46e4fa29.html
+    how to extend? jut java
+	
+  converter: thuong dung convert Model and Data(dto)
+  
+  facade layer: 
+    just wrap logic in 1 class, easy to interact - many built-in in commercefacade
+	thuong tao facade khi muon extends funtion tu built-in facades e.g. NeoCustomerFacade extends CustomerFacade
+  populator and converter
+  controller
+    will use facade
+	  that will use converter
+	    that will use populator/other converter
+		  that will use other populator
+  data object (e.g. ProductData - dto - defined as bean)
+  say, converter return target(xxxData) object - used in ui, populator just populate()- filling up some part of data object
+  converter: convert model to data object - not have .java class, just a bean (Converter type) - contains other converters/populators - used in Facade
+  populator: used by converter to convert model to data object
+  converter should use populator, not vice versa - ProductDetailsConverter (tuong ung tren ui) should use ProductPricePopulator + ProductBasicInfoConverter??? - contains other populators
+  how to use?
+    define populator (java code)
+	define converter (spring bean with list of populators)
+	call converter.convert()
+  ProductOption enum	
+
+  populator and converter
+  controller
+    will use facade
+	  that will use converter
+	    that will use populator/other converter
+		  that will use other populator
+  data object (e.g. ProductData - dto - defined as bean)
+  say, converter return target(xxxData) object - used in ui, populator just populate()- filling up some part of data object
+  converter: convert model to data object - not have .java class, just a bean (Converter type) - contains other converters/populators - used in Facade
+  populator: used by converter to fill info from model to data object
+  converter should use populator, not vice versa - ProductDetailsConverter (tuong ung tren ui) should use ProductPricePopulator + ProductBasicInfoConverter??? - contains other populators
+  how to use?
+    define populator (java code)
+	define converter (spring bean with list of populators)
+	call converter.convert()
+  ProductOption enum	  
+	
