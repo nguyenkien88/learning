@@ -1,3 +1,6 @@
 google console
-facebook developer
+facebook developer: using
+  java script sdk
+  or tu implement the flow (current use) - facebook4j-core.jar
+  getCustomerFacade().loginSuccess();
 addtoany share
