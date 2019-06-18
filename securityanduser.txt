@@ -56,4 +56,10 @@ security and user management
       backoffice
         ui-config.xml
 	....
-access right with impex   
+access right with impex
+
+
+Consent: agreement to use personal data of user at some entry points in the application
+  e.g. I approve to use my personal data for receiving e-mail newsletters for Marketing campaigns.
+
+

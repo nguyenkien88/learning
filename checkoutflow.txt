@@ -1,0 +1,38 @@
+State pattern???
+main objects
+  CheckoutController: first entry point of checkout flow
+    redirect to cart/login/{/checkout/multi}
+  CheckoutStep
+    (acceleratorstorefrontcommons), when build will copy to custom storefront
+	act as abstract bean, define children steps in multi-step-checkout-config.xml (with specific transitions, group, validator)
+	children e.g. defaultResponsiveDeliveryAddressCheckoutStep (delivery address step)
+  CheckoutStepController, AbstractCheckoutStepController, e.g. DeliveryAddressCheckoutStepController
+    entry point to each step
+	@PreValidateCheckoutStep (run validator before enter)
+  CheckoutGroup: a define checkout flow/container of checkout steps
+  CheckoutGroupMap: how many checkout group exist in the app? 
+  CheckoutFacade
+  more: https://www.stackextend.com/hybris/understand-the-b2c-checkout-flow-in-hybris/
+
+payment gateway
+  paypal, K-payment, cybersource, apple pay, Bao Kim, Ngan Luong...
+  each payment gateway se support mot so Payment Methods e.g. K-payment supports: All credit, debit card and THAI QR
+  e.g. neo require thanh toan bang credit cart va qr code (thong qua K-payment gateway)
+
+payment integration
+  PSP: payment service provider
+  paymentextension: provide interface to build adapter to integrate external payment provider
+    PaymentService
+	PaymentMethod
+  say, passing data between hybris PaymentService to external psp using Command
+    PaymentService
+    Command
+    AuthorizationCommand
+    CaptureCommand
+  how to integrate?
+    
+    
+
+payment gateway adapter??
+payment hop??
+fraud??
