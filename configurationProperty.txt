@@ -1,0 +1,2 @@
+lang.packs=en,th #available language for backoffice
+more: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/22f98bab81004e4fac3a507d9647e34d.html?q=lang.packs

@@ -27,6 +27,10 @@ configuration
   change
     runtime: using HAC, only effect in memory, when restart, config is load again from config file
     permanent: config file, before start server
+  websiteUrl config (for earch environment): 
+    DefaultSiteBaseUrlResolutionService - "website." + site.getUid() + (secure ? ".https" : ".http") //neu ko co lay default localhost://port
+	local.properties: e.g. website.qspj.https=https://localhost:9002/
+	
 
 license
   + temp (license.bat)
