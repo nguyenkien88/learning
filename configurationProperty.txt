@@ -1,2 +1,11 @@
-lang.packs=en,th #available language for backoffice
+lang.packs=en,th #available language for backoffice, tang toc start backoffice
+website.qspj.https=https://localhost:9002/qspjstorefront #used to get full url of the application e.g. for redirect from external app
+website.qspj.http=http://localhost:9002/qspjstorefront
+installed.tenants=
+initialpassword.admin=nimda
+
+
+
+
+
 more: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/22f98bab81004e4fac3a507d9647e34d.html?q=lang.packs

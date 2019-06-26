@@ -1,6 +1,50 @@
+oauth2: get accesstoken from fb/yahoo to get some info from customer (https://kipalog.com/posts/Tro-lai-co-ban--Oauth-2)
+
 google console
 facebook developer: using
   java script sdk
   or tu implement the flow (current use) - facebook4j-core.jar
   getCustomerFacade().loginSuccess();
 addtoany share
+
+facebook login flow
+  FB sdk - init: get some info like appid
+  facebooklogincomponent.jsp click "Login with Fb"
+    that calls js fbLogin()
+	  that calls FB.login => delegate to Facebook
+	    confirm permission form => get accesstoken, userId
+		  then redirect to /facebook/login?accessToken=xxx (Controller)
+		    FacebookLoginController: set permision, attach accessToken => get Facebook User with granted info
+			  then get hybris user
+			    if match  => auto login => redirect to homepage
+				if not match => show error and stay in current page
+	  
+
+yahoo: using addon (ko co javascript sdk)
+  implement
+    generate addon: 
+	  ant extgen -Dinput.template=yaddon -Dinput.name=yahooaddon -Dinput.package=com.saidigital.qspj.yahooaddon
+	  and move to qspj
+	  add addon to localextensions.xml
+	  ant
+    add yahooregistercomponent (items.xml, jsp, contentslot)
+	install addon: ant addoninstall -Daddonnames="yahooaddon" -DaddonStorefront.yacceleratorstorefront="qspjstorefront"
+	add renderer component: yahooaddon-web-spring.xml
+	add some necessary impex
+	flow
+	  click button => call yahooregister()
+	    call js yahooapi => delegate to yahoo ?? js yahoo api (ko co), yahoo scope (openid for oauth2)
+		  get accesstoken
+		    then redirect to YahooRegisterController
+			  if already register then show notification
+			  if not then add model info and redirect to register page again 
+    
+  
+  
+question  
+  impex remove after install addon? => mannually
+  using cms component in custom addon: http://praveenmatams.blogspot.com/2017/05/creating-cms-component-as-addon.html
+  add spring config to project.properties: qspjstorefront.additionalWebSpringConfigs.yahooaddon=classpath\:/yahooaddon/web/spring/yahooaddon-web-spring.xml?? (auto generated?)
+			  
+			  
+			  

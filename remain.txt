@@ -35,5 +35,6 @@
   datamigration/impex structure: tham khao yacceleratorinnitialdata
   do i need to define typecode?
   datahub: imporst/export data between SAP commerce with external system (ERP...)  
-  next: how to attach new ui? 
+  next: how to attach new ui?
+  how change language work?
   
