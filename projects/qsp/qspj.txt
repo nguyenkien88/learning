@@ -1,0 +1,68 @@
+ly do implementation using many addons
+  du an nao can addon nao thi install addon do
+
+ok
+  order flow
+  Wishlist –Private and Public
+  Track the orders status
+  Users personal account
+  Various Delivery options
+  Certified Buyer review
+  Save For Later - Save product for Later purchase
+  Maximum Selling Price (MSP) in PLP and PDP page
+  Custom theme with new Responsive UI for the Storefront
+  Share experience on social media (Google, Twitter ,Facebook  and so many)
+  Add to cart button in pdp not show => updatesytem show (qsjp, store2, initial) => chua run Add To Cart Action
+  Payment Integration – PayPal, Line pay, KOMOJU – Credit card, Convenience Store, Bank Transfer => QC
+
+remain
+  product comparison load component
+  verify sencond store
+  server.xml
+  
+
+
+mklink /d C:\HYBRIS_1905\hybris\bin\custom C:\work\qsp\qspj\hybris\custom
+mklink C:\HYBRIS_1905\hybris\config\local.properties C:\work\qsp\qspj\build\environments\local\local.properties
+mklink C:\HYBRIS_1905\hybris\config\localextensions.xml C:\work\qsp\qspj\build\environments\local\localextensions.xml
+
+
+mklink /d C:\work\qsp\qspj\hybris\custom\qspj\qspjstorefront\web\webroot  C:\work\qsp\qspj\hybris\custom\qspj\qspjstore1web\webroot
+
+
+ant addonuninstall -Daddonnames="facebookaddon" -DaddonStorefront.yacceleratorstorefront="qspjstorefront"
+
+ant addoninstall -Daddonnames="liveeditaddon,facebookaddon,googleaddon,linepaysaddon,wishlistaddon,paypaladdon,komojuaddon,consignmenttrackingaddon,ordermanagementaddon,qspjordermanagementaddon,compareproductaddon,	,invoiceaddon,ncccaddon,qspanalyticsaddon" -DaddonStorefront.yacceleratorstorefront="qspjstorefront"
+
+
+
+note
+  compile error: 
+    membershipaddon: not completed implementation
+	qspjcockpits - 1905 removed cockpits extension e.g. reportcockpit, cscockpit
+
+
+  others
+    liveeditaddon (not in platform anymore)
+	cmsmulticountrycockpit
+    nccc (a payment gateway - missing hmc): installed
+	instore: 1905 removed instore extension
+    
+
+S1: install nessessary softget
+    install jdk 11
+	set ant environment
+	get hybris 1905 and set HYBRIS_HOME_DIR to the directory
+S2: run ant
+
+
+invest
+  addon
+  storefront flow (storecms page, filter)
+  build process
+  cms
+  payment gateway
+  
+  
+  
+  

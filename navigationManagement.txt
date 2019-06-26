@@ -1,0 +1,4 @@
+menu item - CMSNavigationNodeModel: contain other menu items or entry
+and entry - CMSNavigationEntryModel: leaf???
+
+
