@@ -1,0 +1,18 @@
+create component
+call login
+  redirect url
+    => get user info from facebook (no hybris database interaction)
+	  if ok => fill model
+	  if not => add Global error message
+	  
+	  
+	  
+	  
+remain
+  confirm: 
+    ask permission: default email, first name, last name => ko can ask permission
+    backoffice: id??
+  
+  salutation: ko can
+  use offical fb account
+  
