@@ -30,11 +30,13 @@ mklink C:\HYBRIS_1905\hybris\config\localextensions.xml C:\work\qsp\qspj\build\e
 mklink /d C:\work\qsp\qspj\hybris\custom\qspj\qspjstorefront\web\webroot  C:\work\qsp\qspj\hybris\custom\qspj\qspjstore1web\webroot
 
 
+ant addoninstall -Daddonnames="wishlistaddon" -DaddonStorefront.yacceleratorstorefront="qspjstorefront"
 ant addonuninstall -Daddonnames="facebookaddon" -DaddonStorefront.yacceleratorstorefront="qspjstorefront"
 
-ant addoninstall -Daddonnames="liveeditaddon,facebookaddon,googleaddon,linepaysaddon,wishlistaddon,paypaladdon,komojuaddon,consignmenttrackingaddon,ordermanagementaddon,qspjordermanagementaddon,compareproductaddon,	,invoiceaddon,ncccaddon,qspanalyticsaddon" -DaddonStorefront.yacceleratorstorefront="qspjstorefront"
 
+facebook account: 0785165368/1234!@#$
 
+google phone: +919884712745
 
 note
   compile error: 
