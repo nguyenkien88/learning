@@ -45,4 +45,8 @@ eclipse does not show warning
 spring form
 
 order snapshot
-  
+
+path in eclipse project
+
+mockito continue: https://dzone.com/refcardz/mockito?chapter=4s
+
