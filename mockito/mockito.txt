@@ -39,7 +39,15 @@ mock static method
   using PowerMockito
   mockStatic: mock all Static methods, do not effect instance methods
   instance method mock only effect on mocked instance, other instances are not effected
-
+  @RunWith(PowerMockRunner.class)
+  @PrepareForTest
+  @PowerMockIgnore
+  mock static with return type
+    PowerMockito.mockStatic(Path.class);
+	PowerMockito.when(Path.getComponent("/")).thenReturn(cancelButton);
+  mock static void
+    PowerMockito.mockStatic(Events.class);
+	Events.postEvent(Events.ON_CLICK, cancelButton, null);
   
 mock private method
   Whitebox.invokeMethod(); 
@@ -91,3 +99,17 @@ mock base on param class
 @Mock (will be mocked) vs @InjectMocks (have mock object inside)
 internal work
   use reflection
+  
+  
+important point
+  arguments always are evaluated truoc mocked method => neu can van phai mock argument de tranh exception
+  mock object => calling other method on that object e.g. setter => do nothing
+  
+  
+  
+special case
+  mock private atribute: Whitebox.setInternalState(objectUderTest, "fieldName", mockObject) - e.g. Whitebox.setInternalState(controller, "cs", mockCs);
+  
+  
+  
+  
