@@ -1,0 +1,178 @@
+https://localhost:9002/qspjstorefront/qspj/en/yh/register?error=access_denied&error_description=access_denied
+
+AC1
+Display the Yahoo button in register page
+
+AC2 
+If customer has not login to Yahoo account
+1. Display popup to login to Yahoo account
+2. Customer must confirm his authorization to system get profile details from Yahoo account
+3. If customer does NOT confirm, system shall not get profile details and stand on current page
+4. If customer accepts, system shall get profile details from Yahoo account includes: First Name, Last Name, Email, Yahoo_ID (If it has)
+
+AC3
+If customer already login to Yahoo on a browser,
+1. System display popup that show current Yahoo logged account and ask for permission to share details
+2. If customer does NOT confirm, system shall not get profile details and stand on current page
+3. If customer accept, system shall get profile details from Yahoo account includes: First Name, Last Name, Email, Yahoo_ID 
+
+AC4
+Auto-populate profile details such as first name, last name and email from Yahoo to the registration form
+
+AC5
+Customer need to provide details to the incomplete mandatory textboxes. Customer clicks submit the form shall trigger system validate all textboxes and display error message to incorrect fields.
+
+AC6
+submit registration form shall validate given fields and display error messages
+
+AC7
+If the user information of email or yahooID are existing in system, system shall display error message
+
+AC8
+System create a new member account if registration form is verfied as pass. 
+
+
+
+
+remain
+  refactor controller: ok
+  checkout login impex: ok
+  mode=append impex:ok
+  handle exception yahoo call:ok
+  check mobile version: ok
+
+https://localhost:9002/qspjstorefront/qspj/en/yh/register?error=access_denied&error_description=access_denied
+
+
+access token using
+{
+    "profile": {
+        "guid": "TBOFYRYQ5KFYHMJNKSWS5L4S64",
+        "ageCategory": "A",
+        "created": "2019-06-27T09:14:26Z",
+        "image": {
+            "height": 192,
+            "imageUrl": "https://ct.yimg.com/cy/1768/39361574426_98028a_192sq.jpg",
+            "size": "192x192",
+            "width": 192
+        },
+        "intl": "vn",
+        "jurisdiction": "vn",
+        "lang": "vi-VN",
+        "memberSince": "2019-06-24T03:50:32Z",
+        "migrationSource": 1,
+        "nickname": "qsp",
+        "notStored": true,
+        "nux": "0",
+        "profileMode": "PUBLIC",
+        "profileStatus": "ACTIVE",
+        "profileUrl": "http://profile.yahoo.com/TBOFYRYQ5KFYHMJNKSWS5L4S64",
+        "isConnected": false,
+        "profileHidden": false,
+        "bdRestricted": true,
+        "profilePermission": "PRIVATE",
+        "uri": "https://social.yahooapis.com/v1/user/TBOFYRYQ5KFYHMJNKSWS5L4S64/profile",
+        "cache": true
+    }
+}
+
+id-token payload - all read permission
+{  
+   "at_hash":"ZQAC0E6IyaGWT_WEfEP2BA",
+   "sub":"TBOFYRYQ5KFYHMJNKSWS5L4S64",
+   "iss":"https://api.login.yahoo.com",
+   "given_name":"qsp",
+   "locale":"vi-VN",
+   "nonce":"",
+   "aud":"dj0yJmk9c2NwRk5peHJxRXRXJmQ9WVdrOWFWSjJWWGg1TlRJbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTk1",
+   "auth_time":1561631331,
+   "name":"qsp sai",
+   "nickname":"qsp",
+   "session_exp":1562840931,
+   "exp":1561636606,
+   "iat":1561633006,
+   "family_name":"sai"
+}
+
+
+id-token payload - all writable
+{  
+   "at_hash":"j-xhKTbsizA3wr9yf_cWvw",
+   "sub":"TBOFYRYQ5KFYHMJNKSWS5L4S64",
+   "email_verified":true,
+   "birthdate":"1988",
+   "iss":"https://api.login.yahoo.com",
+   "profile_images":{  
+      "image64":"https://ct.yimg.com/cy/1768/39361574426_98028a_64sq.jpg",
+      "image192":"https://ct.yimg.com/cy/1768/39361574426_98028a_192sq.jpg",
+      "image128":"https://ct.yimg.com/cy/1768/39361574426_98028a_128sq.jpg",
+      "image32":"https://ct.yimg.com/cy/1768/39361574426_98028a_32sq.jpg"
+   },
+   "given_name":"qsp",
+   "locale":"vi-VN",
+   "nonce":"",
+   "picture":"https://ct.yimg.com/cy/1768/39361574426_98028a_192sq.jpg",
+   "aud":"dj0yJmk9TlE5NzVuVXJzamwxJmQ9WVdrOVpqUkNkbFkxTXpRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTNj",
+   "auth_time":1561631331,
+   "name":"qsp sai",
+   "nickname":"qsp",
+   "session_exp":1562840931,
+   "exp":1561636956,
+   "iat":1561633356,
+   "family_name":"sai",
+   "email":"qspj_sai@yahoo.com"
+}
+
+token id example:
+"eyJhbGciOiJFUzI1NiIsImtpZCI6IjM0NjZkNTFmN2RkMGM3ODA1NjU2ODhjMTgzOTIxODE2YzQ1ODg5YWQifQ.eyJhdF9oYXNoIjoiai14aEtUYnNpekEzd3I5eWZfY1d2dyIsInN1YiI6IlRCT0ZZUllRNUtGWUhNSk5LU1dTNUw0UzY0IiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImJpcnRoZGF0ZSI6IjE5ODgiLCJpc3MiOiJodHRwczovL2FwaS5sb2dpbi55YWhvby5jb20iLCJwcm9maWxlX2ltYWdlcyI6eyJpbWFnZTY0IjoiaHR0cHM6Ly9jdC55aW1nLmNvbS9jeS8xNzY4LzM5MzYxNTc0NDI2Xzk4MDI4YV82NHNxLmpwZyIsImltYWdlMTkyIjoiaHR0cHM6Ly9jdC55aW1nLmNvbS9jeS8xNzY4LzM5MzYxNTc0NDI2Xzk4MDI4YV8xOTJzcS5qcGciLCJpbWFnZTEyOCI6Imh0dHBzOi8vY3QueWltZy5jb20vY3kvMTc2OC8zOTM2MTU3NDQyNl85ODAyOGFfMTI4c3EuanBnIiwiaW1hZ2UzMiI6Imh0dHBzOi8vY3QueWltZy5jb20vY3kvMTc2OC8zOTM2MTU3NDQyNl85ODAyOGFfMzJzcS5qcGcifSwiZ2l2ZW5fbmFtZSI6InFzcCIsImxvY2FsZSI6InZpLVZOIiwibm9uY2UiOiIiLCJwaWN0dXJlIjoiaHR0cHM6Ly9jdC55aW1nLmNvbS9jeS8xNzY4LzM5MzYxNTc0NDI2Xzk4MDI4YV8xOTJzcS5qcGciLCJhdWQiOiJkajB5Sm1rOVRsRTVOelZ1VlhKemFtd3hKbVE5V1Zkck9WcHFVa05rYkZreFRYcFJiV05IYnpsTlFTMHRKbk05WTI5dWMzVnRaWEp6WldOeVpYUW1jM1k5TUNaNFBUTmoiLCJhdXRoX3RpbWUiOjE1NjE2MzEzMzEsIm5hbWUiOiJxc3Agc2FpIiwibmlja25hbWUiOiJxc3AiLCJzZXNzaW9uX2V4cCI6MTU2Mjg0MDkzMSwiZXhwIjoxNTYxNjM2OTU2LCJpYXQiOjE1NjE2MzMzNTYsImZhbWlseV9uYW1lIjoic2FpIiwiZW1haWwiOiJxc3BqX3NhaUB5YWhvby5jb20ifQ.mhQZ8vq5KylVx8Ccm-sUiVqHIKJXV13er_fhU9qWmhoGdPaMs2PzVdv5i8TLXEjfsMjqGzFrz5vW3e8X69-TuQ"
+
+
+HTTP/1.1 400 Bad Request [Date: Wed, 26 Jun 2019 09:41:19 GMT, Cache-Control: no-store, Cache-Control: no-cache, Cache-Control: must-revalidate, Pragma: no-cache, Expires: 0, Content-Type: application/json, Content-Length: 101, Server: ATS, Age: 0, Connection: close, Strict-Transport-Security: max-age=15552000] ResponseEntityProxy{[Content-Type: application/json,Content-Length: 101,Chunked: false]}
+
+HTTP/1.1 400 Bad Request [Date: Thu, 27 Jun 2019 07:13:00 GMT, Cache-Control: no-store, Cache-Control: no-cache, Cache-Control: must-revalidate, Pragma: no-cache, Expires: 0, Content-Type: application/json, Content-Length: 85, Server: ATS, Age: 0, Connection: close, Strict-Transport-Security: max-age=15552000] ResponseEntityProxy{[Content-Type: application/json,Content-Length: 85,Chunked: false]}}
+
+Authorization: Basic ZGoweUptazlhazVJWjJ4NVdtTnNhSHA2Sm1ROVdWZHJPVk5xUWtKVU1uUllUakpyYldOSGJ6bE5RUzB0Sm5NOVkyOXVjM1Z0WlhKelpXTnlaWFFtZUQxaFlRLS06NmYzYjI5NjllYzUwOTkxNDM4MDdiNDU4ZTU5MTc5MzFmYmEzMWUwOA==
+Authorization: Basic ZGoweUptazlURVkyVFcxb1EwVlBRa2hFSm1ROVdWZHJPVmRzUWtsVlZsSTJUbFJaYldOSGJ6bE5RUzB0Sm5NOVkyOXVjM1Z0WlhKelpXTnlaWFFtYzNZOU1DWjRQVGxtOjQ5Mzc4ZmUxNTczZmJlOGFlZDIyNjhhNDVlOWFhMjU4YjQ4MDBiNTg=
+					 ZGoweUptazlURVkyVFcxb1EwVlBRa2hFSm1ROVdWZHJPVmRzUWtsVlZsSTJUbFJaYldOSGJ6bE5RUzB0Sm5NOVkyOXVjM1Z0WlhKelpXTnlaWFFtYzNZOU1DWjRQVGxtOjQ5Mzc4ZmUxNTczZmJlOGFlZDIyNjhhNDVlOWFhMjU4YjQ4MDBiNTg=
+					 
+					 
+					 9agq3u8
+
+
+
+get code
+https://api.login.yahoo.com/oauth2/request_auth?client_id=dj0yJmk9TlE5NzVuVXJzamwxJmQ9WVdrOVpqUkNkbFkxTXpRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTNj&redirect_uri=https://localhost:9002/qspjstorefront/qspj/en&response_type=code&scope=openid,sdpp-w
+
+					 
+post
+https://api.login.yahoo.com/oauth2/get_token
+client_id		dj0yJmk9TEY2TW1oQ0VPQkhEJmQ9WVdrOVdsQklVVlI2TlRZbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTlm
+client_secret	49378fe1573fbe8aed2268a45e9aa258b4800b58
+redirect_uri	https://localhost:9002/qspjstorefront/qspj/en
+code			9y9xxp2
+grant_type		authorization_code
+
+Authorization	Basic ZGoweUptazlhazVJWjJ4NVdtTnNhSHA2Sm1ROVdWZHJPVk5xUWtKVU1uUllUakpyYldOSGJ6bE5RUzB0Sm5NOVkyOXVjM1Z0WlhKelpXTnlaWFFtZUQxaFlRLS06NmYzYjI5NjllYzUwOTkxNDM4MDdiNDU4ZTU5MTc5MzFmYmEzMWUwOA
+Content-Type 	application/x-www-form-urlencoded
+
+
+POST /oauth2/get_token HTTP/1.1 [Authorization: Basic ZGoweUptazlURVkyVFcxb1EwVlBRa2hFSm1ROVdWZHJPVmRzUWtsVlZsSTJUbFJaYldOSGJ6bE5RUzB0Sm5NOVkyOXVjM1Z0WlhKelpXTnlaWFFtYzNZOU1DWjRQVGxtOjQ5Mzc4ZmUxNTczZmJlOGFlZDIyNjhhNDVlOWFhMjU4YjQ4MDBiNTg=, Content-Length: 292, Content-Type: application/x-www-form-urlencoded; charset=UTF-8, Host: api.login.yahoo.com, Connection: Keep-Alive, User-Agent: Apache-HttpClient/4.5.6 (Java/11.0.3), Accept-Encoding: gzip,deflate]
+
+
+https://login.yahoo.com/?done=https%3A%2F%2Fapi.login.yahoo.com%2Foauth2%2Frequest_auth%3Fclient_id%3Ddj0yJmk9TWNPT1NFZ2ptRXBxJmQ9WVdrOVlUVTVOR0ZGTXpZbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTdh%26redirect_uri%3Dhttps%253A%252F%252Flocalhost%253A9002%252Fqspjstorefront%252Fqspj%252Fen%26response_type%3Dcode%26scope%3Dopenid&crumb=bR7QwSobnbC&redirect_uri=https%3A%2F%2Flocalhost%3A9002%2Fqspjstorefront%2Fqspj%2Fen&client_id=dj0yJmk9TWNPT1NFZ2ptRXBxJmQ9WVdrOVlUVTVOR0ZGTXpZbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTdh
+
+
+open pop up
+  user sign in
+    if ok =>
+	  yahoo redirect to /yh/register?code=xxxx
+	    call controller
+	      fill data on log in page with same popup
+	  
+	  
+google: open popup
+  user sign in
+    if ok => 
+	   google api close authorization popup
+	     then redirect to /google/login
+		   call contrikker
