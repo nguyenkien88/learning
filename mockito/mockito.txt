@@ -1,0 +1,115 @@
+Test replacement types (test doubles)
+  dummy: object with no implementation, just call mock(class), not need return value, 
+	used to pass the dummy object around (method params)
+  fake: simplify implementation
+  stub: create real but return dummy data(e.g. simple impl)
+    => disavantage is phai tao nhieu stub cho nhieu muc dich test => verbose
+  mock: mock data for the test (often) when...thenReturn...
+  spy
+  
+  
+how to create mock object? say: mock object (not class)
+  using Mockito.mock() 
+  or @Mock: need to init objects with MockitoAnnotations.initMocks(this);  or @RunWith(MockitoJUnitRunner.class))
+  can mock interface also (no need implementation)
+  declare method nao muon mock, other methods return default values: 0 for numeric, false for boolean and null for object 
+  @InjectMocks: inject dependency qua constructor/setter/field 
+  type, empty collections
+  action 
+    return value with thenReturn: always same value
+      consecutive calls: when(passwordEncoder.encode("1")).thenReturn("a", "b");
+	thenAnswer - do some additional action, thuong la get info from arguments then do something and return
+	throw exception: thenThrow(ABCException)
+	
+	
+doXXX vs thenXXX
+  thenXXX: normal, when...then...
+  doXXX (ít dùng)
+    doAnswer: void
+	doNothing: void
+	doReturn
+	
+
+mock void method: void method is doNothing by default, situations to use doNothing()
+    mock void method, want first meet => doNothing(), second meet => e.g. doThrow(): Mockito.doNothing().doThrow().when...
+	spy and want doNothing on specific method
+    
+  
+mock static method
+  using PowerMockito
+  mockStatic: mock all Static methods, do not effect instance methods
+  instance method mock only effect on mocked instance, other instances are not effected
+  @RunWith(PowerMockRunner.class)
+  @PrepareForTest
+  @PowerMockIgnore
+  mock static with return type
+    PowerMockito.mockStatic(Path.class);
+	PowerMockito.when(Path.getComponent("/")).thenReturn(cancelButton);
+  mock static void
+    PowerMockito.mockStatic(Events.class);
+	Events.postEvent(Events.ON_CLICK, cancelButton, null);
+  
+mock private method
+  Whitebox.invokeMethod(); 
+ 
+  
+mock constructing object with whenNew  
+  
+argument matcher: when dont know exact argument or want wider range of argument
+  anyString/...
+  mix any and exact with eq: when(mock.call(eq("a"), anyInt())).thenReturn(true);
+  startWith...
+  match(Pattern)
+  
+  custom matcher: for matcher that not exist in Mockito
+  combine mathcher
+
+argument capture
+  muc dich: verify arguments are passed into mock method
+  ArgumentCaptor
+  captor.capture()
+  captor.getValue()
+  @Captor
+
+Hamcrest Matchers: readable assert  
+  
+spy: 
+  Mockito.spy() or @Spy
+  spied object van hoat dong binh thuong, override specific method theo y muon
+  spy wrap the real object and add interation info
+  used to
+    partial mocking
+	watching object running to verify, e.g. verify method nao cua spied object called
+  
+verify mock calling: method called, passed param, times, order, timeout...
+  verify(beautifulGirls).add("Dang Thu Thao");
+  verify(beautifulGirls, VerificationModeFactory.times(3)).add(anyString());
+  atMost
+  atLeast
+  never
+  verify call order
+  Mockito.times() is internal call VerificationModeFactory.times()
+  
+MockitoBDD
+more: https://www.toptal.com/java/a-guide-to-everyday-mockito
+
+
+mock base on condition
+mock base on param class
+@Mock (will be mocked) vs @InjectMocks (have mock object inside)
+internal work
+  use reflection
+  
+  
+important point
+  arguments always are evaluated truoc mocked method => neu can van phai mock argument de tranh exception
+  mock object => calling other method on that object e.g. setter => do nothing
+  
+  
+  
+special case
+  mock private atribute: Whitebox.setInternalState(objectUderTest, "fieldName", mockObject) - e.g. Whitebox.setInternalState(controller, "cs", mockCs);
+  
+  
+  
+  

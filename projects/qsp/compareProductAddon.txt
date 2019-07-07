@@ -1,0 +1,29 @@
+compareProductDetailsPage
+  belongs to CompareProductDetailsPageTemplate
+    which has template: addon:/$addonExtensionName/pages/product/compareProductLayoutPage
+
+CompareProductDetailsController: /details
+  which add some attrs to model
+  then get the ContentPage with name compareProductDetailsPage 
+	  then store the ContentPage to model (including view info)
+	  and add some metadata
+  then return view for compare details page: addon:/compareproductaddon/pages/product/compareProductLayoutPage
+  then come to spring dispatcher servlet and internal resource view: 
+    then call viewResolver.resolveViewName() - UIExperienceViewResolver
+      will call loadView() - 
+	    will call buildView() - UIExperienceViewResolver (viewName: pages/addon:/compareproductaddon/pages/product/compareProductLayoutPage)
+		  
+		  
+  
+  request url - "/WEB-INF/views/addons//compareproductaddon/responsive//pages/product/compareProductLayoutPage.jsp"
+  then mot so filter
+    den filter AcceleratorAddonFilter, request URI: /qspjstorefront/WEB-INF/views/addons//compareproductaddon/responsive//pages/product/compareProductLayoutPage.jsp
+  
+  
+  
+pdp e.g. normal page
+  return view: pages/product/productLayout2Page (impex of template: product/productLayout2Page)
+  ...
+  run filters, toi AcceleratorAddonFilter, request URI: /qspjstorefront/WEB-INF/views/responsive/pages/product/productLayout2Page.jsp
+   
+	  
