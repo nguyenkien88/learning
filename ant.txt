@@ -3,9 +3,38 @@ property
 target: set of tasks e.g. all, compile, distribute
 task: code that can execute (inside or outside target, thuong la inside)
   attributes
-  built-in task: http://ant.apache.org/manual/tasklist.html - da so la su dung built-in task, hiem khi define task moi
+  built-in task: http://ant.apache.org/manual/tasklist.html - da so la su dung built-in task
     <tstamp/> => get the current time for later use e.g. ${DSTAMP}
   refer to another task in java: project.getReference("task1")
+
+target vs taskdef vs task
+  task: executable code (e.g. jacoco:report) - task is define in .jar file
+  taskdef: add more tasks to current project - e.g. jacoco tasks (contains path to the jar file)
+  target: ant run target, contains nhieu task e.g. ant all (all target contains tasks from taskdef in ${platformhome}/lib/ant-contrib-1.0b3.jar)
+  
+ant-sonar neo
+  jenkins does
+    set custom workspace: /codengai (no need link to git)
+	./setantenv
+	run ant tasks (at /platform directory)
+	  load properties: sonar/build.properties (${platformhome}, ${project.base.test} ...)
+	  jacocoalltests and jacocoallwebtests (defined in neo-tl/build/sonar/build.xml)
+	    where is 'jacocoalltests' target defined?? - in acc-ant-sonar.xml (acceleratorservices extension) - this file is imported, final will be availabel in /platform/build.xml
+	    what 'jacocoalltests' does? - taskdef source: jacocoant.jar
+		  setup jacoco:agent => export file /log/junit/jacoco.exec => tuy con fig in jenkins ma se report classes nao
+		  run ant alltests => all unit and integration tests will be run
+	then copy the jacoco.exec to codengai/codengaicore
+how jacoco work?
+  using java on-the-fly instrument: mofify exsiting bytecode with running tests??? => default - ko choi duoc voi PowerMockitoRunner
+  or using offline instrument
+  java agent vs jacoco agent vs powermock agent (https://stackoverflow.com/questions/23363212/powermock-eclemma-coverage-issue)
+
+=> approach: offline instrument or @Powermockrule (PowerMockAgent - powermock-module-javaagent)
+	    
+	
+	
+	link to sonar queue (another plugin)
+	
   
   
   
