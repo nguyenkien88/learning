@@ -109,6 +109,9 @@ important point
   
 special case
   mock private atribute: Whitebox.setInternalState(objectUderTest, "fieldName", mockObject) - e.g. Whitebox.setInternalState(controller, "cs", mockCs);
+  static throw exception that not support by the method
+    e.g. Filedownload.save() => muon throw IOException but the method signature not throw that
+	=> using .doAnswer(invocation -> {throw new IOException();}).when...
   
   
   
