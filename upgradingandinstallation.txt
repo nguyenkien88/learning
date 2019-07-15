@@ -114,6 +114,7 @@ build and import impext order
 	  using external-dependencies.xml (maven) and set extensioninfo.xml usemaven="true" - whenever commit a jar file -> think about this (ant build in platform - hybis ko auto down transitive???)
 	    https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1811/en-US/120f6d7b89a745018cb28b5e34318fa4.html
 	    external-dependencies.xml in /lib (global access) or web-inf/lib (for web module only)
+		=> maven true se tu dong xoa nhung lib mannual added
 	  or unmanaged-dependencies.txt (specific jar file)
 	buiding extensions
 	  before_build callback
