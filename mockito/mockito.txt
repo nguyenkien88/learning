@@ -104,7 +104,9 @@ internal work
 important point
   arguments always are evaluated truoc mocked method => neu can van phai mock argument de tranh exception
   mock object => calling other method on that object e.g. setter => do nothing
-  
+  nestedmocking
+    when(aMock.getA()).thenReturn(getBMock());
+	=> use local var to store getBMock()
   
   
 special case
@@ -113,6 +115,6 @@ special case
     e.g. Filedownload.save() => muon throw IOException but the method signature not throw that
 	=> using .doAnswer(invocation -> {throw new IOException();}).when...
   
-  
+
   
   
