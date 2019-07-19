@@ -12,7 +12,6 @@ target vs taskdef vs task
   taskdef: add more tasks to current project - e.g. jacoco tasks (contains path to the jar file)
   target: ant run target, contains nhieu task e.g. ant all (all target contains tasks from taskdef in ${platformhome}/lib/ant-contrib-1.0b3.jar)
 
-  
 java agent
   what is it? is app that can intrude JVM, can modify bytecode at runtime
   entry point (of an agent): premain(String agentArgs, Instrumentation inst) - run this method after jvm is initialized
@@ -29,7 +28,7 @@ ant-sonar neo
 	./setantenv
 	run ant tasks (at /platform directory)
 	  load properties: sonar/build.properties (${platformhome}, ${project.base.test} ...)
-	  jacocoalltests and jacocoallwebtests (defined in neo-tl/build/sonar/build.xml)
+	  jacocoalltests and jacocoallwebtests
 	    where is 'jacocoalltests' target defined?? - in acc-ant-sonar.xml (acceleratorservices extension) - this file is imported, final will be availabel in /platform/build.xml
 	    what 'jacocoalltests' does? - taskdef source: jacocoant.jar
 		  setup jacoco:agent => export file /log/junit/jacoco.exec => tuy con fig in jenkins ma se report classes nao
@@ -39,39 +38,41 @@ how jacoco work?
   using java on-the-fly instrument: mofify exsiting bytecode with running tests??? => default - ko choi duoc voi PowerMockitoRunner
   or using offline instrument
   java agent vs jacoco agent vs powermock agent (https://stackoverflow.com/questions/23363212/powermock-eclemma-coverage-issue)
-    jacoco:agent is an ant task that create an agent
+    jacoco:agent is an ant task that create an jacoco agent => instrument to javabytecode to get coverage
 	powermockagent is also a javaagent
 
 => approach: offline instrument or @Powermockrule (PowerMockAgent - powermock-module-javaagent)
 	    
-	
-	
-	link to sonar queue (another plugin)
-	
+setup server infrastructure
+  tutorial: https://www.youtube.com/watch?v=w36lUFR-JXo
+  soft
+    yum -y update 
+    java: yum install java-1.8.0-openjdk
+    sonarqube: download package -> unzip -> ./sonarquebe.sh console (9000)
+    jenkins: download rpm package -> rpm install xxx.rpm -> systemctl start jenkins
+    git: yum install git
+  setup jenkins job (chu y jenkins plugin dependency)
+    git account: kiennguyen@sai/roc...@
+    jenkins home directory: /var/lib/jenkins
+	set user run jenkins: kien + set jenkins owner (/var/lib/jenkins) to kien
+    neo-build: QC server
+	  chown -R jenkins:kien /codengai => change the owner to jenkins user to make the job can full access
+	  purpose: build source (ant production), create .zip files (will be copy to others sever to deploy)
+	  no customworkspace: code duoc get tu git ve (theo job): /var/lib/jenkis/neo-build/newest source code here
+	  prepare
+	    unzip hybris 6.7 to /opt/codengai/hybris/
+		ant all ([develop]) to create some necessary directory (config...)
+		run the script: build_artifacts.sh
+		  set ant
+		  copy custom/local.properties, localextentions.xml from the workspace to hybris platform
+		  ant clean all/production
+		install 3 addons??: maybe
+		
+		
+virtualbox
+  install guest addition (chu y dependency e.g. kernel header, gcc...)
+    sharefoler
+    full screen
   
-  
-neo current ant unittests
-cd /opt/codengai/hybris/hybris/bin/platform
-. ./setantenv.sh
-
-export PATH=$PATH:/opt/codengai/hybris/hybris/bin/platform/apache-ant-1.9.1
-
-export SONAR_RUNNER_OPTS="-Xmx4096m -XX:MaxPermSize=512m -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:ParallelGCThreads=20 -XX:ConcGCThreads=5"
-
-#ant clean build
-#####cd /opt/codengai/hybris/hybris/bin/ext-accelerator/acceleratorservices/
-
-# if DB not init yunit yet
-#ant yunitinit 
-
-# ant jacocoalltests  -Dtestclasses.extensions=codengaiASMstorefront,codengaibackoffice,codengaicockpits,codengaicore,codengaifacades,codengaiinitialdata,codengaiordermanagement,codengaistorefront  -Dtestclasses.packages=com.neo.*.Neo*   -Dtestclasses.packages_negative=com.neo.codengai.integration.AsnIntegrationTest
-
-# if add addons then Maybe have some more points such as duplicated code
-
-# copy to workspace so that jenkin plugin can understand
-cp -f /var/lib/jenkins/workspace/DEV_BUILD_DEPLOY/build/sonar/build.* /opt/codengai/hybris/hybris/bin/custom/codengai/
-
-##### Here !!!
-ant jacocoalltests -Dspring.profiles.active=junit -Dtestclasses.extensions="codengaibackoffice,codengaicore,codengaifacades,codengaiinitialdata,codengaiordermanagement,codengaicsbackoffice,codengaiwhbackoffice" -Dtestclasses.packages="com.neo.codengai.*" -Dtestclasses.packages_negative="com.neo.codengai.services.inbound.impl.*,com.neo.codengai.widgets.*,com.neo.codengai.controllers.*" -Dtestclasses.suppress.junit.tenant=true -Dtestclasses.annotations="unittests"
-ant jacocoallwebtests -Dspring.profiles.active=junit -Dtestclasses.extensions="codengaibackoffice,codengaicsbackoffice,codengaiwhbackoffice" -Dtestclasses.packages="com.neo.codengai.*"  -Dtestclasses.packages_negative="com.neo.codengai.services.inbound.impl.*,com.neo.codengai.widgets.*,com.neo.codengai.controllers.*" -Dtestclasses.suppress.junit.tenant=true -Dtestclasses.annotations="unittests"
-cp /opt/codengai/hybris/hybris/log/junit/jacoco.exec /opt/codengai/hybris/hybris/bin/custom/codengai/codengaicore/jacoco.exec    
+	
+   
