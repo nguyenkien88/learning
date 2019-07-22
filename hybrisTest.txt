@@ -1,0 +1,24 @@
+Unittest - normal: see mockito
+
+ant
+  @UnitTest/@IntegrationTest/@PerformancTest <===> TestClassesUtil.getAllxxx()
+  testclasses.extensions
+  testclasses.annotations
+  testclasses.packages
+  testclasses.split
+  
+  callback: write in buildcallbacks.xml
+
+Integration test
+  @RunWith(HybrisJUnit4ClassRunner.class)
+  junit tenant
+  extends ServicelayerTest to get spring injection work, if not need to use Registry.getApplicationContext().getBean(CommonI18NService.class);
+  @RunListener
+    ItemCreationListener : auto remove items that are created in the test process, but no isolate (concurrent problem) => prefer extends ServicelayerTransactionalTest
+  extends ServicelayerTransactionalTest => auto rollback db for each test or using @Transactional and TransactionRunListener explicitly
+  why i need to initialize junit tenant?
+    to create database structure (with no essential or project data, neu muon cung duoc - using e.g. CodengaiCoreExtensionManager)
+  how initialize junit tenant?
+    hac
+	ant yunitinit
+	Initialization.initializeTestSystem()
