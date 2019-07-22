@@ -18,7 +18,7 @@ Integration test
   extends ServicelayerTransactionalTest => auto rollback db for each test or using @Transactional and TransactionRunListener explicitly
   why i need to initialize junit tenant?
     to create database structure (with no essential or project data, neu muon cung duoc - using e.g. CodengaiCoreExtensionManager)
-  how initialize junit tenant?
+  how initialize junit tenant? - have to make sure extenstions are visble for the junit tenant
     hac
 	ant yunitinit
 	Initialization.initializeTestSystem()
