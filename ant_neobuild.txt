@@ -51,7 +51,12 @@ setup server infrastructure
     sonarqube: download package -> unzip -> ./sonarquebe.sh console (9000)
     jenkins: download rpm package -> rpm install xxx.rpm -> systemctl start jenkins
     git: yum install git
+	sonar
+	  sonarscanner: run scan to get the analysis result
+	  sonarqube: server to show the result to ui
+	  sonarlint: plugin to run scan on eclipse
   setup jenkins jobs (chu y jenkins plugin dependency)
+    can phan biet: classes duoc run test vs classes duoc analysis by sonar vs classes duoc analysis by jacoco
     git account: kiennguyen@sai/roc...@
     jenkins home directory: /var/lib/jenkins
 	neo-build: QC server
@@ -73,7 +78,7 @@ setup server infrastructure
 		add sonar jacoco properties (e.g. sonar.jacoco.reportPaths...) to local.properties)
 		run ant jacocoalltests (with options) to get the jacoco.exec (/log/junit/jacoco.exec)
 		run ant sonarcheck to analyze and push resolve to sonarqube
-	  with jenkins
+	  with jenkins (current)
 	    add sonarqube prepare step to sonar job
 	    no git - use custom workspace
 	    go to /platform
@@ -81,16 +86,26 @@ setup server infrastructure
 	      register jacoco agent
 		  run ant alltests/unittests
 	    copy jacoco.exec to /codengaicore/jacoco.exec
-	    trigger jacoco plugin after buid
+		run ant all (sonar build.xml-properties get from build.properties)
+		  push the report to preconfig sonarqube
 	
 	
 	how qc server, jacoco report (exec), jenkins, sonarqube server connect???
-    hybris junitreports???	
-		
+    hybris junitreports???
+	how to run sonar?
+	  ant sonarcheck (hybris way - properties get from local.properties)
+	  or sonar:sonar ant task (standard way - properties get directly from the build file)
+	  
 virtualbox
   install guest addition (chu y dependency e.g. kernel header, gcc...)
     sharefoler
     full screen
-  
+	
+	
+	
+error
+  JUnitTask...not found => add to sonar/build.xml classpath to the apache-ant-1.9.1/lib (already)
+  SolrServerException: add solrserver.instances.default.autostart=false to local.properties
+  Sonarqube jenkins unclickable => try run sonar before jenkins (or change sonar cetificate -> guild sonar job -> change back to right cetificate -> build lai)
 	
    
