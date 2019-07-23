@@ -96,6 +96,11 @@ setup server infrastructure
 	  ant sonarcheck (hybris way - properties get from local.properties)
 	  or sonar:sonar ant task (standard way - properties get directly from the build file)
 	  
+	sonar
+	  run test
+	  create junit report
+	  create jacoco report
+	  
 virtualbox
   install guest addition (chu y dependency e.g. kernel header, gcc...)
     sharefoler
