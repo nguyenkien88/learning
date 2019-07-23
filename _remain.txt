@@ -1,46 +1,52 @@
-bo gui configuration
-validation techniques
-layers
-groovy samples
-solr
-flexible search/facet search
-spring security
-next:
-  widget
-rder business: https://help.hybris.com/6.7.0/hcd/029bb2dc43cd4787bd15bb5db7213432.html
-how to use existing extention?	
-how to extend/customize extention? (config? extends interface/class) 
-how to validation?
-lookthought all extensions
-role?
-ant
-graddle/groovy: https://hybrismart.com/2017/11/23/useful-groovy-scripts-part-1/
-role/permission
-addon (vs extension)
-stock level
-Strategy object
-https://help.hybris.com/1808/hcd/8c75bc0a86691014af5affcff22bb0a2.html 
-UIComponentConfiguration
-UIConfigurationService
-http://javainsimpleway.com/how-to-index-database-columns-in-hybris/
-group/role
-hook
-transaction
-velocity template
-excel: https://help.hybris.com/6.7.0/hcd/bb77d8ae51e546138bec07a396f0803e.html
-Thread dump
-zkoss: https://www.zkoss.org/wiki/ZK%20Component%20Reference
-datamigration/impex structure: tham khao yacceleratorinnitialdata
-do i need to define typecode?
-datahub: imporst/export data between SAP commerce with external system (ERP...)  
-next: how to attach new ui?
-how change language work?
+dependent/big topics
+  solr
+  rule engine/drools
+  zkoss
+  spring: core/mvc/integration/security
+  velocity
+  jsp
+  ant
+  jenkins
+  linux
+  design pattern
+  hibernate
+  
+Certificate
 
-refresh token
-base.js.properties
-ACC.config and beforeviewhandler - javaScriptVariables.tag
-spring form
-order snapshot
-path in eclipse project
-
-
+Small topics
+  bo gui configuration
+  validation techniques
+  layers
+  groovy samples
+  solr
+  flexible search/facet search
+  spring security
+  next:
+    widget
+  rder business: https://help.hybris.com/6.7.0/hcd/029bb2dc43cd4787bd15bb5db7213432.html
+  how to extend/customize extention? (config? extends interface/class) 
+  graddle/groovy: https://hybrismart.com/2017/11/23/useful-groovy-scripts-part-1/
+  role/permission
+  https://help.hybris.com/1808/hcd/8c75bc0a86691014af5affcff22bb0a2.html 
+  UIComponentConfiguration
+  UIConfigurationService
+  http://javainsimpleway.com/how-to-index-database-columns-in-hybris/
+  group/role
+  hook
+  transaction
+  velocity template
+  excel: https://help.hybris.com/6.7.0/hcd/bb77d8ae51e546138bec07a396f0803e.html
+  Thread dump
+  zkoss: https://www.zkoss.org/wiki/ZK%20Component%20Reference
+  datamigration/impex structure: tham khao yacceleratorinnitialdata
+  do i need to define typecode?
+  datahub: imporst/export data between SAP commerce with external system (ERP...)  
+  next: how to attach new ui?
+  how change language work?
+  
+  refresh token
+  base.js.properties
+  ACC.config and beforeviewhandler - javaScriptVariables.tag
+  spring form
+  order snapshot
+  path in eclipse project
