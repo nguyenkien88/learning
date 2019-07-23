@@ -7,4 +7,6 @@ extensions (like projects in java)
   smart edit
   extgen vs modulegen : generate extension(s) base on template
   
-  
+addon vs extension
+  extension: full funtionality - e.g. core/commerce
+  addon: add them function cho storefront - khi ko can co the uninstall e.g. cybersoucepaymentaddon/facebookaddon
