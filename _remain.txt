@@ -39,14 +39,8 @@ how change language work?
 refresh token
 base.js.properties
 ACC.config and beforeviewhandler - javaScriptVariables.tag
-base64
-oath2 postman
-eclipse does not show warning
 spring form
-
 order snapshot
-
 path in eclipse project
 
-mockito continue: https://dzone.com/refcardz/mockito?chapter=4s
 
