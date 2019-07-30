@@ -1,5 +1,3 @@
-
-  
 cockpit ui configuration: https://help.hybris.com/1808/hcd/8c75bc0a86691014af5affcff22bb0a2.html
   using xml: resources/xxx-config.xml
   updatesystem => restart server

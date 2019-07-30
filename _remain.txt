@@ -10,6 +10,8 @@ dependent/big topics
   linux
   design pattern
   hibernate
+  web server/container
+  microservice - related to yaas
   
 Certificate
 
@@ -50,3 +52,4 @@ Small topics
   spring form
   order snapshot
   path in eclipse project
+  correct approach for new extension e.g. reporting extention

@@ -1,0 +1,6 @@
+hybris as a service
+is a micro service eco system
+is a cloud based platform
+  to build and share cloud based feature
+    then publish as a microservice
+	  that can be used in exiting ecommerce site
