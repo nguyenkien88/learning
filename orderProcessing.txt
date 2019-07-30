@@ -1,3 +1,7 @@
+checkout-step vs order process
+  multi-step-checkout-config.xml: steps before place order
+  order-process.xml: after place order (start order-process by creating event with OrderProcessModel)
+
 process engine - dynamic process definition
   create process, start process
   Action node: 3 standard actions and custom action 

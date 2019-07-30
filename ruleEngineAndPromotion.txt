@@ -1,0 +1,88 @@
+promotion
+  priority: highest to lowest priority
+  rule and rule group
+  types: cart, product, customer
+  promotion template: built in promotion - there are some cases do not as expected
+    bundle: buy x AND y then get promotion
+  promotion modules: a way to group promotions - associated to catalog version(s)
+  promotion planning: group rules into a campaingn
+  marketing manager role
+  promotion engine: set of extensions run on top of rule engine (drools)
+    promotionenginebackoffice Extension
+	promotionengineservices Extension
+	promotionenginesamplesaddon Extension
+  useful link:
+    hybris help promotion
+    https://hybrismart.com/2017/04/30/promotion-mechanics-and-their-implementation-in-hybris-6-x/
+  level
+    product level: only consume 1 time in a product
+	order level
+  currently neo only support: orderlevel, productlevel and free gift
+  Promotion, PromotionResult, PromotionOrderEntryConsumedModel, OrderEnry, PromotionAction
+ 
+
+rule engine features
+  rule
+    promotion only: maximum rule executions
+  rule builder (general and for promotion only)
+    bo interface to drag and drop condition and action - defined condition/action will available here
+    features: drag and drop, publishing, rule priority, rule groups, templates, and rule versioning, edit/clone...rule
+    version
+	template: pre selected condition and action
+	  built-in: https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/792bbddc1a7c479eaf9e15d2699b6285.html
+	  message
+	    static
+	    dynamic with id
+	    dynamic message in impex???define uuid in impex ???
+	  condition: built-in and custom
+	    group: and/or condition
+	    container
+	    rule executed: for potentional promotion e.g. spend 5$ more to get promotion or Allows you to create dependencies between promotion rules
+		conditions are compared to the facts
+	group: define which rules are applied e.g. create a group for Tet campaign => apply rule in this group in tet holiday
+	  a rule can only belong to 1 group
+	  exclusive group: can apply only 1 promotion (highest priority) in this group at a time (or on a cart)
+	    e.g. shipping group: free rule, discount rule, dilivery now rule - only 1 should be applied at a time
+	  non-exclusive: all can be applied (highest to lowest priority)
+	    e.g. productDiscount promotion group: can apply to multiple products in same cart, Promotion Engine make sure only 1 promotion is applied on a product
+	priority
+	  thuong se priority theo customer benefit
+    
+	  
+	
+	
+  
+objects
+  rule aware object/facts
+    e.g. ProductRAO, CartRAO...: aware by rule engine, all will go into working memory of rule engine - respects equals and hashcode
+    custom: 
+    provider: Model <-> RAO
+  ActionRAO
+    e.g. ShipmentRAO, FreeProductRAO - set of strategies e.g. RuleOrderEntryFixedDiscountRAOAction (RAOAction)
+    say, evaluate rule then trigger action (return ActionRAO with specific strategy)
+    rule trigger example: https://help.sap.com/doc/PRODUCTION/9d346683b0084da2938be8a285c0c27a/6.7.0.0/en-US/loiob255ded07f144f83bb7f397beb8f2986_LowRes.png
+  relationship between object type in promotion engine
+    AbstractActionedRAO e.g. ProductRAO: condition fact
+	AbstractRuleActionRAO e.g DiscountRAO: action fact, condition contains set of AbstractRuleActionRAO
+	RuleActionStrategy e.g. DefaultAddProductToCartActionStrategy - apply the the action (do some business logic) and return PromotionResult
+    AbstractPromotionActionModel
+      e.g. AbstractRuleBasedPromotionActionModel
+	  e.g. PromotionOrderAdjustTotalActionModel
+  RuleConditionDefinitionModel/Data
+    creating new rule condition: implement RuleConditionTranslator => then creating condition via impex
+  RuleActionDefinitionModel/Data
+  RuleParameterValueMapper
+  how?
+    install promotion extentions
+	custom promotion
+
+concepts
+  rule condition definition: the condition that can be used to create rule condition in rule builder
+    RuleConditionTranslator: translate the condition (model) to intermediate representation
+	RuleIrCondition: rule intermediate representation condition
+	RuleConditionDefinitionParamenter: 
+  rule action definition: the action that can be used to create rule action in rule builder
+  
+  
+  
+  

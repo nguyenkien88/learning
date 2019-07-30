@@ -1,0 +1,13 @@
+before 6.6: report cockpit
+after 6.6: report cockpit (deprecated)
+from 19.05: report cockpit is removed, use what???
+
+usecase: loyalty overview
+
+to do
+  where? loyaltybackoffice and service
+  how?
+	back office ui configuration
+    add jasper report compile function (get the jrxml from the old version) as action
+	
+  

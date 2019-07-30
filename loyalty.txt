@@ -1,0 +1,15 @@
+business
+  loyalty tier - for each store front: e.g. bronze, silver...based on loyalty point (get from sales activity)
+  loyalty point accrual and loyalty point redemption rule??? - for each store
+  
+  
+
+need to know yaas, sap cloud platform? 
+  no - da co implemented addon - just install and verify
+how?
+  understand requirement - logic include
+  get the code as addon -> install to qsp
+  verify
+  
+  
+
