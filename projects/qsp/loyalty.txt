@@ -1,0 +1,125 @@
+mklink /D C:\work\qsp\qspj\hybris\custom\membership C:\work\lmfc\lmfc\hybris\custom\membership
+
+
+business
+  loyalty tier - for each store front: e.g. bronze, silver...based on loyalty point (get from sales activity)
+  loyalty point accrual and loyalty point redemption rule??? - for each store
+  
+  
+build loyalty function: same way with promotion
+
+
+need to know yaas, sap cloud platform? 
+  no - da co implemented addon - just install and verify
+how?
+  understand requirement - logic include
+  get the code as addon -> install to qsp
+  verify
+  
+
+master/develop/buu-develop - d14495d 11-6-2018
+neo_develop/hieu_develop - ca132a3 26-6-2018
+
+correct way to implement addon store front? using component? (tham khao ootb addon)
+  using cms component: e.g. create navigation node that links to addon contentpage component
+  ve co ban when buil, only storefront resources are copy to main storefront, other files keeps
+  problem
+    
+update tier: cron job completed order only 
+
+get code from lmfc repo
+=> copy memembership addon qua qspj
+=> install, add to localextensions.xml
+=> clean all, update system
+=> run impex (5 file - 1 failed: cms-responsive-content_en)
+
+ant addoninstall -Daddonnames="membershipaddon" -DaddonStorefront.yacceleratorstorefront="qspjstorefront"
+
+
+add to second storefront?
+
+
+migrate note (upgrade-1905 - from development branch):
+  LoyaltyPercentAccuralRAOAction - AbstractRuleExecutableSupport: deprecated method: performAction - tam thoi comment
+  LoyaltyEditorAreaController - change field name
+  
+
+changes
+  qspjfulfilmentprocess: no changes
+  qspjtest: no change
+  qspjstore2addon: no changes
+  compareproductaddon: classpath only
+  facebookaddon: classpath only
+  googleaddon: classpath only
+  invoiceaddon: classpath only
+  qspanalyticsaddon: classpath only
+  qspjbackoffice: classpath only
+  qspjimpex: classpath only
+  qspjintegration: no change
+  qspjinvoicebackoffice: no change
+  qspjjobs: classpath only
+  qspjordermanagementaddon: classpath only
+  qspjpayment: classpath only
+  qspjstore2: classpath only
+  wishlistaddon: classpath only
+  qspjstore2web/webroot: no change
+  qspjcockpits: reportcockpit only - not supported anymore
+  cybersourceaddon,komojuaddon,linepaysaddon,ncccaddon,paypaladdon: CyberSourcePaymentTransactionStrategy - merged
+    final List<PaymentTransactionModel> paymentTransactions = new ArrayList<>(order.getPaymentTransactions());
+    paymentTransactions.add(transaction);
+    order.setPaymentTransactions(paymentTransactions);
+  
+  qspjcore: merged
+  qspjfacades: merged
+  qspjordermanagement: merged
+  qspjstore1web: change nhieu, bug compare lai cai nay
+  qspjstorefront: merged
+  qspjintitialdata: change impex - need to run
+
+server: updatesystem, run impex (from the addon + product)
+
+
+
+next
+  check my account link (thieu properties??)
+  
+remain
+  check later commit from Buu, Hieu
+  rule engine in hybris
+  duplicated hcmsourcerule
+  
+  
+bug
+  cash on delivery do not create consigment - hien tai ko split consignment for cod
+    how to complet order?
+  credicart complete order failed
+  
+
+create loyalty tranction
+  credit card: place order
+    trigger order process run ??((then run consigment process)
+	  that goes through: payWithLoyaltyPointsAction
+	    that publish event LoyaltyOrderEvent
+		  that trigger LoyaltyOrderEventListener
+			and get the loyaltyAccuralService (DefaultLoyaltyAccuralService - with LoyaltyOrderEventStrategy)
+		      that calll LoyaltyOrderEventStrategy.accrual()
+			    that will call processLoyaltyRule() - change facts here
+				  that will call loyaltyEngineService to run rule (call commerceRuleEngineService to execute rule)
+			        that will update the LoyaltyTransactionModel (populate to LoyaltyTransactionData later to show to ui)
+				
+  cod
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -22,6 +22,7 @@ product & catalog
   classification: https://help.hybris.com/1808/hcd/8b7aa49c86691014ae51c3b0d38cd87b.html
   multi language site: http://javainsimpleway.com/multi-country-site-in-hybris/
   https://help.hybris.com/1808/hcd/8c32805c866910148932c1df5d0e89c1.html
+  multi-dementional product: many size e.g. shoes
   
   
 variant product  

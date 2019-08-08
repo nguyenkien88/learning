@@ -153,7 +153,9 @@ thu tu chay impex
 	trong 1 project: random ((muon order thi order trong java file hoac include vao 1 impex file)
 	  
   co the hieu essential data la data ko depend vao data khac - nhieu data khac se depend vao essential data	  
-	  
+
+note: import tay (hac) ko tu dong run may file localize
+  
 	  
 	  
   
