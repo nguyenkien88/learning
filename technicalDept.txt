@@ -4,3 +4,9 @@
   server side: https://dzone.com/articles/java-patterns-for-concurrency
   db side: lock row
 + impex structure
++ a page to keep track item type code
++ unit test coverage with powermock/jacoco
+
+
++ use story as documentation - not slack
+
