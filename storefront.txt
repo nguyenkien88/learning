@@ -1,11 +1,9 @@
+template: yacceleratorstorefront
+
 storefront deconstruct
   resourceFilter
   storefrontFilterChain
   springSecurityFilterChain
 
-addon on concept
-  install: 
-    copy src and web from addon to target storefront
-	genenerate project.properties for the addon (commit this de len server khoi install lai)
-  uninstall an addon to a storefront
+
   

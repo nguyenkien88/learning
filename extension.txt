@@ -1,0 +1,12 @@
+extensions (like projects in java)
+  structure: https://help.hybris.com/1811/hcd/8b49cab88669101489be9ac91a5f1ebb.html
+  common: for pdf, mail...
+  core: persistence, service, order processing - https://help.hybris.com/1811/hcd/8b94031786691014bb25f8fc4b404e07.html
+  product cockpit
+    status: Online and Staged  
+  smart edit
+  extgen vs modulegen : generate extension(s) base on template
+  
+addon vs extension
+  extension: full funtionality - e.g. core/commerce
+  addon: add them function cho storefront - khi ko can co the uninstall e.g. cybersoucepaymentaddon/facebookaddon

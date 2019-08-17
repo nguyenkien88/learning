@@ -9,4 +9,7 @@
 
 
 + use story as documentation - not slack
++ code convention
++ update scripts
+
 

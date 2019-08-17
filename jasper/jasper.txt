@@ -1,0 +1,6 @@
+report processing
+  an object of JasperDesign (.jrxml file)
+  will be compiled to JasperReport object (.jasper)
+
+report template
+  
