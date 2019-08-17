@@ -3,7 +3,7 @@ Search mechanism
     search for items (sap type system)
 	used in hac or java query (dao)
     similar to sql using itemtype to query: order, join...
-    conveted to sql to query (in hac)
+    conveted to sql to query
     sub type: select * from {Product} => subtype of Product will also retrieved
     search with runtime value
     flexibleSearchService.search(query, params)
@@ -13,7 +13,7 @@ Search mechanism
 		
 	restrictions
       narrow the result of flexible search, default not affect to admingroup
-      apply for type (and subtype) and user/usergroup (all members of the groups) - add AND {additional query} to WHERE clause
+      apply for type (and subtype) and user/usergroup (all members of the groups) - when excecute query, flexibel search engine auto add AND {additional query} to WHERE clause
       not affect 3rd search engine
 	  create/edit?
 	    java api (SearchRestrictionModel)
@@ -21,7 +21,7 @@ Search mechanism
 		using backoffice
 
 search mechanisms
-  only search for items
+  only search for items, search nhieu item type in same query???
   flexible search
     hac/using api (flexibleSearchService)
 	search context: current session (with current user) => same query => differ result
@@ -36,7 +36,7 @@ search mechanisms
   generics search
     wrap flexible search (use in Backoffice)
 	in bo/api
-	error in compiletimess
+	error in compile time
 	
 	     
 restrictions
@@ -44,4 +44,7 @@ restrictions
     types of restrictions: category, time, user/usergroup...
     using smartedit (category, time, user/usergroup) or cms cockpit
   for searching 
+  
+  
+search api
   

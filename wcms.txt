@@ -38,3 +38,30 @@ wcms: content types in storefront is built/managed by wcms module
 	note: dev create components, admin can use hac/smartedit/wcms cockpit to dynamic create/modify/remove/attach to specific pate/template  
 		
   non-dev manage: usings tools e.g. CMScockpit (depreacated by SmartEdit), HMC or SmartEdit: ok
+
+navigation node
+  ContentPage vs ProductPage vs CategoryPage
+  use case: navigation node for MyAccount component (header and left navigation) - qspb2b
+    ref: http://javainsimpleway.com/creating-new-page-in-hybris/
+	user enters link /my-account/reports
+	  which calls the Controller
+	    that get the cmspage with label customerReportsOverview
+		the page is an instance of AccountPageTemplate - which contains
+          Side slot- links to QspAccountMenuComponent - instance of QSPAccountSideMenuComponent (qspaccountsidemenucomponent.jsp)
+		    which contains a child MyAccountNavNode (CMSNavigationNode) - this node is use for header as well???
+	          which contains child CustomerReportsOverviewNavNode (and some other nodes - orderhistory, quotes...)
+	            which contains CustomerReportsOverviewNavNodeEntry
+	      	      which links to CustomerReportsOverviewLink (CMSLinkComponent)
+			  	  which has url /my-account/reports - click here -> load lai page
+          and Body slot- links to CustomerReportsOverviewComponent - jspincludedcomponent
+
+
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
