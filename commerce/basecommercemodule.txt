@@ -1,0 +1,33 @@
+is a module that provides comerce features: payment services, customer reviews, return service, refund service, order history and versioning, warehouse integration, replenishment and order scheduling, store locator, and stock service
+
+extensions
+  basecommerce Extension
+  basecommercebackoffice Extension
+  customerreview Extension
+  payment Extension
+  promotions Extension
+  promotionsbackoffice Extension
+  voucherbackoffice Extension
+  voucher Extension
+
+base store vs base site (cmssite)
+  base store: defines the business models (product, currency, shipping method, delivery mode, country, tax...) - linked with product catalog
+  base site: related to the storefront (content catalog)
+  relation: m:n
+  thong thuong se co 1 base store (1 business process/logic) and 1 or many sites
+
+zone (Zone): set of countries, 1 use case: make delivery mode available to specific zone
+delivery mode (DeliveryMode)
+  link to base store => this delivery mode is available for this base store
+  say, ZoneDeliveryMode(extends DeliveryMode): chia delivery mode theo zone
+zone delivery model value (ZoneDeliveryModeValue): link deliver mode to zone
+  say, it costs 6$ (value) when in Germany(zone) with minimum value is 0
+  say, it costs 4$ (value) when in Germany(zone) with minimum value is 20
+  minimumvalue????
+
+store locator: a feature that includes item types and services related to map object (e.g. show on googlemap, suggest nearby pos)
+  ref: https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/6.6.0.0/en-US/8c64c8fa86691014b0b5847235dd5a02.html
+  point of service: the address with geo info -> can show on map
+  opening schedule (OpeningSchedule): info about the open/close time
+  main types: Location, GPS, DistanceAndRoute, Map
+  main services: LocationService, LocationMapService, GeoWebServiceWrapper, GoogleMapsServiceWrapper, MapService, RouteService 

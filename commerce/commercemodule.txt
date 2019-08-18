@@ -1,0 +1,2 @@
+functionality: configure your products, multiple carts, and manage client consent
+
