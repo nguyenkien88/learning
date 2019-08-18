@@ -1,0 +1,8 @@
+
+
+
+warehouse (inventory/kho hang): function/extensions related to warehouse e.g. warehousefacades, warehousebackoffice...
+  need to integrate with basecommerce modules - https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/542b4514a5684474881d9099968015d0.html
+    chu yeu la transfer orders/consignments status when running order-process (order-process goes through many modules and extensions)
+  keep track stock level of products
+stock: stock level of a product related to a warehouse
