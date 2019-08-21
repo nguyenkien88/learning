@@ -1,8 +1,45 @@
+is about the services after placed order: sourcing, splitting, pick/pack/label/confirm shipment (backoffice), return/refund, customer ticket, importing data (impex)
+user roles in oms: warehouseagent, warehousemanager, customersupportagent, customersupportmanager, admin, 3rd application (through web api)
+block diagram: https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/8b446d01866910149e6aab9a9051a4a8.html
 
+b2c_acc vs b2c_acc_oms (hybris 6.7)
+  b2c_acc_oms co them mot so extensions nhu: ordermanagementwebservices/addon/facades, warehousingXXX
 
-
-warehouse (inventory/kho hang): function/extensions related to warehouse e.g. warehousefacades, warehousebackoffice...
-  need to integrate with basecommerce modules - https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/542b4514a5684474881d9099968015d0.html
-    chu yeu la transfer orders/consignments status when running order-process (order-process goes through many modules and extensions)
-  keep track stock level of products
-stock: stock level of a product related to a warehouse
+2 back office perspectives
+  customer support backoffice perspective: view/processing orders and returns, view fraud report
+    user role: https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/5d0e8d266dc34239af789ac954254299.html#loio5d0e8d266dc34239af789ac954254299
+    thuong dung de view/complete/cancel orders
+    cancel whole order (all products in the order) vs partial cancel
+    e.g. custom cancel in codengai
+      widget controller => custom cancel order service => WarehouseProcessingCancelRequestExecutor => OrderCancelledEventListener.... 
+    hold order - pending
+    return request - read more about return order
+  warehouse backoffice perspective: realted to warehouse - consignment: consignment processing - start packing, shipping....pos, inventory - stock level, print pick/pack/shipping label
+    warehouse (inventory/kho hang): function/extensions related to warehouse e.g. warehousefacades, warehousebackoffice...
+      need to integrate with basecommerce modules - https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/542b4514a5684474881d9099968015d0.html
+        chu yeu la transfer orders/consignments status when running order-process (order-process goes through many modules and extensions)
+      keep track stock level (of a product related to a warehouse)
+  
+    e.g. view for employee that have task related to consignment - consignment workflow: https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/44742ff5072d4efba7f648535f7749fc.html
+    pick slip: products are picked to fullfill the order, can customize through template - https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/8b457a5886691014a99cc7483e7612b4.html
+    pack slip
+    shipping label
+    confirm shipment
+    package info (for a consignment)
+    consignment tracking
+    decline consignment => reallocate => new consignment
+	
+extensions
+  b2bordermanagementfacades
+  b2bordermanagementwebservices
+  ordermanagementaddon - sample data for order management mostly in impex e.g. warehouse, stock
+  orderselfserviceaddon - add cancel button (and controller logic) to storefront
+  ordermanagementfacades - facades layer of the module
+  ordermanagementwebservices - rest api for the function of module
+  warehousingbackoffice - backoffice for warehousing 
+  warehousing - core fucntion related to warehousing e.g. service/strategy/dao..
+  warehousingfacades - facades layer
+  warehousingwebservices - rest api for warehousing services
+  yacceleratorordermanagement	
+    
+  

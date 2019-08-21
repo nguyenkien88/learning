@@ -32,7 +32,20 @@ architecture
     fulfillmentprocess
     cockpit/backoffice
     initialdata
-    => development process using accelerator?	
+
+modulegen vs extgen
+  extgen
+    generate extension base on extention template with custom naming e.g. codengai
+	generate: thuc chat la copy code and change names (package, config...)
+	template: e.g. yacceleratorstorefront, yacceleratorcore... all in \hybris\bin\ext-template
+  modulegen thuc chat la nhieu extgen commands
+    trong extentioninfo.xml define the module the extention belongs to
+  mot vai extentions chi lam viec theo "set" => modulegen, extention lam viec doc lap => extgen
+
+start a new project?
+  xac dinh the type of project need to develop: b2b/b2c/marketplace/travel/b2c_with_oms...
+  using recipe to install the accelerator thich hop e.g. b2c_acc_oms (local extension will contain all extentions defined by the accelerator) => co the run duoc demo store
+  modulegen(1) to generate custom extention (custom name) base on extention templates (storefront, backoffice...) => muon custom logic e.g. accelerator
    
 spring in hybris
   features usage

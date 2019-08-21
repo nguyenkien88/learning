@@ -1,0 +1,2 @@
+e.g. want to add more fields to de.hybris.platform.acceleratorstorefrontcommons.forms.AddressForm
+=> use ant customize: https://www.stackextend.com/hybris/use-ant-customize-command-in-hybris/
