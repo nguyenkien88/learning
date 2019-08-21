@@ -1,0 +1,7 @@
+what is accelerator?
+  e.g. b2c accelerator, b2b accelerator, marketplace accelerator, travel accelerator (https://hybrismart.com/2017/04/16/travel-accelerator-2/)
+  is a set of ready-to-use-extensions (storefront, facade, core...) built on top of pre-built ecommerce extensions (commercebase, commercefacades, backoffice, warehousing...) - co the coi nhu 1 demo (voi kha nang customize)
+  when start project, these extensions are extended to start customize
+  e.g. codengaicore - will contains core funtions - use services from existing hybris extensions
+  
+note: may accelerators khac ngoai tru travel accelerator nam trong hybris commmerce package, travel accelerator down load package rieng (chac la copy qua ext-xxx cua bin/platform)

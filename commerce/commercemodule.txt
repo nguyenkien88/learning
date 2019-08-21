@@ -1,2 +1,19 @@
-functionality: configure your products, multiple carts, and manage client consent
+functionality:
+  configure your products
+  related to checkout process
+    find user
+	cart merging
+	quotes
+	converter/populator: converters create new instances of Data objects and call Populators to populate these
+  manage client consent - about the customer personal data
+  
+extensions: 
+  comerceservices: some services related to comerce e.g. CommerceCheckoutService, CategoryComerceService vs CategoryService (from platform)
+    ref: https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/8b85a20586691014bacda05068f9c842.html
+  comercefacades e.g. ProductFacade
+  commercewebservicescommons
+  ycommercewebservices 
+  yoccaddon
+  
+  
 

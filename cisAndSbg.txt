@@ -1,0 +1,32 @@
+feature
+  commerce infrastructure service
+  muc dich: use 1 rest interface (cisclient) to interact with all specific type of service e.g. payment service => the service must follow cis principle
+  cisclient: api to crate and send request to cis server - e.g. /cisclient/lib/hybris-cis-api-payment-5.4.0.0-RC23.jar for create and send payment request
+  cis server
+    implement the real service that can interact by cisclient
+	who will implement this? us (use maven archetype to generate mock implementation) or other 3rd e.g. Cybersource - the service must follow cis principle
+  service types e.g. shipping, tax calculation, address verification, geolcation, payment, fraud - generate by specific maven archetype
+  base on Charon framework (before - when? - based on Core+ framework)
+  the rest api: https://help.sap.com/doc/a263dad9f7b04854b65c96d183cc270e/6.1.0.0/en-US/rest-api-docs/index.html
+  can i use normal restclient e.g. postman to create and send request?   - ok
+  
+  payment
+    how do i know change in the payment e.d. paid, cancel... => capture
+    what if vendor e.g. Cybersource need fill form in their page => return the page to client, the request after that go direct to vendor server.
+    the credit card info
+  config e.g. gsls config directory: vendor, deployment mode e.g. mocking, onpremise...
+  
+architecture
+  cisavs AddOn
+  cisclient Extension
+  cispayment AddOn: payment authorize, payment profile - only support b2c
+    hop - page by vendor
+	sop
+	payment service provider need to be define for basestore
+	callback controller
+	sample data-code: cissampledata, ondemandsampledata, cisPaymentMock (mocking service)
+  cistax AddOn
+  cisclienttest Extension
+
+docs: https://help.sap.com/doc/c484e9bc4848439e91d0b96c90265a65/6.0.0.0/en-US/cis_project/apidocs/index.html
+upgrading: https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/ff6a4414955c4634bd2539a09bb11cb4.html

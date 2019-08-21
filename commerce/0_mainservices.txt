@@ -1,0 +1,10 @@
+order cancel service
+return service
+refund service
+order history service
+order splitting service
+warehousing service
+order scheduling (b2b) service 
+replenishment (b2b) service 
+store locator service
+fraud detection service

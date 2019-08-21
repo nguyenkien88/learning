@@ -38,31 +38,6 @@ ordering process: https://help.hybris.com/1811/hcd/8c22ba688669101484c3b26ae0959
     define action in xml
     logic in bean or script	
 
-order management modules
-  is about the service after placed order: sourcing, splitting, pick/pack/label/confirm shipment (backoffice), return/refund, customer ticket, importing data (impex)
-  user roles in oms: warehouseagent, warehousemanager, customersupportagent, customersupportmanager, admin, 3rd application (through web api)
-  block diagram: https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/8b446d01866910149e6aab9a9051a4a8.html
-  2 perspectives
-    customer support backoffice perspective: view/processing orders and returns, view fraud report
-      user role: https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/5d0e8d266dc34239af789ac954254299.html#loio5d0e8d266dc34239af789ac954254299
-	  thuong dung de view/complete/cancel orders
-	  cancel whole order (all products in the order) vs partial cancel
-	  e.g. custom ancel in codengai
-	    widget controller => custom cancel order service => WarehouseProcessingCancelRequestExecutor => OrderCancelledEventListener.... 
-      hold orde - pending
-	  return request - read more about return order
-    warehouse backoffice perspective: realted to warehouse - consignment: consignment processing - start packing, shipping....pos, inventory - stock level, print pick/pack/shipping label
-	  e.g. view for employee that have task related to consignment - consignment workflow: https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/44742ff5072d4efba7f648535f7749fc.html
-	  pick slip: products are picked to fullfill the order, can customize through template - https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/8b457a5886691014a99cc7483e7612b4.html
-	  pack slip
-	  shipping label
-	  confirm shipment
-	  package info (for a consignment)
-	  consignment tracking
-	  decline consignment => reallocate => new consignment
-	  point of service: physical branch store - linked to warehouse to keep track stock 
-	  vs warehouse (many to many with warehouse)
-	  
 
 hybris pricing
   all about: PRICE, TAX, DISCOUNT of product
