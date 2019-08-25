@@ -1,9 +1,27 @@
 template: yacceleratorstorefront
+  spring mvc
+  jsp/html
+  css: blueprint fw
+  spring security
 
+structure
+  main java packages
+    controllers: cms controllers vs page controllers
+    filters
+    interceptors
+    renderer
+    security: spring security
+    tags: resolver
+    util
+  web
+    b2b and b2c do not use desktop => responsive
+  
 storefront deconstruct
   resourceFilter
   storefrontFilterChain
   springSecurityFilterChain
+  
+  
 
 
   
