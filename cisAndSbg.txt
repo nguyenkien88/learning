@@ -9,6 +9,7 @@ feature
   base on Charon framework (before - when? - based on Core+ framework)
   the rest api: https://help.sap.com/doc/a263dad9f7b04854b65c96d183cc270e/6.1.0.0/en-US/rest-api-docs/index.html
   can i use normal restclient e.g. postman to create and send request?   - ok
+  onpremise vs ondemmand vs cloud????
   
   payment
     how do i know change in the payment e.d. paid, cancel... => capture
@@ -30,3 +31,8 @@ architecture
 
 docs: https://help.sap.com/doc/c484e9bc4848439e91d0b96c90265a65/6.0.0.0/en-US/cis_project/apidocs/index.html
 upgrading: https://help.sap.com/viewer/9d346683b0084da2938be8a285c0c27a/1905/en-US/ff6a4414955c4634bd2539a09bb11cb4.html
+
+remain
+  use of Charon framework - DefaultCisPaymentService
+
+

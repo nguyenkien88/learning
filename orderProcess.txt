@@ -1,9 +1,13 @@
 checkout-step vs order process
   multi-step-checkout-config.xml: steps before place order
-  order-process.xml: after place order (start order-process by creating event with OrderProcessModel)
+  order-process.xml: after place order (start order-process by creating event with OrderProcessModel) - run by process engine
 
 process engine - dynamic process definition
-  create process, start process
+  how to create a process?
+    using impex: DynamicProcessDefinition
+	or declare an bean of de.hybris.platform.processengine.definition.ProcessDefinitionResource with specific xxprocess.xml
+  start process
+    e.g. get process name (baseStore.getSubmitOrderProcess) => BusinessProcessService.startProcess
   Action node: 3 standard actions and custom action 
   Wait node
     event...then...
@@ -17,7 +21,6 @@ process engine - dynamic process definition
 
 ordering process: https://help.hybris.com/1811/hcd/8c22ba688669101484c3b26ae09593ac.html
   Cart: potential order - 1 session 1 Cart, chu y truong hop nhieu Order cung Session
-  Order
   delivery mode and payment mode
   calculated attr (CalculationService)
   Cart <=> Order <=> Consignment, OrderEntry 
@@ -28,7 +31,7 @@ ordering process: https://help.hybris.com/1811/hcd/8c22ba688669101484c3b26ae0959
   order cancellation
   fraud checking
   stock info
-  yacceleratorordermanagement:
+  yacceleratorordermanagement
     move from xml => impex to dynamic changing
 	default ordermanagement process
 	order process and consignment process
@@ -37,7 +40,12 @@ ordering process: https://help.hybris.com/1811/hcd/8c22ba688669101484c3b26ae0959
   process engine
     define action in xml
     logic in bean or script	
-
+	
+  fullffillment vs ordermanagement
+    ordermanagement = warehousing + fulfillment - contain actions define in dynamic process
+	fulfillment/ordermanagement depends on warehousing: api to process consignment/return request
+	warehousingbackoffice: backoffice action e.g. confirmShipp -> trigger event e.g. 1234__ConsignmentActionEvent (wait node) with choic -> then xxx
+	  vs csbackoffice: khac module, priciple
 
 hybris pricing
   all about: PRICE, TAX, DISCOUNT of product
@@ -111,7 +119,3 @@ hybris pricing
 	when order is created?
 	  OrderService.createOrder(): default same number (and other orders in same session) and creation date with cart
 	order entry info config: orderentry.infofield.${typecode}
-
-
-
-	
