@@ -1,0 +1,18 @@
++ use transaction in hybris
+  transaction with listener(other thread)?
++ handle concurrent in hybris
+  server side: https://dzone.com/articles/java-patterns-for-concurrency
+  db side: lock row
++ impex structure
++ a page to keep track item type code
++ unit test coverage with powermock/jacoco
+
+
++ use story as documentation - not slack
++ code convention
++ update scripts
+
++ backup data
++ seo url
+
+

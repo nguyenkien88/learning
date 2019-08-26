@@ -5,16 +5,39 @@ template: yacceleratorstorefront
   spring security
 
 structure
-  main java packages
-    controllers: cms controllers vs page controllers
-    filters
-    interceptors
-    renderer
-    security: spring security
-    tags: resolver
-    util
-  web
-    b2b and b2c do not use desktop => responsive
+  web.xml
+  fitler chain
+    addon filter
+  listener
+  authentication and security: spring security
+    cart merging
+  b2b and b2c do not use desktop => responsive
+  controller
+    AbstractPageController: insert common data e.g. language, currency, user...to model
+	AbstractSearchPageController: add search functionality
+	AbstractCMSComponentController: controller for custom cms component e.g. fillModel
+  live edit and preview
+  validation: spring form
+  ajax and json: MappingJacksonHttpMessageConverter
+  messages: base.properties
+  beans: webroot/config e.g. 
+    web-application-config.xml: defines all the beans source xml
+  interceptor
+  views
+    jsp 2.1 (1905)
+	controllers return view name => in this directory
+    nam trong WEB-INF => ko direct access from browser => only using view renderer
+	types
+	  pages: complete html page, can return to browser
+	  fragments: a part of the html page, thuong dung voi ajax request e.g. popup
+	    how to impelement popup in hybris: see quickviewpopup.jsp
+	  cms: for components - convention lowercase for jsp name e.g. neoabcxyzcomponent.jsp for NeoAbcXyzComponent (impex)
+  tags: reusable jsp component, can contain attributes
+    template tag: custom tag
+    template:page -> only focus on the body
+	template:master
+	breadcrumb:breadcrumb
+	
   
 storefront deconstruct
   resourceFilter
