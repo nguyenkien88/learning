@@ -19,7 +19,10 @@ structure
   live edit and preview
   validation: spring form
   ajax and json: MappingJacksonHttpMessageConverter
-  messages: base.properties
+  messages: priority high -> low
+    sitexxx.properties
+	themexxx.properties
+    base.properties
   beans: webroot/config e.g. 
     web-application-config.xml: defines all the beans source xml
   interceptor
@@ -32,11 +35,38 @@ structure
 	  fragments: a part of the html page, thuong dung voi ajax request e.g. popup
 	    how to impelement popup in hybris: see quickviewpopup.jsp
 	  cms: for components - convention lowercase for jsp name e.g. neoabcxyzcomponent.jsp for NeoAbcXyzComponent (impex)
-  tags: reusable jsp component, can contain attributes
-    template tag: custom tag
-    template:page -> only focus on the body
-	template:master
-	breadcrumb:breadcrumb
+  tags: reusable jsp component, can contain attributes, can have controller, can nested
+    template type
+	  template tag: custom tag
+      template:page -> only focus on the body
+	  template:master
+	reusable component type
+	  breadcrumb:breadcrumb
+	  price:format
+	  ...
+  theme
+    spring:theme vs spring:message??
+	themeSource and themeResolver beans??
+  css/javascript compression
+    compress with WRO4J (web resource optimizer) since 6.0
+    storefront.wro4j.enabled=true
+    wro.properties
+	chu y truong hop enable AcceleratorAddOnFilter: https://help.sap.com/viewer/4c33bf189ab9409e84e589295c36d96e/6.6.0.0/en-US/8af03fda8669101491e4aac2acaeb2dd.html
+	wro.xml: 
+	  update this when add new css/js
+	  wro_addon_template.xml: template for wro_addon.xml when installing addon
+	  wro_addon.xml: when install addon this file will be updated
+	  does not support import url => should import ult in tag file
+  js: using jquery with some plugin e.g. carousel
+  breadcrumb
+    show in page.tag e.g. <breadcrumb:breadcrumb breadcrumbs="${breadcrumbs}" pageType="${pageType}" /> (fill in controller)
+    url
+    name
+    linkClass (css)
+    BreadcrumbBuilder: return ordered list of breadcrumbs
+	
+	
+    
 	
   
 storefront deconstruct
