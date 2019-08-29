@@ -1,0 +1,26 @@
+spring security
+  used as spring aop
+  web request level and method invocation level
+  some modules
+    core
+	configuration
+	web
+	taglibs
+	...
+  how to integrate spring security: declare DelegatingFilterProxy as a servlet filter => all request go through this filter (url-pattern/servlet-mapping) will be processed by spring security
+  how spring know user store?
+    
+  
+
+in hybris
+  authentication (verify identity - login)
+  vs authorization (access right after authentication)
+  login succes
+    then guid is created 
+       then jalosession??? is created
+  	   then cart is merged/restored
+  	     deeplinking???		   
+  automactic login: after register success
+  remember me: TokenBasedRememberMeServices
+  
+  Cross-Site Request Forgery:???
