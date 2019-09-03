@@ -8,7 +8,7 @@ impex: an extension in platform for import/export data
   macro e.g. $lang=lang_th
   comment
   impex complex type e.g. Product(code) => using code of Product
-  impex using ServiceLayer => validators, triggers...also apply
+  impex using ServiceLayer => validators, triggers...also are applied
   using convention over configuration
     essential data: before
 	project data: after
@@ -17,10 +17,11 @@ impex: an extension in platform for import/export data
 	cronjob
 	using hac
 	import api (java)
+	ant task
   data inclusion: inputstream, media, database
   resolving (by parser): 
     unresolved lines are dumped into a temporary file => run again after the current file finished (it not about the error when import and only affect on the current file)
-    if dump file contains not resolved => continue create new dump file untitl the 2 files has same sizz => error
+    if dump file contains not resolved => continue create new dump file untit the 2 files has same size => error
   header abbreviation (later)
   validation mode (when runing import)
     strict mode: default
@@ -38,7 +39,7 @@ impex: an extension in platform for import/export data
     just example
 	
   convention
-    my_products.impex => automy_products_en.impex... (https://help.hybris.com/1808/hcd/8ad2f0a7866910149c31803942c91149.html)
+    my_products.impex => auto run my_products_en.impex... (https://help.hybris.com/1808/hcd/8ad2f0a7866910149c31803942c91149.html)
 	
   use ServiceLayer (co the switch qua JaloLayer neu muon) behind the scene
   extension running order: build order
@@ -71,8 +72,6 @@ impex: an extension in platform for import/export data
 	  trong 1 project: random ((muon order thi order trong java file hoac include vao 1 impex file)  
     co the hieu essential data la data ko depend vao data khac - nhieu data khac se depend vao essential data	  
 
-
-impex: 
   essential data - template from yacceleratorcore (=> codengai core)
     Create languages, currencies, delivery options, themes, and URL bindings.
     Create CMS components, page templates, and pages and configure CMS restrictions.
@@ -103,14 +102,7 @@ impex:
 	  
   During an initialization, only creating project data is optional, the rest is always executed.
   During an update, you can select a number of options, see Updating from the SAP Commerce Administration Console.
-
-
   yacceleratorinitialize: contains many templates for ImpEx (product, cms...)
-  
-remain
-  email. vm how to import?
-  validate impex - localhost???? 
-    
   
 how to structure?
   codengaicore: dont care (just some data get form yacceleratorcore)
@@ -123,14 +115,7 @@ how to structure?
 	
 steps
   structure lai
-  may ko ko thuoc convention thi nhet vao trong code  
-	  
-mai
-  content catalog??
-  check duplicate: xem sap file
-  initialize ra log file => verify
-  remove electronics impex
-  
+  may ko ko thuoc convention thi nhet vao trong code
   
 CodengaiStoreSystemSetup
   start setup params
@@ -142,20 +127,6 @@ CodengaiStoreSystemSetup
 	  which import: backoffice 
   system setup
   context
-  
-  
-thu tu chay impex
-  first essential data
-    follow project build order
-	trong 1 project: random (muon order thi order trong java file hoac include vao 1 impex file)
-  then project data
-	follow projects build order
-	trong 1 project: random ((muon order thi order trong java file hoac include vao 1 impex file)
-	  
-  co the hieu essential data la data ko depend vao data khac - nhieu data khac se depend vao essential data	  
 
 note: import tay (hac) ko tu dong run may file localize
-  
-	  
-	  
   
