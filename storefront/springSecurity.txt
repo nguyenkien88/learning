@@ -1,5 +1,6 @@
 spring security
   used as spring aop
+  a filer that interceprs aa request
   web request level and method invocation level
   some modules
     core
@@ -9,18 +10,29 @@ spring security
 	...
   how to integrate spring security: declare DelegatingFilterProxy as a servlet filter => all request go through this filter (url-pattern/servlet-mapping) will be processed by spring security
   how spring know user store? override
-    in-mem user store: over
+    in-mem user store
+	data source
+  the actual work is done by an AuthenticationProvider
   
-
 in hybris
   authentication (verify identity - login)
   vs authorization (access right after authentication)
-  login succes
-    then guid is created 
-       then jalosession??? is created
-  	   then cart is merged/restored
-  	     deeplinking???		   
+  CoreAuthenticationProvider (use userdetails service here)
+  AcceleratorAuthenticationProvider
+    preventing administrators from authentication in storefront (searchRestrictions do not apply for administrators, which leads to catalog version ambiguities)
+  after success
+    GUID cookie is added (GUIDAuthenticationSuccessHandler)
+	then calls StoreFrontAuthenticationSuccessHandler for cart restoration or merging   
   automactic login: after register success
-  remember me: TokenBasedRememberMeServices
   
+  remember me (soft login): TokenBasedRememberMeServices
+    closes the browser without logging out
+    use cookie
+	https://docs.spring.io/spring-security/site/docs/3.1.x/reference/remember-me.html
+	redirecting to a Requested URL After Authentication: https://tinyurl.com/y4289rlu
+  
+  GUIDInterceptor (spring-mvc-config.xml)
+    For paths contained in the excludeUrls property, the existence of the GUID cookie is not enforced
+	All remaining paths trigger a redirect to the loginUrl if called on a secure channel without the GUID cookie set
+	
   Cross-Site Request Forgery:???
