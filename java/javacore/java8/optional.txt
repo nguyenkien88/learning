@@ -1,0 +1,47 @@
+why?
+  defensive programming => many check
+  using null to represent the missing of value is now wrong => Optional
+  Optional encapsultes optional value.
+  Optional.empty(): singleton
+  declare normal: do not have signal to show that the value is permitted missing, use Optional => signal: co the ko co gia tri
+  from now
+    Use Optional: might or might not have value for a property (semantic/business meaning)
+    Use normal class: mandatory => ko can check != null -> vi neu NullPointerException => some logic wrong (need to fix some where), if check => hide it: not good (ko check null tuy tien/ko can check null at all).
+	The method argument should be Optional type if co kha nang missing when pass into that method, similar to method return
+
+	
+Using Optional
+  where?
+    method param
+	method return
+	method field: it dung hon vi Optional is not implement Serializable, not suitable for data model
+  think Optional like a Stream with one element
+  creating Optional object
+    Optional.empty()
+    Optional.of(person) //car is null -> NullPointerException
+	  personOpt.map(Person::getCar)
+			   .map(Car::getInsurance)...
+    Optional.ofNullable(car) // car is null -> empty Optional 
+  adapt chaining method call: getPerson().getCar().getInsurance().getName();
+    optPerson.flatMap(Person::getCar).flatMap(Car::getInsurance).map(Insurance::getName).orElse("Unknown");
+  unwrap Optional
+    get(): still need to check like null (but more semantic, nguoi dung biet co the return empty)
+	orElse()
+	orElseGet(): lazy version of orElse(): just run if the optional is empty - dung khi orElseGet consume time
+	orElseThrow()
+	ifPresent()
+	map()
+	flatMap()
+    filter()
+      normal: Insurance in = xxx;if(in != null && in.getName()==xxx){xxx}
+	  .filter(predicate).ifPresent();
+
+Some practical examples (can't change existing api)
+  transform null to Optional: Optional.ofNullable(aMap.get("aKey"));
+  using with exception: should provide utility to wrap the api: parseInt("unParsable") => Optional<Integer>
+  primitiveOptional: should not used - no performance benifit (optional contains only 1 element), missing some common method of Optional
+  
+      
+    
+  
+  

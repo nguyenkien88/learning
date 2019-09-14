@@ -1,0 +1,144 @@
+core benefit
+  powering POJO
+  DI: think about BraveKnight and Quest
+    application context: load bean and wires them together
+  AOP: cross cutting concerns(logging, security, transaction), think about Knight and Minstrel
+  eliminate boilerplate code with template
+  
+spring container: manage(create/wiring) beans
+  bean factory vs application context (prefered)
+  say, load the application context from config file
+
+spring ecosystem
+  core module
+  aop module
+  data access
+  web
+  instrument
+  testing  
+  
+create and wiring beans (default: singleton)
+  before: init concrete dependent object in constructor/init() method
+  with spring: dependent on interface -> inject
+  @ContextConfiguration: load context from java file/xml
+  hard and optional dependency
+    hard: must have - consider using constructor/field
+	optional: consider using setter
+  mechanism
+    auto: @Component, @ComponentScan, @Autowired 
+	  @ComponentScan/context:component-scan: enable component scan, scan in same/sub package
+	    basePackages
+		basePackageClasses (easy for refactor)
+	  2 @Component classes for same interface => ok when created but if wiring => exception (ko biet use concreate nao)
+	    @Named(javax) vs @Component: same puporse
+		id of a component
+	    when annotate with @Component => bean is created in context, just wait for using (wiring) other places
+	  @Autowired vs @Inject (javax)
+    with java (when cannot @Autowired like in case 3rd party)
+	  can do some logic before return the bean
+	  if many beans using same dependent bean => method of dependent just run once (intercept by Spring), think about MediaPlayer and VideoPlayer with same CompactDisc
+	  wiring with/without calling depent creating bean method
+	with xml
+	  <bean>
+	  <constructor-arg>
+	    <list> for collection
+	  using c namespace: 
+	    ref: c:cd-ref, c:_0-ref, c:_ref
+		literal: c:_title, c:_0, c:_
+	  using <property>/p namespace with setter injection
+	  c and p namespace want to wrire collection: using util-namespace (e.g. util:list - create an own bean)
+	mixing
+	  refer from javaconfig 
+	    @Import with other java config
+	    @ImportResource with xml
+	  refer from xml config
+	    <import> with other xml config
+		<bean> with java config class
+	  practice: lam 1 file root config, separate cac config => import to root config	
+		
+advanced wiring
+  environment and profile
+    problem with environment: EmbeddedDatabaseBuilder vs read database
+	can build different config file => choose when build and deploy with maven profile => need rebuild for each environment (e.g. QC not test on production build)
+	=> using spring profile, decide which beans at runtime (same package for all environment)
+	@Profile("dev") (configuration class/method level) => bean only created if profile dev is active
+	activate an profile:
+	  spring.profiles.default and spring.profiles.active
+	  many ways (context-param, @ActiveProfiles(for test class)...), can active multiple as same time
+  conditional beans
+    @Conditional method level
+	Condition interface
+	ConditionContext: can get infor from running environment, properties file...
+  ambiguity in autowiring
+    @Primary (with @Component/@Scan)/<primary="true" />
+	@Qualifier: with the qualified name of dependent bean (default same with id: className)
+	define qualifier for a bean
+	custom qualifier: @Qualifier for multiple match, think about @Cold, @Creamy for IceCream Bean => multiple qualifiers
+  scoping bean
+    singleton: default - created and inject when application context is loaded, stateless bean
+	prototype: created and inject each time get/inject new bean, stateful bean, spring container doesnot have destruction     clean up prototype bean, user must explicit clean up (release resource) using bean post processor
+	web app
+	  request- created and injectd for each new requeset
+	  session (e.g. shopping cart) - created and inject for each session
+	  proxy mode: thuc chat when inject session scoped bean to singleton bean: inject a proxy with specific proxy mode
+	  ScopedProxyMode.INTERFACES => the proxy should implement the bean interface
+	  ScopedProxyMode.TARGET_CLAS => extend
+  run time value injection (later)
+    from properties file: 
+	  @PropertySource, autowired Environment => getProperty
+	  property placeholder "${propertiesName}"
+	spring expression language
+	  
+	
+Spring AOP - proxy based
+  cross cutting fuctions: span multiple points in the application, separated from the business logic
+  logging, security, transaction, caching
+  declarative defined how/where the cross cutting fuctions are applied
+  terms
+    aspect: merger of advice and pointcut
+    advice: define what and when of an aspect, before/after/after-returning/after-throwing/around
+	join point: point in application, aspects can be plugged (candidate) in, e.g. the point where a method is going to be called
+	point cut: narrow down the join points, e.g. only apply for class ABC
+    introduction: allow add new methods/attributes to an existing class
+	weave: apply aspect to target objects (at specific join points) => proxied object
+	  compile time
+	  class loading time
+	  runtime
+  AOP framework(Spring AOP/AspectJ/JBoss...): differ how rich joint point support, when/how weave the aspect...	  
+  how Spring supports AOP?
+    Classic spring proxy-based AOP - spring AOP: old, not used  
+	pure POJO - spring AOP
+	@AspectJ driven - spring AOP: use same same with AspectJ but behind the scene is Classic spring proxy-based
+	AspectJ injected: use direct AspectJ/annotations - extensions language from Java
+  other points
+    Spring wrap the target object with proxy object, do something before call the real method, created at runtime.
+	Spring only support method join points, need more => use AspectJ
+  define aspect
+    write pointcut: using AspectJ expression language
+      some supported AspectJ designators support by Spring AOP: execution, bean...
+	  mixing designators: and/or/not
+	  @Pointcut
+	define advice
+	  @Before/@After/@Around/@AfterThrowing/@AfterReturning
+	  @AspectJ: guide to create proxy - AspectJ creates proxy wrap the target objects (match with poincuts)
+	  @EnableAspectJAutoProxy: allow auto proxy 
+	  around advice with ProceedingJoinPoint: combine all advices into 1 
+	  access parameters of advised methods with args() designators
+  	introduction: add new method to advised object with: (proxy object((advised object), (introduced object)))
+	  @DeclareParent //target object have new parent(casting)
+	declare aspects in xml: can use without touch into the aspect class (Audience)
+	using AspectJ directly: richer pointcut
+	  inject to AspectJ object (make AspectJ object - created by AspectJ - like a Spring bean): aspectOf()
+	
+	
+    
+		
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  

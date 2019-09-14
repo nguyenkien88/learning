@@ -1,0 +1,110 @@
+Contrast with soap: no rules
+  no strict methods
+  no strict protocol
+  no service definition (contrast with wsdl)
+  
+say, how to design an easy using rest web service for consumers
+  resources based uri: just practices, no right, no wrong
+    think operations as resources (like static web page)
+	e.g. abc.com/profiles/nk
+	using nouns not verbs: not abc.com/getProfiles/nk
+	plural(e.g. profiles) vs singular
+	think about resources relation e.g. messages/1/comments/5 (vs just /comments/5)
+  choose right http method
+    put (update/edit with id sent) vs post (creating/no id sent) - just practices
+	read only: get vs write: post/put/delete
+	safe repeatable/idempotent: read/delete/put (don't worry when make duplicate request) vs non-repeatable(non-idempotent): post
+  return right status code
+  right response header
+  instance resource (with id) and collections resource (e.g. messsages/2/comments)
+  filter and paging the result
+  rest data: any kind - text/json/xml...
+    json vs xml
+	  json is more compact
+      easy to convert to javascript object
+  rest response
+    how client knows format of the reponse e.g. xml/json/...? => reponse header
+    status code: 1XX -> 5XX (not all)
+	  1: informational
+	  2: sucess
+	    200: ok
+		201: created
+		204: no content back (as delete method)
+	  3: redirection
+	  4: client error
+	    400: bad request
+		401: unauthorized (chua login)
+		403: forbidden (da login, ko co quyen access)
+		404
+	  5: server error
+	    500: internal server error
+	hateoas: hypermedia as the engine of application state... response of resource contain the api to itself and also the resources related to it
+	  direct as attribute
+	  or links {href and rel}
+	says, is this api fully restful? Richardson maturity model
+	  level 0: non restful, single end point (request body contains info what to do) - like soap
+	  level 1: individual uri for each resource
+	  level 2: use right http methods (idempotence), status code
+	  level 3: apply hateoas
+
+jax-rs: specification for java rest api
+  implemetation: jersey, resteasy...
+  lib: just need the implementation (the implementation already includes all interface and annotation in jax-rs)
+  rest application is also a web application (servlet)
+  
+Create api (resource handler)
+  Handle request
+    @Path
+      {id}
+	  @PathParam(not optional)
+    @GET
+    @POST
+    @PUT
+    no-args constructor always for xml/json convert
+    Chu y: moi lan call rest => new java instance for handler
+    Annotation: Class level vs method level
+      @Produces
+        Mediatype
+      @Consumes
+      @XmlElementRoot for xml convert, json does not need
+	  @XmlTransient
+    parameter
+      Filtering and pagination with @QueryParam (same request (handle same method) with different info)
+	    /messages?year=2018
+      @MatrixParam: in url
+	    /messages;year=2018
+      @HeaderParam: e.g. for authentication
+      @CookieParam
+	  get Uri info, header info
+	    @Context: UriInfo, HttpHeaders
+	  group all bean in same class: @BeanParam
+    Sub Resources: 
+    /messages/{messageId}/comments/ => CommentResource
+    can get {messageId} from sub resource
+  
+  Control response: header, status code...
+    use Respose object
+  
+  Handling exception
+    if not explicit handle: handler => jax-rs => web container (tomcat) will handle (default error page)
+    want: get the exception => add to response => send to jax-rs to handle
+	  custom ErrorMessage class
+	  @Provider: register with jax-rs
+	  ExceptionMapper
+	  generic exception mapper: handle all exceptions
+	  use generic ex mapper and specific exception mapper together: ex hierachy is handled by jax-rs
+	  WebApplicationException: Client, Server, Redirect
+  
+  HATEOAS: make a Response navigable
+    BaseUriBuilder
+    links: link, rel
+	
+  Content Negotiation
+    as server I can consume what? i can produce what?
+     accept (@Procedures) vs content-type (@Consumes)
+    
+    
+  
+  
+  
+  

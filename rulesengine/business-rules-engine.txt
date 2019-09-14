@@ -1,0 +1,67 @@
+rules?: met condition -> take actions
+	
+rule structure: different a bit from rules engine to rule engines
+rule engine: pluggable, execute rule (decouple logic from java code)
+
+drools
+  drl: domain rule language
+  extensivly used in BFSI (banking, finance service, insurance): requirement changing
+  benefit: https://www.studytonight.com/drools/advantage-rule-engine.php
+  
+  
+terms
+  rule: name, condition, action
+  fact: java object used in rules (objects that are added in Drools working memory)
+  knowledge session (production memory) - keep all rules and resources: put facts on session and fire rule
+    stateless: put facts into session, but the facts are not tracked, rules fire in the old facts
+	stateful: one rule change facts => other rule affected
+  working memory: contains facts
+  agenda: conflict resolve
+  activation
+  cross product
+  
+
+syntax
+  rule structure
+  key words
+    soft
+	hard
+  comment
+  error message format
+  package
+  import
+  global
+  function
+  
+  variable: $ convention
+  access instance fields through getter
+  function: like static helper method - e.g. import function com.creditsuisse.map.project.rule.exec.ProjectAssessmentRules.addSignoffTask;
+  dialect: define syntax (Java vs mvel)
+  no-loop attribute
+    self-loop: change fact -> rule execute again and again
+	complex-loop:
+  conflict
+	salience: priority - higher first
+	from Drools 6: order in rule file (after consider salience)
+  modify/insert/retract
+  lhs
+    pattern maching
+      matching a type
+	  type with constraint
+	  support nested property: Person(address.houseNumber == 50)
+	  use any Java expression, including function call...
+	  must not change fact => use read only method
+	  == means null safe equals()
+	  != means null safe not equals()
+  rhs
+    list of actions need to be execute
+	should not use condition logic, if yes => new rule
+	update working memory (insert/delete/modify facts)
+	update: update fact => rules depend on that facts need to evaluated
+	insert/remove from working memory
+	
+how to know which rule is executed? => debug with helper method
+inference: like an link to a compound-conditions => tranh duplicate a condition accross rules
+map rule pattern (apply)
+
+    

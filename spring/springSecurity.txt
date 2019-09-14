@@ -1,0 +1,16 @@
+is a framework using aop (declarative security)
+web layer vs method invocation security
+
+filter basic: javaEE reference (note4)
+
+filter in web layer: intercept request before it comes to controller
+  DelegatingFilterProxy => delegate to Spring bean filter
+  web.xml => delegate to storefrontTenantFilterChain filter bean
+    <filter>
+		<description>
+			Spring configured chain of spring filter beans in tenant scope
+		</description>
+		<filter-name>storefrontTenantFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+  

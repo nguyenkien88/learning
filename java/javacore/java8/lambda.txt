@@ -1,0 +1,56 @@
+why? behavior parameterize: more flexible, tranh duplicate code
+  think about Apple with filter based on color, weight.
+    naive approach: filterByColor(color), filterByWeight(min, max)
+    ApplePredicate Approach (not using lambda) with multiple implementations of the interface
+    using implementations of ApplePredicate with annonymous class
+	using lambda with filterApples method
+	using generic filter
+	say, 1 method su dung Comparator<T> as param
+	  -> co the su dung new implement of Comparator
+	  -> co the su dung annonymous inner class as Comparator
+	  -> co the su dung lambda expression
+	think more about Comparator, Runnable, gui handling
+	
+think lambda like annonymous function (pass to other method as param or store as variable)
+  ko dung lambda co the dung annonymous inner class
+  3 parts of a lambda expression
+    params
+	arrow
+	body
+  format
+    (parameters) -> expression //expression: return single value (int a =5 or a==b)
+	(parameters) -> { statements; } //unit of executable code (int a=5; or if(a==b){})
+
+functional interface
+  where can use lambda? => in where functional interface can be used
+  the signature of the method is called function descriptor (signature)
+  funtional interface: Predicate<T> - function descriptor: T -> boolean
+  @FunctionalInterface (not built in by java)
+  exception?
+	built in functional interface do not throws any Exception => when need throws Exception => use custom or wrap in try/catch
+	chu y: neu method when using labda throw exception => signature in functional interface also need to throw that exception
+	some built in functional interfaces
+  boxing and autoboxing with lambda: for example, Predicate<T> only for reference type, so when use lambda with primitive => boxing and autoboxing (test(1000)) => use IntPredicate instead
+  
+method reference (a reference to a method)
+  lambda is all about passing behavior, neu behavior do co roi (existing method) => dung, ko can viet lai => using method reference
+  shorthand for lambda (existing method with same signature of the functional interface)
+  make lambda more readable (because the name of the method)
+  it is just a reference, not execute, thay vi pass lambda thi dung code from 1 method co san
+    lambda - directly
+	method reference -  using exiting method => better readability
+	  form: targetReference::methodName
+	    static class: ClassName::staticMethod - using the object as parameter for the static method
+	    instance method of particular object: object::methodName
+		instance method of arbitrary object of particular type: ClassName::instanceMethod - using the object to invoke the method
+
+compose lambda expression: make more complicated lambda from multiple lambda
+  Comparator: comparing(), reversed(), thenComparing()		
+  Predicate: negate(), and(), or() => multiple checking
+  Function: andThen(), compose() => transfrom pipeline
+  
+  
+  
+  
+  
+  

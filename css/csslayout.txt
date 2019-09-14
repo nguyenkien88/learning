@@ -1,0 +1,48 @@
+css box model (content, padding, border, margin) 
+  display: block - full width of browser, force break line
+  display: inline - no width, height
+  display: inline-block - same as inline but
+	can control width, height
+  box-sizing
+    default (content-box): width/height/min/max includes only the content
+	border-box: width/height/min/max includes content, padding, border
+
+display: float
+  float in it container
+  
+position
+  static: default
+  relative: with itself
+  absolute: with its non static parent
+  
+layouts: can mix
+  normal
+  with display
+  with float
+  with position
+  with table layout
+  with multi columns layout
+  with flex box
+  with grid layout
+  
+flex box
+  cointainer
+    display: flex
+    justify-content: align items on main axis
+      flex-start (default), flex-end, space-around, space-between
+    align-items: align items on cross axis
+      flex-start, flex-end, stretch (default), baseline
+    flex-direction: define main axis
+      row, column, row-reverse, column-reverse
+    flex-wrap
+      wrap, no-wrap, wrap-reverse
+	flex-flow: flex-direction and flex-wrap
+	align-content: align flex line
+	  stretch (default), flex-start, flex-end, space-between, space-around
+  item
+    order: define order of the children
+	align-self: for specific item, override align-items
+	
+      
+  
+  

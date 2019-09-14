@@ -1,0 +1,4 @@
+enum: class defines fixed set of constants
+behind the scene enum -> final class
+khac voi normal constant, enum can have state and behavior
+  constructor: default is private

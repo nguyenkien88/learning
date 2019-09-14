@@ -1,0 +1,43 @@
+metadata, provide additional info for compiler/jvm
+when use annotation (custom)?
+  need to provide metadata for some work
+  ex in map: excel export, buil query, transaction required, pdf
+
+built in vs custom annotations
+type annotations: @NonNull, @ReadOnly...(java 8) - any where used a type, not just declaration
+kinds of annotations
+  marker: do not have method
+  single value: single method
+  multi values
+
+@Retention: set the visibility of the annotations
+  SOURCE: only visible for compiler, disapear in .class (not visible at runtime)
+  CLASS: store in .class, not visible at runtime - default, just is used for some tools thao tac voi bytecode
+  RUN_TIME: store in .class and visible at runtime (mostly use this)
+  
+@Target: define where the annotation can be used
+  TYPE: class, interface, enum
+  METHOD
+  CLASS
+  FIELD
+  ....
+
+Other  
+  @Documented: involve the annotation in javadoc
+  @Inherited: parent using annotation (@Retention = TYPE) -> children also have this annotation
+  @Repeatable
+  Annotation processing tools
+
+elements of annotations
+  @Retention(RetentionPolicy.RUNTIME)
+  @Target(ElementType.METHOD)
+  public @interface Hero {
+    String name();
+    int power() default 1000;
+    
+  }
+
+How to write code using custom annotation?
+  Write the annotation itself (@Column)
+  Used it (Excel Importer)
+  Using reflection to do the real work

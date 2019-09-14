@@ -1,0 +1,10 @@
+Jaywalking (6/1)
+Metadata tripple (5/2)
+Keyless Entry (11/1)
+
+Enum (80/2)
+Rounding error (89/2)
+	
+Fear of unknow/null (115/2)
+Ambiguous group (116/2)
+

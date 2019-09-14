@@ -1,0 +1,7 @@
+problem: add new method for interface? (implementations that are not under control)
+default method: method with default implementation
+usage of default method?
+  for library designers: add more method to interfaces - main purpose
+  allow multiple inheritance behavior
+==> learn later  
+

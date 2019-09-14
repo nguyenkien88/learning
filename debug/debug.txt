@@ -1,0 +1,1 @@
++getter/setter, stack in debug mod to track value change in which method

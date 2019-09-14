@@ -1,0 +1,224 @@
+engine system db vs designer memory
+
+
+email 
+  SSL: required when SMTP server requires.
+  Email inscription
+  TODO: create small send email app: fake sender, using in/out, deploy to engine.
+  Email: for development (Designer) vs Email setting on engine (deploy)
+
+
+process Modeling
+  Process model version (engine): container used to deploy project - moi project co the co nhieu version, designer chi  co 
+  1 version
+  Required projects (project name and version - inclusive, exclusive, minimum, maximum version)
+  Deployment descriptor editor (pom.xml): for each project, used by engine when deploy
+  Cycle dependency problem
+  Process   
+    Types: Business, Callable sub process (sub process with it own data), Webservice
+  import/export process (xml)
+  process outline view
+  process template (shorcut key: t)
+  
+
+trigger: same or required project
+signal: 
+  do not required project
+  abort task with Signal Boundary Event (User task only)
+  signal code and signal data (consider visibility of object data, should use json or db object)
+  send signal mannual by designer
+  receive signal: using Signal Boundary Event or Signal Start Event
+  using marco (<%=in.orderNr%>) to catch specific signal
+  using wild card in signal
+  debug signal
+  note: signal can be catched at any level, any process
+ 
+ 
+case and task
+  1 process: 1 case, multiple tasks
+  start a task: process start or task switch 
+  end a task: next task switch or proces end
+  task case query: normal (TaskQuery, TaskQueryExecutor) + rest
+  can query all applications with global context
+    ivy.case
+	ivy.task
+	ivy.wf
+	ivy.session
+  category (start process config) ???
+  task state
+    1:  start process: create task (task 1), case (alway same) (not persist yet)
+	-> end: task, case done, nothing is persisted
+	2: start process: create task (task 1), case (alway same) (not persist yet)
+	-> meet task switch -> -> create new task (task 2)
+	-> persist task 1 (done), task 2 (suspended) and case (can find by query) 
+	3: start process: create task (task 1), case (alway same) (not persist yet)
+	-> meet user dialog -> wait until session timeout 
+	-> task 1, case become ZOOMBIE
+	4: task switch with join tasks, task 1 den task switch -> waiting for join -> join.
+	5: user task = task switch + user dialog
+	user task with signal boundary event
+	start process: create task (task 1), case (alway same) (not persist yet)
+	-> meet user task 
+	-> create task 2, task 1 done -> persist
+	-> neu ko co signal thi binh thuong
+	-> neu co signal -> destroy task 2.
+  
+  task switch event: an AND gateway
+    van de with override business data multiple tasks
+  task event
+	
+  
+  offline task: for mobile devide without connection to Ivy Engine (later)  
+	
+
+data Storage: 
+	
+  
+business case: big case, trong do multiple processes share data (business case data)   
+Business Data: repo to share data between mutiple proces in the same Business Case, class with @BusinessCaseDat
+analytics: KPIs evaluate using Kibana
+
+
+role
+  child has parent's permision
+  member roles?
+  role hierachy of mulitple projects (if same role -> same hierachy): deploy fail
+  test user (only used in Designer)/user on engine need to be created in engine (how?)
+  
+  
+  
+portal
+  suggest architecture
+  widgets
+  implicit html dialog object(data, logic)
+  built in widgets
+  predefined style
+  develop widget for portal flow
+  widget configuration
+  customize css with Less fw
+  
+  
+  
+ivy script
+  control flow
+  no null pointer (access moi initialize, ko muon thi dung .#)
+  using "is initialized" instead of "==null"
+  content assist level
+  casting
+  
+override: for generic project (for multiple customer)
+  case scope
+  
+    
+  
+  
+customization
+  built-in templates
+  display/hide widget
+  customize/add new widget
+  font, styles, login page
+  left menu (LoadSubMenuItems)
+  change portal page url(settings)
+  task widget
+    ui: PortalTasksTemplate, copy PortalTask(default implementation) and change this
+	task query
+	task delegate
+  override endpage/navigate back page (where start a task)
+  
+  
+Error handling
+  technical vs business error
+  caught
+    error start: error in same process or inside sub process
+	error boundary: error from attach activity
+    empty error code caught all error
+	error catching order (just catch 1 time)4
+	ivy:error:loop
+  throw
+    exception in script/java (BpmError.create)
+    error end (e.g. out of stock): cautch by upper level process
+    throw ma ko co cai nao catch => exception
+  ivy:error:script (auto throw from ivy script/java)
+  
+    
+datastorage - override ability
+  + cms (ivy.co)
+  + file system
+  + web content
+  + user dialog resources
+  + external db with DBStep - not change IWA_ in SystemDB
+  + external db with jpa (Entity class) (api ivy.persistence)
+  + web service
+  + global variable (api: ivy.var)
+  + custom properties (api: ivy.wf.getApplication().customProperties())
+  + user properties (IUser)
+  
+ 
+data modeling
+  + global data class (normal)
+  + user dialog data class
+  + web serivce dc
+  + entity dc (same as normal, with additional attrs)
+  
+  Says, process(es) data can be stored in many ways: jpa (with/without ivy entity class), dbstep, business data.
+  Business data: data store in ivy.repo (when business process(es) run)
+    save object but just store the id of the object in process data => get by Id (because when pass through a task switch => reset, if used businesscasedata => not need)
+	define by normal Data class
+	add/set field dynamic (store in json)
+	id generated in the first time store
+	thong thuong, khi dung business data in nhieu processes => need identifier de get khi qua 1 process khac => co the dung BusinessCaseData
+	optimistic locking - nhieu participant working on the same business case data (later)
+	customization
+  persistent: keep info when go through a task switch (if using business data repo thi ko can cai nay nua)
+  say, business data vs dbstep vs jpa store
+
+
+User dialog
+  interact with user
+  html dialog or rich dialog
+  MVC
+    model: data class (src_dataClasses)
+	view
+	controller: logic (handle business, event)
+  interface: define what a dialog can do
+    start method: entry point the the dialog (in a process), each with own param/output
+    method: uses in view logic.method (methodStart element in pallete)
+  user dialog flow: 
+    process run => gap user dialog => run start method => display user => user interact => run [other methods in logic] => close: run     close/submit method in logic
+  validation using Annotation (JRS303)
+  
+  
+
+  
+next
+  dataclass vs html dialog data
+  read demo projects  
+  
+
+remain
+  override
+  components
+  multi portals (settings)
+  callable sub vs sub
+  process end page
+  ivy.repo
+  casemap api
+  navigate (map)  
+  when use each element in Desinger pallete?
+  sub process vs callable sub process (own data)
+  trigger vs signal
+  process data vs dialog data
+  Case and task category?
+  Custom fields usage?
+  data class luu o dau?
+  moi lan restart engine la mat het ivy tasks?
+  user task vs task switch vs task
+  result object?
+
+
+
+
+	
+	
+
+   

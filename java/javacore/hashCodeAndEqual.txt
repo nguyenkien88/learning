@@ -1,0 +1,6 @@
+hashCode: thuong jmv get heap address
+in Set, when put an object, it compare hashCode
+  if not same => different
+  if same => check equals()
+    if same => same
+	if not => different

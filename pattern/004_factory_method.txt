@@ -1,0 +1,12 @@
+creational group
+when? see if/else when create object in caller method (thuc chat cung chi la move xuong other class)
+
+ex: 
+create Transaction Wizard Handler (TransactionWizardBean)
+TransactionWizardHandlerFactory.createTransactionWizardHandler(fProject, transaction);
+based on transaction type => create (return) right handler
+//caller doesn't know how the handler is created
+
+move logic that responsible for creating object base on condition ra class chuyên dụng
+=> encapsulate what varies
+=> sau nay change code thi change 1 cho nay

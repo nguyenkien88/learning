@@ -1,0 +1,36 @@
+how to write robust sofware?  
+exception flow
+
+checked vs unchecked
+  checked: not under control (ex: FileNotFoundException)
+  unchecked: under control (ex: NullPointerException)  
+  minimize unchecked exception, why shouldn't catch? read effective java
+
+Here are couple of rules when it comes to exceptions & method overriding.
+  Rule 1: If the super class method does not declare an exception, then the overriding method in the subclass cannot declare a checked exception, but can declare an unchecked exception.
+  Rule 2: 
+  (a) If the super class method declares a checked exception, then the overriding method in the subclass can declare same exception or a subclass exception or no exception at all, but cannot declare parent exception.
+  (b) If the super class method declares an unchecked exception, then the overriding method can declare any unchecked exception or no exception at all, but cannot declare a checked exception.
+  
+finally block always run? false, system.exit() or jvm error
+
+convention: do not extends Error class, it for JVM
+
+try with resource => resource variable is auto final
+  multiple resource in try: resources auto close in reverse order
+  khac voi try binh thuong, try with resource do not require at least catch/finally
+  AutoClosable
+  Suppressed  exeption
+  compile thuc te se thay try with resource bang finally
+  
+best practices
+  do not ignore (do not used empty catch block)
+  capture exception info and log for easier debugging
+  exception should have fileds to represent the info => when catch dev can custom info
+  exception translation vs exception chaning
+    translation: throw exception appropriate to the abstraction, prevent throw lower level exception to higher abtraction layer
+    chaning: co the can detail => wrap the cause in higer lever exception: throw new XXXException(message, ex), ex.getCause(), ex.initCause()
+  only use exception for exception condition, not used for control the logic flow
+  should always check parameter validity - throw uncheck
+    
+	

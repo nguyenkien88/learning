@@ -1,0 +1,2 @@
+Everything should be in correct layer
+  e.g. in rest: do not prepare Response in Service layer

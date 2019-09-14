@@ -1,0 +1,60 @@
+Advantages
+  compile time checking type
+  eliminate casting
+  implement generic algorithm (type parameter)
+  
+When use generic?  
+  
+java auto change T to specific type when compile  
+  
+Apply generic
+  Generic type level 
+    using type parameter(s) (T)
+      class Box<T> {}
+      multiple type params: class Cocktail<J, W>
+    Type param naming convention
+      T: type
+  	  E: element (in a collection)
+  	  ...
+    Raw type
+    Say, parameterized a generic type => Box<String> stringBox;
+
+  Generic method level (do not need inside generic class)
+    have own type parameter
+	type inference: auto infer type of argument/return type when using a generic method, most specific
+	  truong hop chi co 1: test(T t) => test("abc") => infered T is String
+	  truong hopw 2: test (T t1, T t2) => test ("abc", 10) => 
+  
+Inheritance in generic
+  inheritance rule
+    assign rule
+	parameter rule
+  List<Number> => can add int, double...
+  Integer is a Number but List<Integer> is not a subtype of List <Number>
+  List<Integer> is a subtype of Collection<Integer>
+  List<Integer> is a subtype of Collection<? extends Number>
+
+Wildcard
+  abc(List<Animal> animals): just only pass List(or ArrayList...) of Animal, not Dog...
+  => List<?> (unbounded wildcard) is super type of all kind of List: just loop through, not manipulate the list
+  => wildcard with extends (upper bounded wildcard): abc(List<? extends Animal> animals)
+	 or public <T extends Animal> test (List<T> list){} //inside the body, co the dung method from Animal e.g. run()...
+	 => just get the Animal, e.g. can not get Dog because element can be a Cat...
+	 => can not add to the list, because compiler does not know wheather list.add(aDog) or list.add(aCat)
+  => wildcard with super (lower bounded wildcard)
+    List<? super T> : all List is super type of T is accept
+	but add only when make sure type is Number
+  conclusion: extends => read from, super => write to, read and write => no wildcard (specific type) 
+	  
+	  
+generics with interface
+  	  
+	  
+typical implementation should use generic
+  holder (like collection)
+    
+  
+remain:
+  read List, ArrayList code  
+  
+  

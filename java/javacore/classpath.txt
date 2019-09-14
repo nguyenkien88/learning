@@ -1,0 +1,24 @@
+classpath: where compiler(javac)/jre(java) find .class file when compile/runtime
+  javac with -classpath option: explicitly set where to search .class files (refer by other file)
+    mac dinh compiler/jre search in same directory of the compile file  (and append package level of refered file)
+  jre/compiler can look for independent .class file or .class file in a jar file
+  when add lib to build path (eclipse) => add entry to .classpath file
+  when compile file A that refer to file B -> neu B chua compile thi duoc compile luon
+  (http://www.kevinboone.net/classpath.html)
+
+  
+java build path eclipse config
+  specify dependency required to compile the project (from other projects, jar, folder contains .class files)
+  Source folder: 
+    contains .java file that will be compile to output folder (classes), thuong la code + test
+	config resources (properties, images...) as source folder => duoc copy ra output folder, should added as regular folder (not src folder)
+	can config with wildcard
+  nen de scr and test ra 2 project khac nhau, vi can dependency khac nhau
+  Project
+    class inside required project can be refer (content assist and compile) from the owner project (axon ivy handle using maven)
+  Order/Export
+    truong hop owner used old library A, depended project uses new library A => order depended project over old lib to get new feature (can can dung old feature somewhere else)
+    export: A contains lib B, A1 requires A, also needs lib B => A export B (cach khac la A add lib B by it own)	
+	
+.classpath file: define configuration for java class path: src folder/output folder/lib...
+  when convert to Maven project => these info will change.

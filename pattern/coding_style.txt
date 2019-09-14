@@ -1,0 +1,7 @@
+if-else: https://dev.to/dechamp/clean-up-your-code-with-these-tips-4p5f?fbclid=IwAR1ZXdIrqYQ9EhiggQzd2WDOvM_hA9iBTp5EY7MmA6rJKhgHmU7ua1-uAgE
+  initialize var to avoid nested if/else (domain var)
+  2 or more condisions in if condition => var
+
+  
+  
+  

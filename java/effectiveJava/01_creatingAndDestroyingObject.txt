@@ -1,0 +1,22 @@
+Consider static factory methods instead of constructor (e.g. Boolean.valueOf())
+  Advantages
+    factory methods have name => clear, think about class with 2 or more constructors => confuse
+	Do not required create object moi lan call (e.g. Boolean.valueOf()) => performance
+	
+Consider builder when constructor have many parameter
+  telescope constructor => kho doc, dễ nhầm
+  setter => not atomic construction => inconsistence state
+  => using builder (fluent api)
+    normal
+	with class hierachy (later)
+	
+Singleton with
+  public field, private constructor
+  private field, private constructor, public getInstance()
+    think about Serialization
+  Single element enum  
+	
+Non instantiability utitlity classes?
+  using abstract? no, because subclass can be instantialize. abstract should be for inheritance
+  => shoule use private constructor (and final class to signle not to inheritance)
+
