@@ -1,0 +1,2 @@
+tracking pages traffic (individual page)
+intergrate by adding javasctipt to the page
