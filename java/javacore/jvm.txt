@@ -1,0 +1,15 @@
+jvm
+  jmv core responsibility
+    + loading/interpret byte code
+    + memory management
+  jvm specification
+  jvm implementation
+  jvm instance
+  why not run code directly from source: because of performance
+  just in time compilation
+
+  life cycle of a type (when it is accessed - new, access static method/field, sub calss is loaded, run from command line, reflection)
+    loading (Class object with metadata info)
+	linking: allocate space for static variables (default value), link to references
+	initialization
+  

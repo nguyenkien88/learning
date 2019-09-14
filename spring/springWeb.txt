@@ -1,0 +1,51 @@
+Request life cycle
+  front controller (DispatcherSevrlet)
+  Controller
+  handler mapping
+  model and view name (logical name)
+  ViewResolver (map to real view implementation)
+  
+Web context (DispatcherSevrlet application context - handler mapping, controller, view resolver) 
+  vs application context (ContextLoaderListener - other beans: data, service) 
+  component scan config
+  view resolver config
+  static resources config
+  
+Controller
+  @Controller => bean for application context
+  @RequestMapping: class level and method level
+  using Model and Map for ui model
+  pass data to controller
+    query param: @RequestParam
+	path param: {spitteId} and @PathVariable
+	form param: 
+	handle form
+      action
+      redirect vs forward
+      validating with Java Validation API (Hibernate Validator implementation): @Valid
+        built in
+	    custom
+
+redering web view
+  controller method ---- logical name view --- view implementation
+  ViewResolver: resolve logical view name
+  View: take the model, response to build the actual content
+  13 built in view resolver implementation
+    InternalResourceViewResolver
+	Tiles/FreeMarker/VelocityViewResolver
+  Tiles
+  Themeleaf
+	
+customize DispatcherSevrlet configuration
+register additional servlet, filter, listener
+processing multipart form data, request is hanled with @RequestPart byte[] data
+Handling exception
+  map exception to status code
+    auto for some specific, others will mapped to 500
+	@ResponseStatus
+  writing exception handling method with @ExceptionHandler (same controller)
+  @ControllerAdvise: handle exceptions from all controller - tap trung lai 1 cho
+  
+    
+	
+  

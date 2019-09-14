@@ -1,0 +1,19 @@
+Background
+  epoch: from Jan 1, 1970 midnight UTC
+  a time can be represented by a number on the timeline with the origin is epoch
+  Java 8 api follow iso 8601
+
+Legacy (before java 8)
+  Date
+  Calendar
+  GregorianCalendar
+  TimeZone
+  mutable => not thread safe
+
+From java 8
+  LocalDate
+  LocalTime
+  LocalDateTime
+  ZonedDateTime
+  Instant
+ 

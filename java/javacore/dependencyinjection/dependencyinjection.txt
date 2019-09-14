@@ -1,0 +1,16 @@
+concept: https://www.youtube.com/watch?v=GB8k2-Egfv0
+  co ban: class A using class B (and other class similar to B), but A doesn't depend directly on B but on an inteface of B,
+  (not depend directly on instance of class B)
+  the real B instance will be injected to A by other piece of code (run time).
+  class A doesn't initialize class B directly
+
+how? with guice or spring
+guice
+  static binding (1 implementation)
+    bind using Guice Module (winner if using both)
+    @ImplementedBy
+  dynamic binding (conditional/run time) with provider: https://www.youtube.com/watch?v=3uAR5sFgh2A&t=19s
+  
+spring
+  
+    

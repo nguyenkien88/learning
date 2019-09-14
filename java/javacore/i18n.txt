@@ -1,0 +1,23 @@
+overview
+  i18n = internationalization (vs localization = L10n)
+  language, number/datetime format
+  handle input/output base on user location
+  or even logic: tax, law...
+  consider neccessary info for localization
+    preferred language
+	country
+	current location
+	time zone
+	http://tutorials.jenkov.com/java-internationalization/overview.html
+  internationalization API: java built-in (Locale, ResourceBundle, Number/DateTime/xxxFormat), ICU4J, hybris I18nService
+  Locale instance: is passed to other operation to do some stuff (as meta info), not act the convert itself
+    Locale.US
+	new Locale("us")
+  convention for localization
+    xxx.properties
+    xxx_en.properties
+    xxx_de.properties
+  ResourceBundle
+    from properties file
+    from class file (extends java.util.ListResourceBundle)	
+    

@@ -1,0 +1,63 @@
+Document: https://docs.google.com/
+=> primefaces cookbook
+
++ life cycle 
+  problem: validation 3 time slots in demo2 (maintenance service)
+  => ajax with process @this
+  problem: ajax not work when validation failed before
+  - ajax default process @this (still validation failed)
+  - renderer will get the value from the tree component if it changed (compare to model)
+  resetValues: 
+    dung trong truong hop validation failed
+    => render element with value from model
+    xay ra truoc render response
+	https://jsflive.wordpress.com/2013/06/20/jsf-22-reset-values/
+	tom lai: in case value of element change when Apply Request => resetValues reset (make the element in tree uninitialized, render theo model value) specified element (in update/render attribute) before render.
+  https://mobiarch.wordpress.com/2012/10/10/jsf-page-rendering-after-validation-failure/
+  
++ ajax 
+  p:ajax process attribute => only do the jsf life cycle for specific element (and its children) (use case: partial validation, tang performance)
+  => nen dung process for ajax request (van submit ca form nhung chi process specific elements)
+  Component    | Submit          | Refresh
+  ------------ | --------------- | --------------
+  f:ajax       | execute="@this" | render="@none"
+  p:ajax       | process="@this" | update="@none"
+  p:commandXXX | process="@form" | update="@none"
+  
++ partialSubmit (p:ajax, p:commandButton)
+  chi submit mot phan cua form (tang performance)
+  di kem chung voi process="xxx" (neu ko co dung process default)
+  process cai nao thi partialSubmit effect cai do
+  => nen dung partialSubmit && process cho ajax request
+
++ immediate=true (all ui elements)
+  Apply request => invocation luon (bo qua validation)
+   
++ remoteCommand
+  call bean methods using javascript
+  map: thuong dung de update view (why not update direct?? ngoai form??)
+
++ update element nao, element do phai co id  
+  
++ facelet
+  phan biet: 
+    template: normal xhtml (with ui:insert)
+	ui:composition without template: work as a group of elements (outside composition will be removed), will be inserted somewhere (ui:include)
+	ui:composition with template: load template, override the content of template with ui:define
+	thuc chat, ben ko can define gi ben ngoai ui:composition (bi removed) nhung thuong them namespace and <body>
+	composite component (interface/implementation): component with params
+	pattern: https://www.mkyong.com/jsf2/jsf-2-templating-with-facelets-example/
+    ui:decorate without template: same as ui:composition nhung ko removed elements outside the tag
+	ui:decorate with template:
+  
++ dataTable: value=#{} var=#{} => model value
+  panelGrid: layout  
+  
++ facet??
++ ui:fragment, decorate??
++ composite component
++ ui:param
+
+
+
+

@@ -1,0 +1,60 @@
+client: all using http/https
+  web
+	ria (run on jvm)
+tomcat (http/https)
+
+standard vs cluster engine (same system db)
+  load balancer
+	nodes
+
+	
+Installed folder
+  configuration -> restart
+	  ngoai demo, chi 1 license duoc su dung
+	  license: upload/copy
+	bin
+  lib
+  log
+  deployed apps
+  temp
+  ...	
+	
+configuration
+  license upload
+  system database
+    config to connect to local db (AxonIvySystemDatabase)
+    add admin user for the db (admin can add/remove users, add/change role, deploy projects...)
+	deploy projects (*.iar)
+	tomcat
+	  session timeout
+		security headers
+		error page: can show details for end users
+		ErrorPageMBean
+		
+
+control center
+  start/stop engine
+	register as windows service
+	add dependency services
+	
+
+Admin UI
+  moi app la hoan toan doc lap (user/db...)
+  Create new
+  Process Model Version
+	Deployment
+	  Increase version
+	  Global variable
+		External db: auto add in deployment (from config)
+		Soap/Rest
+		export/import environemnt rules
+    user
+		sys properties
+		logging
+		performance
+		
+		
+	
+	
+	
+

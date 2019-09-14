@@ -1,0 +1,21 @@
+think as an distributed database
+say, blockchain implementations e.g. etherium
+
+a block
+  index
+  timestamp
+  data
+  previousHash
+  hash
+
+genesis block
+
+validation
+  temper
+  proof of work: make the Block creating (mining block) harder - using nonce (change the value of data to change hash util meet condition)
+
+mining reward
+
+
+  
+  

@@ -1,0 +1,12 @@
+moi class nen talk directly only closed friends
+e.g.
+class A {
+  
+  methodA() {
+    //do not do this
+	//should expose a method in B
+	//this.getB().doSt() - this will handle calling C
+    this.getB().getC().doSt() 
+  }
+
+}

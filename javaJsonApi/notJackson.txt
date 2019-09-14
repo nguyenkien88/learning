@@ -1,0 +1,49 @@
+jsr 353
+Jackson vs Gson vs...
+3 projects in jackson
+  core
+  annotation
+  databind
+
+use setter/getter
+  
+Deserialize object from Json
+  input source
+    string
+    reader
+    file
+    url
+    inputstream
+  configure mapper
+  read to java map (with TypeReference, when don't know json structure)
+  custom deserializer
+    extends StDeserializer
+	create module -> add Deserializer to module
+	register module to mapper
+ 
+Serialize object to Json
+  writeValue to file/string/bytes
+  custom serializer
+  
+Date format: long vs formatted
+Jackson build-it tree model: JsonNode
+  dung as normal java class
+  when dont want map to your own java class/don't know exactly json structure
+
+Json Parser: lower level than ObjectMapper
+Json Generator
+
+Annotation: custom how jackson read/write
+  read&write
+    @JsonIgnore
+	@JsonIgnoreProperties
+	@JsonIgnoreType: ignore everywhere the class is used
+	@JsonGetter/Setter: write/read (same function with @JsonProperty - both write/read => ko can setter/getter van chay)
+  read
+    @JsonProperty: use on field/getter/setter/constructor
+	@JsonCreator: use with @JsonProperty in constructor when the class do not have setter (immutable)
+	@JsonInject: inject value to object (not comming from json data)
+  write
+    @JsonInclude: ex: @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonRawValue
+

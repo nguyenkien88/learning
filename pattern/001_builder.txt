@@ -1,0 +1,45 @@
+creational group
+
+problem
+  initialize object with constructor arguments => too many args => un-readable
+  using many setters => verbose
+  
+when used?
+  constructor with many arguments
+  call setter many times
+  
+pattern: 
+  BankAccountBuilder.createBankAccount.hasAccountNumber()...
+  hold private BankAccount
+  has private constructor
+  has static method to get the builder it self
+  has buil/get method to the actual BankAccount
+  
+  public class GirlBuilder {
+    
+    private Girl girl = new Girl();
+    
+    private GirlBuilder() {
+    }
+    
+    public static GirlBuilder createGirl() {
+      return new GirlBuilder();
+    }
+    
+    public Girl get() {
+      return girl;
+    }
+    
+    public GirlBuilder hasName(String name) {
+      girl.setName(name);
+      return this;
+    }
+    
+    public GirlBuilder hasAge(int age) {
+      girl.setAge(age);
+      return this;
+    }
+    
+  }
+
+  

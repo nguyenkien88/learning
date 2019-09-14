@@ -1,0 +1,52 @@
+how JMockit does the mock?
+  modify bytecode to change behavior
+
+flow
+  prepare (record mocked and other data)
+  run code under test (actual call to mock method => replay)
+  verification
+
+mock types and instances (interface/class/enum/annotation)
+  class fields: when used in other test
+  method parameters
+  
+Expectation vs NonStrictExpectation: with Expectation (strict), test fail if
+  the mocked method not replayed
+  more than one call with same parameter value
+  there is another call
+  Expectation syntax
+    annonymous block (inside class definition): used to initialize data member, run when the instance is created, after super().
+    annonymous when new(): run after constructor
+  
+
+Verification
+  check the call is made? how many times?	
+  
+Expectation vs MockUp: 
+  Mocking (thuong dung khi mock in specific test case)
+  vs Faking - redifined class (thuong duoc use like infrastructure, for nhieu test - ivy Environment)
+  
+Mocking
+  create mock object: @Capturing, @Injectable, @Mocked
+  specify class under test: @Tested
+  mock default constructor/mock constructor with argument: MockUp, @Mock, $init, $init(argument)
+  mock static block: MockUp, @Mock, $clinit
+  mock public method
+    with Expectation (behavior testing)
+	can define mock object inside (auto mocked) or outside the method (@Mocked)
+	MockUp
+  mock Exeption: normal result = expected exception
+  mock private method
+    Expections with Deencapsulation
+	MockUp
+  mock static method 
+   
+returns vs result: same  
+  in case call nhieu lan test method ma muon return nhieu consecutive result => use returns(result1, result2)
+
+
+Expectation vs MockUp
+@Capturing, @Injectable, @Mocked, @Tested
+partial mock
+more about Expectation, Verification
+reference: http://abhinandanmk.blogspot.com/2012/06/jmockit-tutoriallearn-it-today-with.html

@@ -1,0 +1,168 @@
+overview
+  build management platform
+  build deployable artifact: preprocessing, compilation, packaging, testing, and distribution + run report, generate website
+  heap size: -Xms, -Xmx, -XX:MaxPermSize
+  monitoring maven build with JVisualVM
+  remote debugging during the build (later)
+  convention over configuration (can override) (mvn help:effective-pom)
+  logging error: -X
+  build dependency: 
+    mvn dependency:tree
+    mvn dependency:build-classpath (depend on which artifact)
+	mvn dependency:resolve
+  view system properties (maven run on): mvn help system
+  write output to file: --log-file log.txt
+  plugins: add behavior to build process (maven Sufire: run test) - universal reused (with maven central repo)
+  maven vs ant
+    ant says how to do like a procedure, step by step, does not have life cycle
+	maven has convention, life cycle
+	maven has Ant plugin: can be execute Ant script in maven project life cycle
+  maven project is created with archetype plugin (mvn archetype:generate)
+  maven core: just knows how to parse command line, classpath, parse POM file, download plugins..., con lai la do functions of plugins (compiler, jar...)
+  mvn help:describe -Dplugin=exec -Dfull
+  testFailureIgnore true
+  maven architecture based on IoC (Plexus implementation)
+
+  
+pom.xml
+  describe project
+  declare dependency
+  configure plugins
+  parent and child pom
+  inheritance
+  super POM (default configuration)
+    maven repository
+	plugins repository
+	build
+	reporting
+	profile
+	override/extend configuration (identify with artifactId)
+  1 maven artifact is identify (all repo) by project cordinate(groupid, artifactid, version) => path in .m2 repo, except for plugins (have default groupId)
+
+
+multiple modules project  
+  multiple levels modules (child just refer to direct parent)
+  packaging: pom
+  sub modules (dir name)
+  ordering sub modules with Maven Reactor
+  clean install -> apply for each module in ordering	
+
+  
+dependency
+  scope: visibility of a dependency
+  scope: junit, scope test => neu ko run test, ko can down junit.jar
+  maven resolve duoc dependency multi level vi ngoai download jar file, maven con download pom file of that artifact (dependency transitive)
+  can configure to bundle dependency of the artifact
+  provided scope???
+
+  
+site generation and reporting
+  generate site: mvn:site
+  and customize report: Clover, JXR, PMD...
+  
+
+plugin
+  under <build>
+  may cai plugin thuoc ve lifecycle co trong super POM, ko can khai bao, tru khi can su dung specific version
+  add more repository with <repositories>
+  assembly plugin: jar-with-dependencies
+  ngoai run plugin goal truc tiep con co the attach a goal to maven lifycycle phase
+	 <artifactId>maven-clean-plugin</artifactId>
+	 <version>2.5</version>
+	 <executions>
+	   <execution>
+	    <id>auto-clean</id>
+	    <phase>initialize</phase>
+	    <goals>
+	      <goal>clean</goal> //attch clean goal of clean plugin to initialize phase
+	    </goals>
+	   </execution>
+	 </executions>
+  
+  clean plugin
+  compiler plugin (default using current java version on the machine)
+    source 1.8: compile with jvm 1.8
+	target 1.8: target compatible with jre 1.8
+  install plugin (local) -> 
+  deploy (remote repo - distributionManagement, authen config <server> element in setting.xml), protocal scp
+  surefire not coupled with junit, also other unit test framework
+  site plugin
+  jar plugin (bound to package phase) - self execution jar-with-dependencies
+  source plugin (not in super pom)
+  resources plugin: copy resources/test resources of project
+  release plugin
+  do not use groupId -> default: org.apache.maven.plugins, org.codehaus.mojo
+  pluginManagement: define in parent. children inherit, co the overrride
+  pluginRepositories: ngoai default repo, co the add repo for plugins
+  plugin as extension (true): plugin that customize life cycle, new package type
+  maven and DI
+  
+  develop custom plugin (later)
+
+
+configuration (high level - later)
+  levels
+    global: home/conf/settings.xml
+	user: .m2/settings.xml
+	project: pom.xml
+  wagon plugin
+    transfer file from local to remote repo: support many kinds of protocal
+    
+  
+life cycle
+  bound plugin goals to phase
+  execute phase thuc chat la goi cac goal in plugins theo thu tu (compile, testCompile, test....)
+  when execute goal -> go to pom file to get info (jar name, compile goal...). Says, goals execute in the context of a POM.
+  SNAPSHOT: before release, under development
+  3 standard lifecycle types
+    clean
+	  mvn clean -> thuc hien clean lifecycle (default is call clean goal of clean plugin)
+	  3 phases: pre, clean, post
+	  other phase can be configured tuy muc dich
+    defaull
+	  23 phases
+	  mvn clean install: default lc from clean phase up to install phase
+	  the goal biding to each phase depends on type of packaging (jar, war, pom)
+	site
+	  4 phases
+  phas with pre-*, post-*, or process-* thuong ko goi truc tiep, used to produce intermediate result in a phase
+    ex: prepare Tomcat server/Docker for the intergraton test => phase: pre-intergration test
+  building custom lifecycle: for example, package phase for new packagetype (e.g. iar)
+    alter exsiting lifecycle: change components.xml (plexus): <role-hint>iar</role-hint>, <id>default</id>, <package>axonivy plugin:package</package>
+	=> for default lifecycle with hint (packaging type) iar => use axonivy plugin:package for package phase
+    create new life cycle (later)
+  life cycle extentions: customize build behavior (later)
+  
+
+repository management
+  remote default: http://repo1.maven.org/maven2
+  add them custom repo voi nhung lib ko public
+  maven first looks at local repo (.m2)
+  offline build (-o)
+  local repo
+  remote repo: 3 types, contains different type of artifact
+    release repo: for release artifacts - fix (GAV cordinate, version is number) - same for all the time
+	snapshot repo: for snapshot artifacts - version-SNAPSHOT: can change over time (in development)
+	plugin repo: for release plugins artifacts - repo of plugins (can be release or SNAPSHOT)
+  where repo defined: super POM, parent, it self
+  maven will not download from repo if existing in local? based on: <updatePolicy>
+    never: for release
+	always, daily, interval
+  mutiple repos: 
+    set directly in project pom => aggregate with super, parents to effective pom
+	can define in user settings.xml
+  repos manager
+    cache artifacts: using proxy to cache artifact downloaded form remote (other devs do not need go to remote)
+    act as snapshot repo: team1 generates some artifacts that team2 depends on => need a public repo (using Nexus, Archiva, Artifactory)
+	Nexus (later)
+  repo metadata: in group dir, artifact dir, version dir
+    for snapshot: khi config updatePolicy e.g. daily => check metadata to find if different (timestamp)
+	
+    
+profile
+  
+    
+	
+    
+
+

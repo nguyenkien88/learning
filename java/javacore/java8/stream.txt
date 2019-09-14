@@ -1,0 +1,80 @@
+Stream? 
+  a sequence of elements from a source (collections, arrays, io resources...)
+  pipeline: chaining streams
+  
+manipulate collections in declarative way, and can be executed in parallel
+collections vs streams
+  collection is about storing data, stream is about processing data
+  ??
+  consume stream only once
+  external iteration vs internal iteration (potential to internal parallel and auto optimize by the library)
+    
+stream operations
+  intermidiate operations (filter, map, limit...) return other stream => stream pipeline (do not consume stream)
+    lazy until meet termial operation, co the xem la merge all intermidiate before pass to terminal,
+	hoac co the hieu la moi element se duoc process lien tuc qua cac operations
+	note: limit(10) => just process until 10 elements match, others are not processed at all => cool
+  terminal operations (forEach, collect...): return non stream/consume a stream
+  filter()
+  distinct()
+  limit() - short-circuiting
+  skip()
+  map()
+  flatMap(): Stream<Integer[]> --- flatMap --- => Replace each value (each array) with a stream (=>Stream<Stream<Integer>>) and concatnate generated streams into a single stream.
+  tom lai: khi nao map return Stream<Stream<T>> => dung flatMap de flatten inner Stream. think about Stream<Order> with items in each order
+  anyMatch()/allMatch()/noneMatch() (short-circuiting)
+  findAny() vs findFirst(): findAny() de duoc parallel hon
+  reduce(): reduce a stream to a value with/without intial value
+  staless vs stateful (bounded and unbouned - know about the history work) operation
+  Collectos.toList()/toSet()
+  min()
+  
+Numeric stream: avoid un-boxing, support some convenient methods for numeric type, button restrict in some methods for specific type
+  IntStream (mapToInt)
+  DoubleStream
+  LongStream
+  OptionalInt/Long/Double
+  range/rangeClosed
+  do the example
+  
+How to create a stream?
+  Stream.of(), Stream.empty()
+  Arrays.stream()
+  io resources
+  Stream.iterrate(UnaryOperator) - lambda apply cho cac phan tu moi duoc generated
+  Stream.generate(Supplier)
+  
+Collecting data with stream
+  terms
+    accumulator function: funtion that take 2 params, the result until current element and the current element and produce new result: e.g. reduce(0, (a,b) -> a+b): here the accumulator has type BinaryOperator
+  Collectors class: factory class to create Collector(interface) type
+  abc.stream().collect(aCollector); //aCollector do some job like: grouping, toList, couting..., can crete custom Collector
+  built-in collectors
+    reduce/summarize stream elements to single value
+	  counting()
+	  maxBy()/minBy()
+	  summingInt()/summingLong()/summingDouble()
+	  IntSummaryStatistics/LongSummaryStatistics/DoubleSummaryStatistics
+	  joing()
+	  reducing() (other Collectors are specific for the reduce)
+	  reduce() vs collect()
+	  there are many ways to get the result with streams, for: sum all value in list of transaction
+	    .map().reduce()
+		.mapToInt().sum()
+		.collect(reducing())
+    grouping
+	  groupBy()
+	  multi-level grouping
+	  collect info in a group: each group as independent stream -> do anything: e.g. groupBy(Transaction::getValue, counting())
+	  collectingAndThen: adapt type of return type of Collector (e.g. remove Optional)	
+      partitionBy(): grouping with classification is a Predicate (2 groups) 
+
+Custom collector      
+    
+  
+  
+  
+  
+    
+  
+    

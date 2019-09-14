@@ -1,0 +1,2 @@
+String.class/strOject.getClass()/Class.forName("java.lang.String");
+contains metadata about the class, dung nhieu in reflection

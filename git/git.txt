@@ -1,0 +1,117 @@
+origin is just an alias for remote repo (naming convention)
+Moi may deu luu snapshot cua toan bo code
+Da commit roi thi co the lay lai, chua commit thi can than
+
+Create repo (local/remote): git init
+  co the khoi tao repo o server -> clone ve local
+  hoac khoi tao o local -> push len server
+  create remote repo local
+    remote repo (local): git --bare init
+    local repo:
+      git init
+      git remote add origin F:/gitCentralRepo/
+    => push
+
+Recording change to (local) repo: add, commit
+
+View history: log - current branch
+
+Undo things
+  commit --amend: override commit
+  commit --amend -> push --force
+  reset: means reset staged/committed (local)
+    reverse git track (code giu nguyen)
+    git log -> get commit id
+    git reset [commit id]
+
+    reverse hard (git track + code)
+    git reset --hard [commit_id]
+    
+    git reset HEAD abc.txt
+  replace with HEAD/Discard: git checkout -- abc.txt
+  
+Working with remote
+  remote means remote repository
+  working with multiple remotes with same local repo??
+  showing all remotes name: git remote show
+  show all specific remote info (and map to local repo):
+    git remote show remoteName
+  add remote: git remote add remote-alias remote-url
+  
+  git fetch: fetch all branches from a remote(s)
+  (neu co new branch cung get ve)
+  chi download ve local, chua merge (chua anh huong den code cua minh)
+  
+  git pull: fetch (all branches) => merge (current branch)
+  
+  push to a remote branch
+  
+  rename: git remote rename ori new
+  remove: git remote remove ori
+  
+Tagging
+  tag: important point (release)
+  types
+    lightweight: just like a branch, pointer to spcific commit
+	annotated: save in db with many info
+	  git tag -a v1.0 -m "relsease 1.0"
+	  git show v1.0
+	tag later: quen tag tai 1 thoi diem trong qua khu => tag by checksum
+	push tag to remote
+	  git push not push tag to remote
+	  git push origin tagname
+	  git push --tags
+	check out tag
+
+
+Branching
+  when make a commit, git store an object that contains pointer to the snapshot of the content.
+  the object also contains the reference the its parent (normal: 1 parent, merge: 2 parents, init: 0)
+  git uses 3 ways merge: 2 branch and the common ancestor => snapshot => commit (merge commit)
+  master is just a branch like other (default)
+  branch moi: new pointer to the same commit of original branch
+  current branch: HEAD pointer
+  
+  git checkout: thuc chat la move HEAD
+  checkout: conflict (staged/uncommited) -> git ko cho switch -> stash
+  fast-forward: master in c1, hotfix in c2: merge hotfix to master => simply move master pointer "foward" to c2
+  merge commit: tu dong tao 1 commit de merge 2 branches (non fast-forward)
+  merge conflict: 2 branch modify same line in same file
+  => tu merge (tool) => stage (mark resolve) => commit
+  
+  git branch -v: last commit
+  delete branch that is not fully merged -> warning
+  git branch --merged/--no-merged: branches that merged/--no-merged to current branch
+  
+  Branching workflow
+  Say, merge feature to dev
+  Based on the levels of stability, merge to the branch with higher stability
+  remote-tracking branch: a branch on local, tracking remote branch (origin/master)
+  remote-tracking branch chi duoc update when fetch
+  push local branch to remote repo
+  git --config global credential.helper cache: cache password for some minutes (https) - use ssh de ko can nhap pass
+  tracking branch and upstream branch
+  connect local branch with remote branch: git branch -u remoteBranch
+  say, local branch tracking remote branch: git branch --v (compare to last fetch)
+  delete remote branch: git push origin --delete hotfix (just remote the pointer, easyly recover) - test merge
+  
+  Rebase (other way to integrate change in one branch to other, vs merge - same result with merge)
+  Say, rebase feature based on dev (xay lai feature dua tren dev)
+  take change on 1 branch => apply on other branch
+  ex: on testing: git rebase master:
+    save diff on testing (compare to common ancestor - like stash) => reset testing to common ancestor commit => apply changes
+	in master => apply saved change.
+  cleaner history vs merge (result is the same)
+  Says, rebase branch1 dua tren branch2 (apply branch2 to branch1): save change of branch1 to temp file -> apply change from branch2 -> apply change from temp file.
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

@@ -1,0 +1,188 @@
+Overview
+	The object oriented/relational impedence missmatch
+	Hibernate modules
+	Persitence Unit: configuration for 1 physical db, nhieu db -> nhieu PU
+		must in META-INF directory in the classpath
+	An Entity Manager: manages a persistence context and managed entities	
+	Persistence Context: set of managed entities
+	  actually execute entities in pc when call commit()
+	  when entities are managed?
+		  by pc when persist() for new object, 
+		  or query tu db for existing object	 
+  EntityManagerFactory is configured by Persistence Unit
+	Transient entity (not managed by pc)
+	JPQL
+	 Query vs TypedQuery
+	hibernate.cfg.xml (hibernate style config) vs persistence.xml (jpa style config): both are ok
+	maven: hibernate-entitymanager vs hibernate-core
+   
+   
+Mapping:
+  Field annotate 
+    public is not allowed for entity field access
+    getter/setter is ignored by provider when retrieve entity
+    @Column is optional (neu ko co lay cung ten field de map)
+  Getter mapping
+    public/protected
+  Mix
+  @Id
+  @Table: schema
+	Mapping simple/basic type directly (normal JDBC convert, when not match, provider may convert)
+	Fetch type
+	  lazy: moi dau load empty/null
+		ko nen dung lazy cho basic type (ko co loi gi), tru khi qua qua nhieu column hoac column type binary for example
+	Default for basic is eager
+	@Basic: explicitly for basic types (primitive, wrapper, Data, Time, BigDecimal, byte[], char[], child of Serializable)
+	LOB: large object
+	CLOB: character LOB (map to char[], Character[], String)
+	BLOB: Binary LOB (map to byte[], Byte[], Serializable type)
+	@Lob: 
+	Enummurated type: map to integer in db, ordinal
+	Problem with int-mapped enum type when insert new type in the middle
+	@Enummurated(EnumType.String)
+	@Temporal: TemporalType.Date, TemporalType.Date.Time...
+	Transient: 
+	  @Transient: for jpa vs transient (for serialization and jpa)	
+	  static and final fields also not consider by jpa 
+	Primary key: restrict to some type including Date, BigInteger, String...Float, Double (not recommend)
+	Id Generation: @GeneratedValue (later)
+	  Auto: Note - There a restriction if provider choose Table strategy - have to create table -> may be restrict from DBA...
+	  Table: 
+		
+  Relationships
+  Each entity has a role in a relationtionship
+	Undirectional and bidirectional (consider as two undirectional)
+	Say, when entity A need to know about entity B -> entity A has a member reference to entity B
+	source/reffering and target/reffered
+	Cardinality: how many entites exist on each side of a relationtionship
+	Each role has its own cardinality
+	Ordinality: whether an enity might not present
+	@JoinColumn: in the owner of the relationship
+	@ManyToOne: 
+	  Employee has to know about the working department, emp entity/table has the join column/foreign key of dept table 
+		-> Employee is the owner of the relationtionship
+	  db: Employee has a foreign key dept_id to Department
+		entity: @JoinColumn(name="dept_id") - fk column -> refer to primary key in target
+		if have no @JoinColumn/no name att -> nameAttribute_namePrimaryKey is the default
+	@OneToOne: in db, use unique constraint for foreign key
+	Bidirectional @OneToOne: Using @JoinColumn in the owner side, mappedBy attribute for other side.
+	@OneToMany: Thuong la bidirectional, the owning side is the many side (with @ManyToOne)
+	  mappedBy: targetEntity
+	  refer: https://vladmihalcea.com/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
+	@ManyToMany:
+	  db: Using join table
+	  @JoinTable: joinColumn, inverseJoinColumn
+		mappedBy (inverse fields) in the non-owner side (ko store reference to other table in db exept cascase all)
+		ONLY CHANGE ON THE OWNER SIDE EFFECT THE DATABASE.
+	Undirectional collection mappting (OneToMany, ManyToMany): not using mappedBy -> dung join table
+	Tom lai
+	  @ManyToOne: many is the owner
+	  @OneToMany co 2 cach join: 
+	    Using bidirectional with mappedBy and @ManyToOne on child
+		or undirectional using join table, only parent side
+	  best practice
+        use use bidirectional when mapping @OneToMany + add/remove method (remove from collection and set parent to null for children)	  
+	  @ManyToMany co 2 cach join: Using join table with/without mappedBy in the target
+	best practice: in bidirectional, always update 2 sides of an association.
+	Lazy relationship
+      Default single-valued is eager, default for collection is lazy (but con phu thuoc vao provider)
+	
+	Embedded Object - part of entity, do not have identity, just tach ra cho de quan ly
+    @Embedded: owner
+    @Embeddable
+	  Company and Employee has same Embedded type Address, what if different column name?
+	  @AttributeOverrides and @AttibuteOverride
+	
+Collection Mapping Additional (later)
+
+EntityManager
+  Types: defined lifecycle of PersistenceContext
+    Transaction Managed: In JavaEE (later)
+	    Transaction-Scoped: @PersistenceContext
+      Extended
+	  Application Managed: In Java SE and EE (khac nhau cach get EntityManagerFactory)
+	    Create from EntityManagerFactory with/without properties (new/override from persistence.xml)
+		  When created, already has a persistence context attached
+		  explicit close (in JavaEE is auto by container)
+	Transaction Management (later)
+	  Transaction defines when new, changed, removed entity is synchronized to db
+		2 types: resource-local and jta
+		JTA transaction management
+	  Choosing EntityManager
+		More about EntityManager scope and persistence context scope (later)
+		Roll back transaction, 2 things happedn
+		  DB transaction roll back
+			PersistenceContext is cleared (detach all entities, if pc is transaction-scoped -> is removed)
+		TransactionRequiredException: do some operators in transaction-scoped entitymanger without any transaction		
+	EntityManager operations
+    persist(newInstance) -> become managed, ignored if already managed
+		  persist() outside a transaction??
+		  pesist an existing entity -> exception
+		find()
+		  if call outside transaction-scoped entitymanager -> find o state detached
+		  getReference(): use when just want to use primary key of existing entity to make foreign key of other entity, do not to load all object => performance
+			han che dung, vi find() cung thuong duoc cache roi
+		remove():
+		  if removed entity is the target of foreign key of other table -> need to clear (set null) foreign key
+		cascading: say cascade across relationship
+		  persist: CascadeType.PERSIST means that pc will auto manage target entity when source entity is persited, dung nhieu
+			  neu source already persisted, target not -> when call persist lan nua, target duoc managed, source ko anh huong gi.
+		  remove: take care, make sense for onetoone and onetomany (not all), because the target co the tham gia vao      relationship khac hoac co the dung 1 minh resonably use when have the clear owner-ownee ralationship (e.g. Employee and Address/PhoneNumber, remove Employee, should remove Address)
+		clear(): make all entites detached
+    flush(): make change to db immediately (visible inside transaction)
+		  provider auto call flush before transaction commit
+			make changes visible to next operations of the same EntityManager instance.
+		  flush vs commit: flush must be in a transaction, neu co exception van rollback binh thuong.
+			flush changes only visible for current transaction, ko visible for other db clients (other transaction, or e.g. MySQL WorkBench)
+		  rule of flush: Ideally, during a flush all objects are pointed to by a managed entity will also be managed entities themselves.
+			If this is not the case, the next thing we need to be aware of is the PERSIST cascade setting. If the relationship has this
+			setting, target objects in the relationship will also be persisted, making them managed before the flush completes. If
+			the PERSIST cascade option is not set, an IllegalStateException exception will be thrown whenever the target of the
+			relationship is not managed, except in the special case related to one-to-one and many-to-one relationships that we
+			described previously (detached)
+			Dung khi muon co change trong db -> get new change len trong 1 transaction
+		detach(): detached means no longer associated with pc (when commit ko to db, but can use by runtime app).
+		  how to detach an entity:
+			  transaction-scoped pc committed
+				application-scoped pc close
+				clear() entity manager: detach all
+				detach(): specific entity - respect to CascadeType even for newly/removed entity
+				transaction rollback
+				serialized entity???
+			detach and lazy load: accessing unload attribute when owner entity is detached is not defined in specification - take care
+			  how to deal?
+				  trigger lazy load (by callding get method) - emp.getDeparment() -> getName() (call getName to make sure fetch from db);
+					use eager load: default for collection mapping is lazy (ManyToOne is not), other is eager
+					avoid detach: see later
+					
+			more about about detach():
+		merge(): make a detached come back to pc, detach -> change -> merge: changes will override exist attributes in pc.
+		  the entity return by merge() is not the old: is the new or existing in pc before (with update info)
+			merge in new entity: similar to persist but also with the copied entity
+			what if merging entity has reference to new entity? removed entity?
+			how about lazing loading with merge?
+			example page 150
+			want: merge the object then all the reference from that object will be merge too: cascade MERGE to all relationship in the graph/explicit call merge to all ralationship - wth
+			
+
+JPQL (vs Criteria API) - doc nhanh, su dung chua specific implementation (Hibernate)
+  similar sql but using entity object
+	tiện hơn: select trực tiếp from property, đỡ join
+	
+Version field
+primary key
+  auto generated or explicitly set
+  composite private key
+    
+	
+	 
+	 
+next: doc tiep @OneToMany + try set event.setEventSet(null)	 
+		
+			
+			
+question		
+  what happen if mapping wrong: @OneToOne instead of @ManyToOne => save ok but when get may be more than one row match error
+  do not set on the owner side => save: not effect
+  why mysql save null for foreign key collection (event_set_id in event)??
+  
