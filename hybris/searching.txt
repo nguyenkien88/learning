@@ -1,50 +1,73 @@
-Search mechanism
-  Flexible search
-    search for items (sap type system)
-	used in hac or java query (dao)
-    similar to sql using itemtype to query: order, join...
-    conveted to sql to query
-    sub type: select * from {Product} => subtype of Product will also retrieved
-    search with runtime value
-    flexibleSearchService.search(query, params)
-	
-	search result depends on the context of user: access right, catalog version, restriction...
-	keyword and function: https://help.hybris.com/1808/hcd/8bc399c186691014b8fce25e96614547.html
-		
-	restrictions
-      narrow the result of flexible search, default not affect to admingroup
-      apply for type (and subtype) and user/usergroup (all members of the groups) - when excecute query, flexibel search engine auto add AND {additional query} to WHERE clause
-      not affect 3rd search engine
-	  create/edit?
-	    java api (SearchRestrictionModel)
-	    using impex
-		using backoffice
-
 search mechanisms
-  only search for items, search nhieu item type in same query???
   flexible search
-    hac/using api (flexibleSearchService)
+    benefit: abstract the search based on hybris items rather than the actual db
+    only search for items, search nhieu item type in same query => join
+    where can use flexible search? hac/using java api (flexibleSearchService.search(query, params))/backoffice
+	search restrictions
+	  narrow the result of flexible search, default not affect to admingroup
+      apply for type (and subtype) and user/usergroup (all members of the groups)
+	  when excecute query, flexible search engine auto add AND {additional query} to WHERE clause
 	search context: current session (with current user) => same query => differ result
 	  effect by: type access rights (these affect the Backoffice search results only), restrictions, catalog versions, and categories
 	  default is based on annonymous => need to set session user
-	syntax: https://help.hybris.com/1808/hcd/8bc399c186691014b8fce25e96614547.html
+	syntax: 
+	  SELECT <selects> FROM <types> ( WHERE <conditions> )? ( ORDER BY <order> )?
+	  https://help.hybris.com/1808/hcd/8bc399c186691014b8fce25e96614547.html
 	  {Product!} => no sub types
-	disable caching: apply cho query that cache ko co tac dung - search theo time change frequently (differ moi lan search)
-	paging support
+	  exclude specific sub types: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/2d0ca040a8934e2f8c2f1676fbb4b1fa.html
+	  nested query (select in where: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/da4c7e72811344aebabd50370529ef1c.html)
+	  pass parameter e.g SELECT {p:pk} FROM {Product AS p} WHERE {p:code} LIKE ?product
+	disable caching: apply cho query that cache ko co tac dung, anh huong performance e.g. SELECT {PK} FROM {Foo} WHERE {modificationTime}=?modificationTime
+	  fQuery.setDisableCaching(true);
+	2 phases
+	  translate to sql
+	  excecute the sql
+    sub type: select * from {Product} => subtype of Product will also retrieved
+	  e.g. translated sql: SELECT xxx FROM {yyy}  WHERE (item_t0.TypePkString IN  (
+		23087380955301264 , 23087380955663520 , 23087380955662768 ,
+		23087380955661760 , 23087385363574432 , 23087380955568768 ,
+		23087380955206016 ) => the base and sub types
+    search api
+	  construct the query: recommend - final String query = "SELECT {" + ProductModel.PK + "} FROM {" + ProductModel._TYPECODE + "}";
+	  call the query: flexibleSearchService.search(query).getResult() - lazy load, if item is removed between the gathering of the search result and translation of the specific element => null for this position
+	  params: using Map - flexibleSearchService.search(query, params);
+	  can cast the results the model immediately if the result is only PK column - almost in this case
+	paging: how paging is implemented in hybris? see pagingAndSorting.txt
+	restrictions: vs type access rights (only effect in backoffice)
+	  do not apply to admin/admingroup
+	  auto by hyris based on the searched types and current user
+	  auto add more to the WHERE clause
+	  can apply to item types or user/usergroup
+	  using param in restriction: e.g.  {user} = ?session.user or {country} IN ( ?session.countries)
+	  restriction and cronjob
+	  disable/enable restriction: searchRestrictionService.disableSearchRestrictions(); and searchRestrictionService.enableSearchRestrictions();
+	  e.g. 
+	  		try
+		{
+			getSearchRestrictionService().disableSearchRestrictions();
+			return getFlexibleSearchService().searchUnique(query) != null
+					? Optional.ofNullable(getFlexibleSearchService().searchUnique(query)) : Optional.empty();
+		}
+		finally
+		{
+			getSearchRestrictionService().enableSearchRestrictions();
+		}
+	  creating restriction - SearchRestriction - apply for which type and which user/usergroup?
+	    using backoffice
+		using java api: e.g. SearchRestrictionModel searchRestriction = modelService.create(SearchRestrictionModel.class);
+		using impex
+	
+	flexible search sample: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/8bc33bb28669101481ccfb446695e9de.html
+	jalo only attribute
 	
   viewtype: https://help.hybris.com/1808/hcd/c97c0ac3701b400b915a8f774f06045e.html#loioc97c0ac3701b400b915a8f774f06045e
+  
   generics search
     wrap flexible search (use in Backoffice)
 	in bo/api
 	error in compile time
 	
-	     
-restrictions
-  for components and pages
-    types of restrictions: category, time, user/usergroup...
-    using smartedit (category, time, user/usergroup) or cms cockpit
-  for searching 
   
   
-search api
+
   
