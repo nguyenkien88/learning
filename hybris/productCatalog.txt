@@ -1,0 +1,63 @@
+product catalog (products) vs content catalog (layout)
+brief summary
+  the active catalog version e.g. online contains categories/products that will be shown on frontend
+  the inactive catalog version e.g. summer, winter, staged contains categories/products (can different among) that will be synchronized to Online at specific time
+  a category belongs to 1 catalog version in turn belongs to 1 catalog
+
+product catalog module
+  holding, structuring and managing products and product information
+  say, products are organized into catalog systems
+  terms: product, category, catalog, catalog version, synchronize catalog version, classification
+
+structuring products with categories (hierachy structure)
+  categories: e.g. shirts, jackets
+    say, add a category to a catalog version (not a catalog) - rootCategories of a catalog version
+    CategoryProductRelation: many to many
+    how to create products/categories? through 3rd (erp...), Product Information System (PIM), file import (categories.impex) or create manually
+    thong thuong lay theo the expectation from frontend navigation
+    nested categories allowed: e.g. processors cat contains - intel cat and amd cat
+	control the visibility of category: e.g. allowedPrincipals to customergroup only
+	catetory media: categories_media.impex
+	productcockpit (productmanager/1234)
+  catalog versions
+    container that contains categories
+	multiple catalog versions in 1 catalog: e.g. codengaiProductCatalog catalog contains 2 versions: Staged and Online
+	co the co nhieu hon 2 verions, tuy business purpose, only 1 is active at a time (for frontend)
+	  e.g. Staged and Online catalog versions for editing purpose
+	  Summer, Winter and Online catalog versions for seasonal purpose: when summer -> synchronize Summer catalog version to Online version (the active)
+    synchronize catalog versions: source and target catalog version
+	  can applied only for specific category/product
+	  by default only affected the categories/products that are exist in both catalog version, other do not touch
+	  can config to remove the products/categories that in the target but not in the source e.g. truong hop summer, winter, online -> sync summer to online, should remove the winter related
+	synchronize catalog versions between 2 different catalogs?
+	  use case: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/8b4a208b8669101487c784b5f8557c30.html
+	  
+multiple catalogs?
+  when? use case
+    muon 1 site cho My ban category 1/2, 1 site cho Viet Name ban category a/b
+	2 sites nay active dong thoi (ko dung catalog version duoc)
+	=> multiple catalogs
+	conclusion: when run nhieu sites dong thoi => multiple catalogs, moi catalog cho moi site
+  recommend for complex catalogs system: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/8c0c3e6d86691014aa39adc69c2502c1.html
+  
+product attribute definition: 2 methods - type system and classification
+  type system: see typesystem.txt
+  classification
+  
+  
+
+ 
+  
+  catalog aware item type(aware for synchronize) and catalog unaware (not aware for synchronize, should not be different
+  multi language site: http://javainsimpleway.com/multi-country-site-in-hybris/
+  https://help.hybris.com/1808/hcd/8c32805c866910148932c1df5d0e89c1.html
+  multi-dementional product: many size e.g. shoes
+  
+  
+variant product
+  say, a product holds product variants
+  Variant to baseproduct: one to many
+  VariantCategory (Color, Size - base product has this)
+  VariantValueCategory (Red/Black, Small/Large - variant products have this)
+  Get all variants => join or baseProducts.getVariants
+  

@@ -8,8 +8,6 @@ verify (CommerceCartService) when
   click checkout
 
 Warehouse and POS
-  warehouse: kho (used to calculated stock)
-  POS: diem ban hang (lay hang tu warehouse)
   Neo logic
     1 product thuoc 1 bp, available in 1 warehouse (moi bp 1 warehouse)
 	point of service available: used to enable pick up in store option
