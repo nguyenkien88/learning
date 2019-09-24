@@ -58,4 +58,5 @@ Small topics
   more details about b2b accelerator (see b2c also): https://help.sap.com/viewer/4c33bf189ab9409e84e589295c36d96e/1905/en-US/8b60921b866910149a59b95e48185b83.html
   sapinvoice
   b2b
+  adaptivesearch
   
