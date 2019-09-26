@@ -1,11 +1,17 @@
 mainly indexing and searching product (storefront and backoffice)
-solr is full-text search, attribute nao duoc indexed => luc search se duoc included
+solr is free/full-text search, attribute nao duoc indexed => luc search se duoc included
 say, I want use name, price, description of Product to be indexed so I can search/facet refine based on that properties using solr
 can start solr server indepent without start hybris: ant startSolrServer
+van theo flow Controller, Facade...nhu binh thuong, chi la dung service related to solr to search in the solr server
+log: hybris\log\solr\instances\default\solr.log
+
 terms
   indexed type: e.g. Product
   facet: grouping for continue navigation e.g. price facet
-  
+  relevance: su lien quan
+  boots??
+  search query vs free text search query
+
 features
   search query template
     easy for customize e.g. remove fields like images from the suggestions template to improve the performance or change the sorting to draw the attention to certain products
@@ -65,21 +71,44 @@ implementation
     indexing process - using cron job
 	
   searching function
-    SolrQueryConverter: convert query from hybris to actual apache solr query - use by DefaultFacetSearchService
-    that uses SolrQueryPostProcessor (deprecated from 5.7): It provides a direct access to the query right before performing search on solr's index e.g. modify the query before search on apache solr
-	=> change to FacetSearchListener
-	similar to resultPostProcessors: modify result after result return from apache solr
-	
+    strategies
+	  LegacyFacetSearchStrategy: mainly use configuration for condition and params, less flexible
+	  DefaultFacetSearchStrategy: condition and parms are set directly in the query object => flexible tuy context
+	create query: DefaultFacetSearchService
+	  say creating and populating the search query
+	  new SearchQuery(facetSearchConfig, indexedType);//or some other methods 
+      SearchQuery object: all attributes will be the info when converting to sorl query
+        queryFields: q=value
+	    filterQueryFields: fq=value - not effect the score
+	    facetFields: fields for facet purpose
+	    orderFields: fields for sorting purpose
+	    Some of the query parameters in the search query object will only be used together with the new search strategy. When using the legacy search strategy, that information will be taken directly from the configuration and not from the search query object. The affected parameters are:
+          default query operator
+          filter queries
+          free text search queries
+          facets (not facet values)
+          fields to be included in the response
+          boosts	
+	search: in strategies
+	  context: FacetSearchContext e.g. get config, get query...contains useful info during the search
+	  convert the hybris search query to solr query: FreeTextQueryBuilder vs SolrQueryConverter (with populators and post processors-5.4) vs FacetSearchListener
+	  	FreeTextQueryBuilder
+        SolrQueryConverter
+		  populators
+		  SolrQueryPostProcessor (deprecated from 5.7): provides a direct access to the query right before performing search on solr's index e.g. modify the query before search on apache solr
+	      => change to FacetSearchListener
+		FacetSearchListener: same function with to SolrQueryPostProcessor, used in 6.x
+	  actual search: solrClient.query()
+	process result after search  
+	  
+
+
+  autosuggest and spellcheck
+  sort providers
+  listeners 
+    for indexing: before/after batch, before/after whole indexing process
+	and searching process: https://tinyurl.com/y5ew7zaf
     
-      
- 
-  
-  listener for indexing and searching process: https://tinyurl.com/y5ew7zaf
-	
-	
-    
-	
-  
 
 use case for kd: e.g. https://goodsmile-global.local:9002/kadokawaacceleratorstorefront/?sort=productPrivilegeFlg&q=%3AproductPrivilegeFlg
   using rest request for searching
@@ -110,3 +139,7 @@ use case for kd: e.g. https://goodsmile-global.local:9002/kadokawaacceleratorsto
   kd query sample: fill in to the query field of solr server: solrserver/server123 - decode url before search
   {!boost}(+{!lucene v=$yq})&fq=allCategories_string_mv:CATEGORY\-ROOT&fq=(catalogId:"GSLS_GL\-PRODUCTCATALOG" AND catalogVersion:"Online")&fq=displaySite_string_mv:(goodsmile-global OR true)&fq=(stockLevelStatus_string:inStock) OR (hanbaiStartDateDouble_double:([1569408536267 TO *]) OR hatsubaiStartDateDouble_double:([1569408536267 TO *]))&fq=hanbaiEndDateDouble_double:([1569408536267 TO *])&fq=hatsubaiEndDateDouble_double:([1569408536267 TO *])&sort=postingDate_sortable_date desc,postingDate_sortable_date desc&start=0&rows=40&facet.field=salesMethod_string&facet.field=price_jpy_string&facet.field=allPromotions_string_mv&facet.field=categoryPath_string_mv&facet.field=allCategories_string_mv&facet.field=displaySite_string_mv&facet.field=category_string_mv&facet.field=stockLevelStatus_string&facet=true&facet.sort=count&facet.mincount=1&facet.limit=50&fl=score,*
 			
+reference
+  hybris help
+  https://hybrismart.com/2017/07/13/explaining-sap-hybrissolr-relevance-ranking-for-phrase-queries/
+  https://hybrismart.com/2017/08/16/hybris-solr-query-builders-and-search-relevance/
