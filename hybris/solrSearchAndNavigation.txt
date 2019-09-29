@@ -64,13 +64,25 @@ implementation
 		facet[default=true]: make an property is facet indexing
 	  SolrIndexerQuery e.g. goodsmile-global-fullQuery: define the data source for the indexing process using flexible search query
 	  SolrSort e.g. sortRef5 (code=price-asc): define the insert order
-	  SolrSortField
+	    code and name: e.g. Online Exclusive
+	    SolrSortField: the solr fields (and asc/desc) are use in this sorting
 	  SolrIndexerCronJob: define cronjob to run the indexing e.g. cronJob for the SolrFacetSearchConfig which full/update code
 	solr_en.impex: localize for solr.impex
     solrtrigger.impex: schedule for solr indexing job	
     indexing process - using cron job
 	
   searching function
+    search types - ProductSearchFacade
+	  free text searches: e.g. using search box - can config search on fields nao???
+	  
+	  vs category searches: search by category
+	return: SearchPageData with all info about
+	  search query
+	  matching products
+	  pagination data
+	  filters applied
+	  facet
+	  sorts
     strategies
 	  LegacyFacetSearchStrategy: mainly use configuration for condition and params, less flexible
 	  DefaultFacetSearchStrategy: condition and parms are set directly in the query object => flexible tuy context
@@ -99,10 +111,15 @@ implementation
 	      => change to FacetSearchListener
 		FacetSearchListener: same function with to SolrQueryPostProcessor, used in 6.x
 	  actual search: solrClient.query()
-	process result after search  
+	process result after search
+	
 	  
-
-
+	
+	ordering
+	  must be in solr, not resort in java after get result from solr
+	  using SolrSort (for each indexed type)
+	  which contains SolrSortFields: fields and ordering
+	  
   autosuggest and spellcheck
   sort providers
   listeners 
