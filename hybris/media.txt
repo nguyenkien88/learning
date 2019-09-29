@@ -1,27 +1,27 @@
-Media (item)
-  Hold reference to a file (actual file can be store anywhere)
-  Catalog => catalog version => product 
+media (item)
+  hold reference to a file (actual file can be store anywhere)
+  catalog => catalog version => product 
     => media item1 => file 1
     => media item2 => file 2
-  1 Media 1 file, 1 file co the duoc refer by nhieu medias
-  Localize Media (default is not)
-  Synchronize: 2 catalog version refer to the same file
-  Sap commerce make sure that the reference run well when changing the physical file (2 versions)
-  Structuring media files
-    By format: e.g. 50x50px - just a convention label
-    Using media container (logical grouping): 1 media item only belongs to 1 container - chu yeu dung cho image. Say, get a media item of a format in a media container, dùng để group all format of a media (after conversion)
+  1 media 1 file, 1 file co the duoc refer by nhieu medias
+  localize Media (default is not)
+  synchronize: 2 catalog version refer to the same file
+  sap commerce make sure that the reference run well when changing the physical file (2 versions)
+  structuring media files
+    by format: e.g. 50x50px - just a convention label
+    using media container (logical grouping): 1 media item only belongs to 1 container - chu yeu dung cho image. Say, get a media item of a format in a media container, dùng để group all format of a media (after conversion)
     Media context (later)
-  Refer to media file: using MediaWeb or url
-  Media folder and restricted access
-    Physical grouping (can search based on folder)
+  refer to media file: using MediaWeb or url
+  media folder and restricted access
+    physical grouping (can search based on folder)
   tenant based
-  Storage
-    Local
+  storage
+    local
     remote
   
-  Conversion
-    Media
-    Format (with imagemagick command)
-    Group (contains formats)
-    Container (attach to a media and a group, derivations for 1 source media) => has derivations of an image in the formats of the group
+  conversion
+    media
+    format (with imagemagick command)
+    group (contains formats)
+    container (attach to a media and a group, derivations for 1 source media) => has derivations of an image in the formats of the group
     => do convert (theo group)
