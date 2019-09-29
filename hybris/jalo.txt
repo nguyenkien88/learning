@@ -1,0 +1,13 @@
+all related jalo things below are deprecated now - should use the alternative in service layer instead: https://help.hybris.com/1811/hcd/8c00066686691014a5a5d19875a1525b.html
+jalo layer
+    e.g. xxxGenerated.java
+	contains all business and dao logic (not used jalo layer anymore, there are some old extensions still use => ignore)
+	ko can add attribute jaloClass in items.xml nua (ko dung den)
+	
+jalo session
+  hold many info about the current session (along with http session) e.g. logged in user, currency, flexible search object...
+  now these info should be get/set by service layer
+  
+jalo only attributes
+  deprecated
+  use dynamic attributes instead
