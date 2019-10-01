@@ -1,0 +1,252 @@
+hmc status - \hybris\bin\ext-platform-optional\hmc
+  all hmcXXX extensions are removed from Hybris 6.3
+  all are replaced by backoffice
+  reference: https://help.sap.com/viewer/dc198ac31ba24dce96149c8480be955f/6.0.0.0/en-US/8bb15ed586691014a948d1553f4947cf.html
+  
+osm
+  5.6: co - https://wiki.hybris.com/display/release5/OMS+Workflow
+  5.7: ko co
+
+jp.atc.hybris.gsls.accelerator => com.kadokawa
+
+requirement: new system completely (do not worry about old orders)
+  hieu order process flow tren gsls
+    do what
+	how
+	which extensions
+  nam duoc may actions cu lam gi and how to move to new backoffice
+
+steps to fix compile erros for oms
+   check xem co duoc use ko?
+     neu ko remove
+     neu co: using alternative solution (default/new extention
+   check xem customize co khuc nao affect ko => resolve luon 
+
+fullffillment vs ordermanagement
+  ordermanagement = warehousing + fulfillment - contain actions define in dynamic process
+  fufillment/ordermanagement depends on warehousing: api to process consignment/return request
+  waehousingbackoffice: backoffice action e.g. confirmShip -> trigger event e.g. 1234__ConsignmentActionEvent (wait node) with choice -> then xxx
+  waehousingbackoffice vs csbackoffice: khac module, priciple
+  
+orer-process in 5.4
+vai tro cua may cai oms extentions?
+  omsorders
+    submit-order-process.xml and related process actions/services
+    populators
+	  e.g. gslsOmsOrderPopulator extends omsOrderPopulator 
+	    is used by gslsOmsOrderConverter (khac voi orderConverter)
+		  which is used by omsOrderService (and also import order service - spring intergration) - convert OrderModel to oms.domain.order.Order => which is used in a HytrixCommand
+		  => what hytrixcommand does? and how to replace?
+		    which is used by omsCreateOmsOrderAction - which is used in submit-order-process.xml (not used anymore)
+			and omsOrderSyncJob => not used converter
+			and omsOrderUpdateTaskRunner => not used converter
+			and omsOrderSourcingCheckTaskRunner => not used converter
+
+  ondemand, hystrix, fault tolerance - when call remote service (rest) -> can co che khi remote not working
+  omssat
+  omsclient
+    domain object (xml) related to order processing process
+  omsbackoffice
+    backoffice config/back office actions e.g. approve return, cancel return, print shipping...require by gslsbackoffice => change to warehousingbackoffice	
+
+verify
+  storefront/checkout: add 3 steps => copy all: ok
+  controllers/cms: ok
+  controllers/misc: ok
+  controllersconstants: ok
+  controllers/pages: mai check
+  accountpagecontroller: ok
+  cartpagecontroller: ok
+  loginpagecontroller: ok
+  productpagecontroller: ok
+  CheckoutController: ok
+  Acceleratorauthenticationprovider: ok
+  StorefrontResourceBundleSource: ok
+  CategoryPageController: ok
+  
+  dto: ok
+
+  filters/btg: ok
+  filters/cms: ok
+  interceptors: ok
+  renderer: ok
+  security: ok
+  tags: ok
+  url: ok
+  web: ok
+
+currently: gsls change directly in _ui directory
+
+storefront
+  UiThemeResourceBeforeViewHandler: confing path
+  three separated ui experiences: desktop, mobile, application  => now only responsive
+
+_ui: will be generated when run ant/grunt => if use this, remove _ui-src
+_ui/app, _ui/desktop, _ui/mobile: remove
+_ui/responsive: based on old dekstop ui experience
+  based on hybris document, we should't change directly in this directory.
+  but gsls contains many files in this directory => keep same structure
+  /common: contains third party lib
+    /blueprint: no need in 6.7 - ko copy
+	/bootstrap: gsls add them, 6.7 co san -> keep 6.7
+	/css: 5.4 write css directly in this directory for all themes, specific theme will override -> 6.7 remove this and using less (in theme-directory)
+	  tam thoi copy, consider using less de thay the
+    /font-awesome: gsls added - copy to new directory
+    /images: gsls add some paypal => copy thease images 
+    /js
+	  gsls adds i18n directory (date picker multi-lang) => copy to new directory
+      gsls added some files => added these files to kado (list out based on commit)
+	  gsls customized some files => need to adapt when implementing stories
+	    acc.address.js
+	    acc.forgotpassword.js
+	    acc.minicart.js
+	    acc.paginationsort.js
+	    acc.productDetail.js
+	    acc.track.js
+  /themes-xxx: contains images and change css (override common/css): copy all
+    consider change to less
+/ui/shared: share between all ui experiences
+  gsls add some libs and new js files => copy to kado
+  
+
+WEB-INF
+  /_ui-src: 
+    lib (third party)
+	  /ybase-x.x.x/js/* will be copied to _ui/responsive/common/js
+      /common/js/* will be copied to _ui/responsive/common/js
+	  /bootstrap-x.x.x/* will be copied to _ui/responsive/common/bootstrap
+	and themes related files
+	  fonts: copy when build
+	  less: compile and copy to _ui to css when build
+  ==> chua biet merge lam sao het =(((
+  ybase e.g. acc.common.js -> copy to _ui/responsieve/js , gsls modify some => how?
+  commmon/js e.g. jquery -> copy to _ui/responsive/js
+  bootstrap -> copy to _ui/responsive/common/bootstrap
+  
+  chon _ui-src
+  jsp, tag: uu tien 5.4
+  tags/component: uu tien 6.7
+  
+  
+  
+  
+  /common
+    ycommercetags.tld: add custom tag?
+  /config
+  /messages:  merge base, keep others
+  /tags: lay tu dau?
+  /views: desktop/goodmile-renewall => change reference link
+    /cms, /fragments, /pages
+	  gsls customize many files => keep 6.7
+	  add files => copy
+  
+change.css: got from  desktop/theme-goodmile-renewall
+      
+
+
+jp.atc.hybris.gsls.accelerator
+search all com.kadokawa (mot so package thieu .storefront)
+spring mvc-config
+  com.kadokawa.web.view.UiExperienceViewResolver: ui experience
+  co copy may theme kia qua ko?
+ 
+ 
+remain
+  change refer path may directory
+
+  some folders chua copy e.g. solr, 3 party license (core ext)
+  properties files (de sau)
+  checkout step duplicated
+  spring config
+  check wro_addons.xml
+  path in impex (change nhieu)
+  pmd rule set chua copy qua
+  add zh lang for strorefront
+  core/search/.../querybuilder: do not touch now (ko hieu code lay tu dau) - confirm anh Buu
+  cache: added in Vinh pr
+  
+  
+
+init data
+  mobile problem?
+    remove mobile related cms
+	follow the tutorial: https://www.sap.com/cxworks/article/441918787/Migrating_to_an_SAP_Commerce_Cloud_Responsive_Storefront#MigratingtoanSAPCommerceCloudResponsiveStorefront-JSPs,tagsandfragments
+  themes problem
+    remove theme realted cms
+  init directory problem?
+   
+   
+gslsacceleratorinitialdata
+  core
+    common
+	content catalog: only email_content.impex have custom info
+	product catalog
+	stores
+  sample
+    cockpits
+	  cmscockpits: add image cho themes
+    content catalog
+    product catalog
+    stores: nhieu custom here
+
+
+
+store: goodsmile-global
+product catalog: GSLS_GL-PRODUCTCATALOG => goodSmileGlobalProductCatalog
+classification: GSLS_Classification
+warehouse: warehouse_GSLS_GL
+theme: goodsmile_renewal
+content catalog: GSLS-RENEWAL_EN_ContentCatalog => goodSmileGlobalContentCatalog
+product catalog: GSLS_GL-PRODUCTCATALOG => goodSmileGlobalProductCatalog
+
+steps
+  bring initial data qua
+  change name het lai
+  merge fix by team sai vn
+  
+  remove mobile
+  check lai all file if match above info
+  revert initdata
+  GSLS-PRODUCTCATALOG
+remain
+  oldinformation_en.impex
+
+initdata
+  import/gslsacceleratorgoodsmile_renewal
+	  gslsacceleratorcore/common/themes.impex: add theme renewal
+	  gslsacceleratorinitialdata/coredata
+	    contentCatalog: cms, email
+		  GSLS-RENEWAL_EN_ContentCatalog: 
+		  GSLS-RENEWAL_JA_ContentCatalog: just some small differences with the EN version
+		store: store , solr, warehouse
+		  GSLS-RENEWAL_EN
+		  GSLS-RENEWAL_EN_JA: some differences with the EN version
+	  gslsacceleratorinitialdata/sampledata
+	    content catalog
+		  GSLS-RENEWAL_EN_ContentCatalog: cms - many differences with the cms-content.impex fromt the core data
+		  GSLS-RENEWAL_JA_ContentCatalog
+	goodsmile_taiwan: don't care
+	gslsacceleratorcockpits
+	gslsacceleratorcore: common, job (62 nodes???)
+	gslsacceleratorinitialdata
+	  coredata: 
+	    GSLS_GL-CONTENTS-CATALOG for en version
+		and GSLS-CONTENTS-CATALOG for ja
+	  sampledata
+  onboarding
+  
+use case: cms-content.impex, how many files?
+  initdata/gslsacceleratorinitialdata/core-sample data (2 catalogs)
+  goodsmile_renewal/core-sample data (2 catalogs)
+  gslsacceleratorinitialdata/core-sample data (skip for now)
+  
+ant kadokawaacceleratorstorefront_compileuisrc
+content catalog: goodSmileGlobalContentCatalog => GSLS-RENEWAL_EN_ContentCatalog 
+product catalog: goodSmileGlobalProductCatalog => GSLS_GL-PRODUCTCATALOG
+ant addoninstall -Daddonnames=smarteditaddon -DaddonStorefront.yacceleratorstorefront=kadokawaacceleratorstorefront
+
+
+
+
+
+

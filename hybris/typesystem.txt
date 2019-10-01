@@ -24,6 +24,7 @@ type system
   map
   enum
     dynamic enum: can change at runtime using backoffice/impex
+	ko load duoc len smartedit
   relation
   collecion vs relation: 1 way and 2 way mapping, collection is better in performance
   redeclare attribute in child (e.g. add read only, change datatype (only sub type is allowed))
