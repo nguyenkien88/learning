@@ -63,11 +63,25 @@ search mechanisms
   viewtype: https://help.hybris.com/1808/hcd/c97c0ac3701b400b915a8f774f06045e.html#loioc97c0ac3701b400b915a8f774f06045e
   
   generics search
-    wrap flexible search (use in Backoffice)
+    wrap flexible search (use in Backoffice) - finalize convert to flexible search GenericQuery.toFlexibleSearch()
 	in bo/api
-	error in compile time
+	benefit
+	  can search raw data e.g. product_code only
+	  errors in built query result in compile-time errors
+	  can save the query in db and use later in java code
+	GenericSearchService
+	GenericQuery
+	GenericField
+	GenericCondition
+	GenericSearchQuery: add some more search criteria e.g. pagination, user, catalog version
+	genericSearchService.search(query).getResult()
+	use case: search all ORDER
+	  AdvanceSearchEngineController do some setup for the widget
+	  AdvanceSearchController (backoffice/widgets) builds the AdvancedSearchData e.g. mode (SIMPLE/ADVANCE, condition, query, sorts...)
+	  then calls AdvanceSearchEngineController do some more set up for the query e.g. paging
+	  then calls DefaultGenericSearchService to search (convert to flexible search)
+	  
 	
-  
-  
+    
+	
 
-  

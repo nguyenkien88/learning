@@ -2,7 +2,7 @@ backoffice framework: purpose - simplify development of backoffice application
 backoffice application is built on top of Backoffice framework
   the codengaibackoffice is an application build on top of Backoffice framework
 backoffice framework vs old Cockpit framework
-built by ZK Framework with bunch of widgets(e.g. Advanced Search widget, Editor Area widget): component to add to bo frontend (later) - application is made up from connecting (but stand-alone) widgets 
+built by ZK Framework with bunch of widgets(e.g. Advanced Search widget, Editor Area widget): component to add to bo bo frontend (later) - application is made up from connecting (but stand-alone) widgets 
   
 cockpits (old cockpits and backoffice fw based cockpits)
   many cockpits with own purpose
@@ -48,14 +48,14 @@ widget(component): mvc
     how can I receive an input? @SocketEvent in Controller
     output socket: I can send this object type with that id to outside world
     how can I send output? call sendOutput (DefaultWidgetController)
-    socket-connection: when I send an output, all other sockets with appropriate id and type are received? no, just only the widget that connect with me by socket-connection
+    socket-connection: when I send an output, all other sockets with appropriate id and type are received? no (not broadcast), just only the widget that connect with me by socket-connection
     STUB?????
     should use json for in/output
   how to define new widget (of an widget definition)?
     https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8bd4366a86691014b818f8dd642790a8.html
   how to insantiate a widget instance?
     *backoffice-widgets.xml: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8c8666ea8669101487fdfbbb342cee5e.html?q=stub
-    widget-extension: exten an existing widget
+    widget-extension: extend an existing widget
     widget-connection-remove
 	setting (will be used in controller)
   widget slot
@@ -67,7 +67,7 @@ widget(component): mvc
     thuong la set default value when define widget instance e.g.codengaibackoffice-backoffice-widget.xml
   
   how I config the ui for backoffice appication?
-    say, config for compnent, item type, module, role(principal)
+    say, config for component, item type, module, role(principal)
     cockpit-config.xml: merged all config for entire application (which some default) - using admin orchestrator
 	or using myextension-backoffice-config.xml - most frequently
 	or myextension/backoffice/resources/widgets/mywidget/cockpit-config.xml - consider as default configuration
@@ -75,7 +75,7 @@ widget(component): mvc
       define in backoffice-widgets-6.7.0.0-RC8.jar (zul, definition, controller, css)
 	  configuration attributes: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8b50ccf3866910149e1c9ebdd47f12be.html#loio8b50ccf3866910149e1c9ebdd47f12be
 	    @XXX: direct attribute
-	    oXXX: nested tag
+	    oXXX: inner tag
 	base configuration: represent an object as String - using Spring expression e.g. DefaultReference widget
 	how the *backoffice-config is translated?
 	  context: component, type and principal, module, authority, merge-by, parent, source
@@ -89,9 +89,7 @@ widget(component): mvc
 		  e.g. DefaultEditorAreaController.getConfigurationLoader() => load config
 		  will provides component context
 		  and call some context decorators to add more context atrr e.g. AdminmodeConfigurationContextDecorator(principal)/SessionUserConfigurationContextDecorator(principal)/WidgetSettingsConfigurationContextDecorator
-	next: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8b929ff186691014b99cb77661a3ed52.html 
-	  
-	
+	next: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8b929ff186691014b99cb77661a3ed52.html 	
 
   special widget
     create-wizard: can use ctx map in configuration file (e.g. send context info to the widget)	
@@ -153,8 +151,6 @@ parameterize widget (read setting infor from definition file - later)
 layout: actually a widget with some predefined slots
 composed widget
   widgetslot and widgetchildren
-
- 
 
 make change in widget without rebuild (not including label change)
   backoffice.cockpitng.additionalResourceLoader.enabled=true

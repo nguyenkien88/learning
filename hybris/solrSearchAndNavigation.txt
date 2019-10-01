@@ -70,11 +70,14 @@ implementation
 	solr_en.impex: localize for solr.impex
     solrtrigger.impex: schedule for solr indexing job	
     indexing process - using cron job
+	use case: how stock are indexed?
+	  property for indexing: provide by gslsProductFrontStockStatusValueProvider - getCommerceStockService().getStockLevelStatusForProductAndBaseStore(product, baseStore)
+	  property name after indexing: stockLevelStatus_string (values: inStock/outOfStock)
+	  after search (solr) then populates to GslsProductData (FrontStockStatus)
 	
   searching function
     search types - ProductSearchFacade
 	  free text searches: e.g. using search box - can config search on fields nao???
-	  
 	  vs category searches: search by category
 	return: SearchPageData with all info about
 	  search query
