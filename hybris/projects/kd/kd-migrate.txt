@@ -127,9 +127,6 @@ WEB-INF
   jsp, tag: uu tien 5.4
   tags/component: uu tien 6.7
   
-  
-  
-  
   /common
     ycommercetags.tld: add custom tag?
   /config
@@ -141,8 +138,6 @@ WEB-INF
 	  add files => copy
   
 change.css: got from  desktop/theme-goodmile-renewall
-      
-
 
 jp.atc.hybris.gsls.accelerator
 search all com.kadokawa (mot so package thieu .storefront)
@@ -165,8 +160,6 @@ remain
   core/search/.../querybuilder: do not touch now (ko hieu code lay tu dau) - confirm anh Buu
   cache: added in Vinh pr
   
-  
-
 init data
   mobile problem?
     remove mobile related cms
@@ -188,9 +181,7 @@ gslsacceleratorinitialdata
     content catalog
     product catalog
     stores: nhieu custom here
-
-
-
+	
 store: goodsmile-global
 product catalog: GSLS_GL-PRODUCTCATALOG => goodSmileGlobalProductCatalog
 classification: GSLS_Classification
@@ -244,9 +235,3 @@ ant kadokawaacceleratorstorefront_compileuisrc
 content catalog: goodSmileGlobalContentCatalog => GSLS-RENEWAL_EN_ContentCatalog 
 product catalog: goodSmileGlobalProductCatalog => GSLS_GL-PRODUCTCATALOG
 ant addoninstall -Daddonnames=smarteditaddon -DaddonStorefront.yacceleratorstorefront=kadokawaacceleratorstorefront
-
-
-
-
-
-
