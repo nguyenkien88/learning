@@ -130,14 +130,15 @@ composed widget: a widget that can contains other widget inside item
   <widgetchildren>: type=tab/list...
 
 important files
-  *widgets.xml: load when start server - define/insantiate widgets, default settings for the widgets
-    backoffice-widgets.xml
-	  built-in widget instances from hybris
-	  e.g. mainSlot(the main view off entire backoffice application) contains perspectiveViewSwitcher contains backofficeMainSlot contains explorerTree contains collapsibleContainer 
-	  contains advancedSearch contains advancedSearchEngine (1 widget tree for a application)
-    other-extension-backoffice-widgets.xml e.g kadokawabackoffice-backoffice-widgets.xml: more widget instances
-    reference: https://tinyurl.com/y446rhkn
-  cockpit-config.xml: merge for all above files
+   widgets.xml - merge all information e.g. settings, instance id...of all widgets added to application
+     store as media, when reset => create lai
+     backoffice-widgets.xml
+	   built-in widget instances from hybris
+	   e.g. mainSlot(the main view off entire backoffice application) contains perspectiveViewSwitcher contains backofficeMainSlot contains explorerTree contains collapsibleContainer 
+	   contains advancedSearch contains advancedSearchEngine (1 widget tree for a application)
+     other-extension-backoffice-widgets.xml e.g kadokawabackoffice-backoffice-widgets.xml: more widget instances
+     reference: https://tinyurl.com/y446rhkn
+  cockpit-config.xml: merge for all above files, saved as application media, when reset => create lai
   extension-backoffice-config.xml e.g. kadokawabackoffice-backoffice-config.xml: config the view of a widget based on context e.g. how editor-area widget for Product should be show?
 
 extend a widget e.g. want to remove existing widget from a slot or change to other widget or change default settings
@@ -153,38 +154,53 @@ extend a widget e.g. want to remove existing widget from a slot or change to oth
     move a widget to another widget: </move>
     specify virtual sockets: </virtual-sockets>
   cockpitWidgetChildrenInvisible: later
-  
-  
-
 
 how I config the ui for backoffice application?
-  say, config for component, item type, module, role(principal)
-  cockpit-config.xml: a media merged all config for entire application (which some default) - using admin orchestrator/search media
-  or using myextension-backoffice-config.xml - most frequently
-  or myextension/backoffice/resources/widgets/mywidget/cockpit-config.xml - consider as default configuration
+  say, the *widgets.xml define the the whole application widgets tree, then each instance can be configured base on the context e.g. item type, module, role(principal)
+  using myextension-backoffice-config.xml - most frequently or myextension/backoffice/resources/widgets/mywidget/cockpit-config.xml - consider as default configuration
   e.g. advanced-search 6.7
     define in backoffice-widgets-6.7.0.0-RC8.jar (zul, definition, controller, css)
-    configuration attributes: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8b50ccf3866910149e1c9ebdd47f12be.html#loio8b50ccf3866910149e1c9ebdd47f12be
-  	@XXX: direct attribute
-  	oXXX: inner tag
-  base configuration: represent an object as String - using Spring expression e.g. DefaultReference widget
-  how the *backoffice-config is translated?
-    context: component, type and principal, module, authority, merge-by, parent, source
-  	component
+    configuration attributes: e.g. for advanced search widget - https://tinyurl.com/yxlm38hu @XXXX: direct attribute, oXXX: inner tag
+	
+  context: component, type, principal, parent
+    syntax e.g. create context then declare namespace e.g. editorArea to use
+	  <context type="UserGroup" component="editor-area" merge-by="module">
+        <editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+		  //follow editor area widget docs
+		  <editorArea:tab>....
+	    </<editorArea>
+	  <context/>
+	component (context code) e.g. advanced-search: get from definition.xml e.g. advancedSearchConfigCtxCode: which component this congig should be applied to
   	principal: which user/usergroup should be applied for
-  	type: which type will be applied
-  	parent: use with merge-by to defined which properties will be merged with parent
-    config loading (e.g. open 1 Order in backoffice)
-  	DefaultConfigContext
-  	DefaultWidgetController
-  	  e.g. DefaultEditorAreaController.getConfigurationLoader() => load config
-  	  will provides component context
-  	  and call some context decorators to add more context atrr e.g. AdminmodeConfigurationContextDecorator(principal)/SessionUserConfigurationContextDecorator(principal)/WidgetSettingsConfigurationContextDecorator
-  next: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8b929ff186691014b99cb77661a3ed52.html 	
+  	type: which type will be applied (in case the widget can handle many types)
+	merge
+  	  merge-by="type": merge with parent model (ko explicit define parent attr se lay parent model) e.g. <context merge-by="type" parent="CronJob" type="Workflow" component="simple-search">
+	  merge-by="module": merge the current component with all other extensions e.g. <context component="explorer-tree" merge-by="module">
+	  module="xxx": not important, hyris auto change to the real extention name e.g. module="kadokawabackoffice" when build the cockpit-config.xml
+	  merge-by="source": it dung
+	  obligatoryMergeAttributes (cockpitConfigurationService): bat buoc this merge type perform - default value is module => always merge theo module,
+	  ngay ca khi define merge-type="type" or ko define merge-type
+	  
+	other: authority, source
+	the content inside the context depends on the component attribute (see docs)
   
-  context
-    component (context code) e.g. advanced-search: get from definition.xml e.g. advancedSearchConfigCtxCode
-  merge-mode vs merge-by
+  config loading (e.g. open 1 Order in backoffice)
+    DefaultConfigContext e.g. initialize nessessary contexts for the current request
+    DefaultWidgetController
+    e.g. DefaultEditorAreaController.getConfigurationLoader() => load config
+    will provides component context
+    and call some context decorators to add more context atrr e.g. AdminmodeConfigurationContextDecorator(principal)/SessionUserConfigurationContextDecorator(principal)/WidgetSettingsConfigurationContextDecorator
+	
+
+	use case: advanced search for Employee - click Employee on explorerTree component
+      ExplorerTreeController calls sendsOutput
+      that will trigger AdvancedSearchController call loadConfiguration(typeCode e.g. Employee)
+      that will call getWidgetInstanceManager().loadConfiguration(context) - say, load configuration (type, component, principal, authority) for a context
+      return new DefaultConfigContext e.g. DefaultConfigContext({component=advanced-search, type=Employee, principal=admin, module=_root_})
+  
+  
+  base configuration: represent an object as String - using Spring expression e.g. DefaultReference widget
+  next: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8b929ff186691014b99cb77661a3ed52.html 	
 
   widget group (later)
   config positions of a widget: declared order and merging algorithm
@@ -193,28 +209,15 @@ how I config the ui for backoffice application?
     position: https://help.hybris.com/1808/hcd/8be26f9a86691014a90cfc9d0f34cf43.html
   config set of editors, actions on widgets base on type and user role and other info...
   from admin orchestrator
-    Widgets.xml - merged app widgets (<widget>)
+    widgets.xml - merged app widgets (<widget>)
     cockpit-config.xml - merged app ui config (<context>)
     Base configuration: provide string representation of a object (belong to a type, using Spring expression language)
     Label provider
     @label
     Collection browser(new) and listview widget(old): table
   enable/disable description: backoffice.cockpitng.displayAttributeDescriptions
-  
-  specify permision in backoffice
-  fallback strategy  
-	
-	
-  localize widget
-    labels.properties
-  
-  available widgets: da duoc defind and create san instance (with id)
-    
-  widget uses actions (edit/delete...) and editors (checkbox, area editor...): special predefined components can be added to widget	
 
 
-
-  
 architecture: 2 importants extensions
   backoffice: standard widgets and components
   ybackoffice: for custom
