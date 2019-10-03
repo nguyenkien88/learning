@@ -1,48 +1,70 @@
-backoffice framework: purpose - simplify development of backoffice application
-backoffice application is built on top of Backoffice framework
-  the codengaibackoffice is an application build on top of Backoffice framework
-backoffice framework vs old Cockpit framework
-built by ZK Framework with bunch of widgets(e.g. Advanced Search widget, Editor Area widget): component to add to bo bo frontend (later) - application is made up from connecting (but stand-alone) widgets 
-  
-cockpits (old cockpits and backoffice fw based cockpits)
-  many cockpits with own purpose
-  mcc: multi channel cockpit
-  backoffice cockpit: sum of (product cockpit, customer service cockpit, ...)
-  hac (admin console cockipit)
-  admincockpit: user and validation
-  smartedit/wcms
-  cockpits are developed by ZK (zkoss) framework: web/mobile compability
-  zul content will be saved/copied at server for next request => faster
-  zul vs jsp
-    using zul - when site with many dynamic data (ex: cockpit page)
-    using jsp - when most are static data?
-  some backoffice cockpits (update to date)
-    administration cockpit
-    product cockpit
-    adaptive search cockpit
-    customer Support cockpit
-    data hub cockpit
-    order fulfillment cockpit
+introduction
+  backoffice framework: purpose - simplify development of backoffice application
+  backoffice application is built on top of Backoffice framework
+    the codengaibackoffice is an application build on top of Backoffice framework
+  backoffice framework vs old Cockpit framework
+  built by ZK Framework with bunch of widgets(e.g. Advanced Search widget, Editor Area widget): component to add to bo bo frontend (later) - application is made up from connecting (but stand-alone) widgets 
+    
+  cockpits (old cockpits and backoffice fw based cockpits)
+    many cockpits with own purpose
+    mcc: multi channel cockpit
+    backoffice cockpit: sum of (product cockpit, customer service cockpit, ...)
+    hac (admin console cockipit)
+    admincockpit: user and validation
+    smartedit/wcms
+    cockpits are developed by ZK (zkoss) framework: web/mobile compability
+    zul content will be saved/copied at server for next request => faster
+    zul vs jsp
+      using zul - when site with many dynamic data (ex: cockpit page)
+      using jsp - when most are static data?
+    some backoffice cockpits/perpective (update to date)
+      administration cockpit
+      product cockpit
+      adaptive search cockpit
+      customer Support cockpit
+      data hub cockpit
+      order fulfillment cockpit
 
-feature: e.g. widgets, editor, action, drag/drop, export excel, testing, uiconfig...
-  https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/1c3029befd39490fa215c7045f1b69a5.html
-
-widget(component): mvc
-  define widget (definition.xml - input, output, valid setting maybe with default value) 
-  then create instance of a widget (*widgets.xml - concrete settings) vs configuration for a widget (*config.xml)
-  com.hybris.cockpitng.core.Widget/com.hybris.cockpitng.core.WidgetDefinition
-  say a widget used in the application is an instance of a widget definition
-  thuong dung built-in widget e.g. advanced search, explore tree
+backoffice framework module
+  features: e.g. widgets, editor, action, drag/drop, export excel, testing, uiconfig...https://tinyurl.com/y5fdr29u
+  architecture
+    backoffice: all built-in widgets, actions... 
+    ybackoffic: template
+    platformbackoffice
+ 		
+widget(component): follow mvc
+  concept
+    1 group gom .zul, definition.xml, controller e.g. advanced search widget, workflow widget
+	duoc su dung trong backoffice application
+	trong 1 context cu the e.g. su dung advanced search cho Product type, admin user
+    say, ket noi nhieu widgets voi nhau tao thanh backoffice application
   
-  when need to define new widget? e.g. codengaiImportExcel
-    when need new view
-    or new logic (controller)
-  how to define new widget definition? e.g. widget-definition id="com.neo.codengai.widgets.codengaiImportExcel"
-    view: e.g uploadfile.zul with elements id
+  main work with widgets
+    define widget (definition.xml - input, output, valid setting maybe with default value) 
+    then create instance of a widget 
+	  using admin orchestrator or
+	  (*widgets.xml - concrete settings) vs configuration for a widget (*config.xml)
+    com.hybris.cockpitng.core.Widget/com.hybris.cockpitng.core.WidgetDefinition
+    say a widget used in the application is an instance of a widget definition
+    thuong dung built-in widget e.g. advanced search, explore tree
+    when need to define new widget? e.g. codengaiImportExcel
+      when need new view
+      or new logic (controller)
+  
+  how to define new widget type? 
+    create widget defition.xml e.g. id="com.neo.codengai.widgets.codengaiImportExcel"
+    create the view: e.g uploadfile.zul with elements id e.g. button, area text box
     controller: e.g. com.neo.codengai.controllers.ImportExcelController
-    how to link view and controller? using @ViewEvent
+      how to link view and controller? using @ViewEvent
+	  injecting in controller @WireVariable/@Resource
     input: object
     output: object
+	parameterize widget
+	  <settings>
+	  e.g. whether my text box in my widget can resize) - access from zul view e.g ${widgetSettings.xxx} or controller e.g. getWidgetSettings().getString("xxx")
+	  thuong la set default value when define widget instance e.g.codengaibackoffice-backoffice-widget.xml
+	  value can be changed in orchestrator
+  
   how widget communicate? using widget-connection, that is set up outside the widget itself
     input socket: I can receive the output of other widget with this id and type
     how can I receive an input? @SocketEvent in Controller
@@ -51,55 +73,114 @@ widget(component): mvc
     socket-connection: when I send an output, all other sockets with appropriate id and type are received? no (not broadcast), just only the widget that connect with me by socket-connection
     STUB?????
     should use json for in/output
-  how to define new widget (of an widget definition)?
-    https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8bd4366a86691014b818f8dd642790a8.html
-  how to insantiate a widget instance?
-    *backoffice-widgets.xml: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8c8666ea8669101487fdfbbb342cee5e.html?q=stub
-    widget-extension: extend an existing widget
     widget-connection-remove
-	setting (will be used in controller)
-  widget slot
-    for nested widget
-    slotId in .zul file
-    1 widget tree (parents, childrens) for a application with parent is the widget that contains backofficeMainSlot
-  composed widget: can contains other widgets
-  parameterize widget (settings e.g. whether my text box in my widget can resize) - access from zul view e.g ${widgetSettings.xxx} or controller e.g. getWidgetSettings().getString("xxx")
-    thuong la set default value when define widget instance e.g.codengaibackoffice-backoffice-widget.xml
-  
-  how I config the ui for backoffice appication?
-    say, config for component, item type, module, role(principal)
-    cockpit-config.xml: merged all config for entire application (which some default) - using admin orchestrator
-	or using myextension-backoffice-config.xml - most frequently
-	or myextension/backoffice/resources/widgets/mywidget/cockpit-config.xml - consider as default configuration
-    e.g. advanced-search 6.7
-      define in backoffice-widgets-6.7.0.0-RC8.jar (zul, definition, controller, css)
-	  configuration attributes: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8b50ccf3866910149e1c9ebdd47f12be.html#loio8b50ccf3866910149e1c9ebdd47f12be
-	    @XXX: direct attribute
-	    oXXX: inner tag
-	base configuration: represent an object as String - using Spring expression e.g. DefaultReference widget
-	how the *backoffice-config is translated?
-	  context: component, type and principal, module, authority, merge-by, parent, source
-	    component
-		principal: which user/usergroup should be applied for
-		type: which type will be applied
-		parent: use with merge-by to defined which properties will be merged with parent
-	  config loading (e.g. open 1 Order in backoffice)
-	    DefaultConfigContext
-		DefaultWidgetController
-		  e.g. DefaultEditorAreaController.getConfigurationLoader() => load config
-		  will provides component context
-		  and call some context decorators to add more context atrr e.g. AdminmodeConfigurationContextDecorator(principal)/SessionUserConfigurationContextDecorator(principal)/WidgetSettingsConfigurationContextDecorator
-	next: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8b929ff186691014b99cb77661a3ed52.html 	
-
   special widget
     create-wizard: can use ctx map in configuration file (e.g. send context info to the widget)	
-	
   extends/override existing widget (same view): when need to change behavior(e.g. change controller)/design of ootb widget
     e.g. <widget-definition id="com.hybris.extended.explorertree.custom" extends="com.hybris.cockpitng.widgets.common.explorertree">
     https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8bda5dec866910148593fca2c20f6a0e.html#loio8bda5dec866910148593fca2c20f6a0e
   widget-extention
     add a widget to a slotid of another widget
     and???
+  virtual-sockets: add dynamic socket, in case the widget definition does not define
+
+editor
+  concept
+    e.g. multi reference editor
+    also a backoffice component, more fine-grained than widget
+    muc dich la dung o nhieu widget khac nhau
+    say, use editor inside a widget to manipulate data
+  create an editor - using zkoss component e.g. TextBox: https://tinyurl.com/y4c5z2az
+    definition.xml 
+	  e.g. <editor-definition id="org.myextension.editor.simpletext">
+	  possible handling type
+	  render class e.g.  MySimpleTextEditor implements CockpitEditorRenderer<String> - render(final Component parent)
+	  add event listener e.g. notify to the parent widget about the change in the editor
+	  adding parameter e.g isMultiLine
+	  EditorContext??
+	  create editor using .zul file e.g. view src="boolEditor.zul" (do not use render class) - using default renderer e.g. DefaultZulCockpitEditorRenderer to populate default events to parents
+	  localize
+  use editor in widget  
+	add editor to a widget e.g. add to .zul file e.g. <editor id="textEditor" type="java.lang.String" onValueChanged="mywidgetController.doThings()" />
+	binding editor to model e.g. syn model value with editor value
+	set intial value: <editor id="textEditor" type="java.lang.String" property="textEditorProperty" value="Put some text here." />
+  editor paramenter: e.g. isMultiLine
+    using config e.g. <y:editor-parameter>
+	or in .zul file of widget:  <editors config="testeditors" group="common"/>
+	or set using java e.g. editor1.setProperty("mytext");
+	in widget definition e.g. <settings>: will apply for all widget instances, unless is override by above approaches
+
+action
+  concept
+    e.g. delete action
+    using to trigger action depend on the state of widget model e.g. want an icon to appear in a widget after a certain property has a specific value
+    default not socket-aware, extends AbstractComponentWidgetAdapterAware to make it socket-aware
+  create action
+    definition.xml e.g. <action-definition id="com.hybris.cockpitng.action.myaction">
+	MyAction implements CockpitAction<String, String>, return ActionResult
+	localize
+  use action in widget
+    add to the widget view: <action actionId="org.myextension.action.myaction" property="product"/>
+	action status flags: OBJECT_MODIFIED, OBJECT_PERSISTED, OBJECT_DELETED
+  DefaultActionRenderer: renderer for the action, some default settings e.g. icon, hover, disable icon, name, style class...can customize using *config.xml
+
+composed widget: a widget that can contains other widget inside item
+  can view the nested structure in orchestrator e.g."Backoffice Main Layout"
+  <widgetslot slotID="nestedWidget"> (widget .zul): only 1 nested widget
+  <widgetchildren>: type=tab/list...
+
+important files
+  *widgets.xml: load when start server - define/insantiate widgets, default settings for the widgets
+    backoffice-widgets.xml
+	  built-in widget instances from hybris
+	  e.g. mainSlot(the main view off entire backoffice application) contains perspectiveViewSwitcher contains backofficeMainSlot contains explorerTree contains collapsibleContainer 
+	  contains advancedSearch contains advancedSearchEngine (1 widget tree for a application)
+    other-extension-backoffice-widgets.xml e.g kadokawabackoffice-backoffice-widgets.xml: more widget instances
+    reference: https://tinyurl.com/y446rhkn
+  cockpit-config.xml: merge for all above files
+  extension-backoffice-config.xml e.g. kadokawabackoffice-backoffice-config.xml: config the view of a widget based on context e.g. how editor-area widget for Product should be show?
+
+extend a widget e.g. want to remove existing widget from a slot or change to other widget or change default settings
+  using widget-extension
+  e.g. customersupportbackoffice-backoffice-widgets.xml defines <widget-extension widgetId="backofficeMainSlot"> then override the slotId="perspectives" with order widget
+  extend types
+    remove a widget from another widget children: </remove>
+    remove all widget children: </remove-all>
+    add a child widget: </widget>
+    modify template instance behavior settings: </instance-settings>
+    modify widget settings: </setting>
+    change access restrictions: </access>
+    move a widget to another widget: </move>
+    specify virtual sockets: </virtual-sockets>
+  cockpitWidgetChildrenInvisible: later
+  
+  
+
+
+how I config the ui for backoffice application?
+  say, config for component, item type, module, role(principal)
+  cockpit-config.xml: a media merged all config for entire application (which some default) - using admin orchestrator/search media
+  or using myextension-backoffice-config.xml - most frequently
+  or myextension/backoffice/resources/widgets/mywidget/cockpit-config.xml - consider as default configuration
+  e.g. advanced-search 6.7
+    define in backoffice-widgets-6.7.0.0-RC8.jar (zul, definition, controller, css)
+    configuration attributes: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8b50ccf3866910149e1c9ebdd47f12be.html#loio8b50ccf3866910149e1c9ebdd47f12be
+  	@XXX: direct attribute
+  	oXXX: inner tag
+  base configuration: represent an object as String - using Spring expression e.g. DefaultReference widget
+  how the *backoffice-config is translated?
+    context: component, type and principal, module, authority, merge-by, parent, source
+  	component
+  	principal: which user/usergroup should be applied for
+  	type: which type will be applied
+  	parent: use with merge-by to defined which properties will be merged with parent
+    config loading (e.g. open 1 Order in backoffice)
+  	DefaultConfigContext
+  	DefaultWidgetController
+  	  e.g. DefaultEditorAreaController.getConfigurationLoader() => load config
+  	  will provides component context
+  	  and call some context decorators to add more context atrr e.g. AdminmodeConfigurationContextDecorator(principal)/SessionUserConfigurationContextDecorator(principal)/WidgetSettingsConfigurationContextDecorator
+  next: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8b929ff186691014b99cb77661a3ed52.html 	
   
   context
     component (context code) e.g. advanced-search: get from definition.xml e.g. advancedSearchConfigCtxCode
@@ -119,12 +200,6 @@ widget(component): mvc
     @label
     Collection browser(new) and listview widget(old): table
   enable/disable description: backoffice.cockpitng.displayAttributeDescriptions
-	
-action
-  default not socket-aware
-  extends AbstractComponentWidgetAdapterAware to make it socket-aware
-  
-
   
   specify permision in backoffice
   fallback strategy  
@@ -136,6 +211,9 @@ action
   available widgets: da duoc defind and create san instance (with id)
     
   widget uses actions (edit/delete...) and editors (checkbox, area editor...): special predefined components can be added to widget	
+
+
+
   
 architecture: 2 importants extensions
   backoffice: standard widgets and components
@@ -149,11 +227,22 @@ some config path: https://help.hybris.com/1808/hcd/8bd4366a86691014b818f8dd64279
 passing data between widget
 parameterize widget (read setting infor from definition file - later)
 layout: actually a widget with some predefined slots
-composed widget
-  widgetslot and widgetchildren
+
 
 make change in widget without rebuild (not including label change)
   backoffice.cockpitng.additionalResourceLoader.enabled=true
   backoffice.cockpitng.uifactory.cache.enabled=false
   backoffice.cockpitng.widgetclassloader.resourcecache.enabled=false
   backoffice.cockpitng.resourceloader.resourcecache.enabled=false
+
+faq: https://tinyurl.com/y35fqrg9
+
+
+
+remain
+  how extend/override e.g. change setting of a widget?
+  business role in backoffice: https://tinyurl.com/y4cvks6w	
+  extend: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8bda5dec866910148593fca2c20f6a0e.html
+  understand the backoffice-widgets.xml
+  how to style a widget?
+

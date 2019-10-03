@@ -14,7 +14,7 @@ types of file
 	convention construction
     .name and .description
 	database type
-  cockpit framework: e.g. codengaincockpits/resources/localization/i3-label_th.properties
+  cockpit framework: e.g. codengaincockpits/resources/localization/i3-label_th.properties - label for widget
     database type
   report with jasper: resourceBundle attribute e.g. codengaincockpits/resources/localization/jasperreport_en.properties
   ui-storefront: e.g. web/webroot/WEB-INF/messages/base_en.properties: jsp
