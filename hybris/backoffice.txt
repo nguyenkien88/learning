@@ -84,7 +84,7 @@ widget(component): follow mvc
     and???
   virtual-sockets: add dynamic socket, in case the widget definition does not define
 
-editor
+editor: can add in the widget zul file or using controller
   concept
     e.g. multi reference editor
     also a backoffice component, more fine-grained than widget
@@ -102,15 +102,16 @@ editor
 	  localize
   use editor in widget  
 	add editor to a widget e.g. add to .zul file e.g. <editor id="textEditor" type="java.lang.String" onValueChanged="mywidgetController.doThings()" />
+	specify the default editor
 	binding editor to model e.g. syn model value with editor value
 	set intial value: <editor id="textEditor" type="java.lang.String" property="textEditorProperty" value="Put some text here." />
-  editor paramenter: e.g. isMultiLine
-    using config e.g. <y:editor-parameter>
+  editor parameter passing: e.g. isMultiLine
+    using config e.g. <y:editors>...<y:editor-parameter>
 	or in .zul file of widget:  <editors config="testeditors" group="common"/>
 	or set using java e.g. editor1.setProperty("mytext");
 	in widget definition e.g. <settings>: will apply for all widget instances, unless is override by above approaches
 
-action
+action: can add in the widget zul file or using controller
   concept
     e.g. delete action
     using to trigger action depend on the state of widget model e.g. want an icon to appear in a widget after a certain property has a specific value
@@ -123,7 +124,10 @@ action
     add to the widget view: <action actionId="org.myextension.action.myaction" property="product"/>
 	action status flags: OBJECT_MODIFIED, OBJECT_PERSISTED, OBJECT_DELETED
   DefaultActionRenderer: renderer for the action, some default settings e.g. icon, hover, disable icon, name, style class...can customize using *config.xml
-
+  action and editor ui mapping: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/b7d4b1d9e7564f5dae5307e821733fb4.html
+  
+til now: inside <context> can use <base>, <editors>, <actions> and other element depends on the component  
+  
 composed widget: a widget that can contains other widget inside item
   can view the nested structure in orchestrator e.g."Backoffice Main Layout"
   <widgetslot slotID="nestedWidget"> (widget .zul): only 1 nested widget
@@ -141,8 +145,8 @@ important files
   cockpit-config.xml: merge for all above files, saved as application media, when reset => create lai
   extension-backoffice-config.xml e.g. kadokawabackoffice-backoffice-config.xml: config the view of a widget based on context e.g. how editor-area widget for Product should be show?
 
-extend a widget e.g. want to remove existing widget from a slot or change to other widget or change default settings
-  using widget-extension
+override a widget by config e.g. want to remove existing widget from a slot or change to other widget or change default settings
+  using widget-extension (tuong tu voi dung orchestrator drag and drop)
   e.g. customersupportbackoffice-backoffice-widgets.xml defines <widget-extension widgetId="backofficeMainSlot"> then override the slotId="perspectives" with order widget
   extend types
     remove a widget from another widget children: </remove>
@@ -154,6 +158,10 @@ extend a widget e.g. want to remove existing widget from a slot or change to oth
     move a widget to another widget: </move>
     specify virtual sockets: </virtual-sockets>
   cockpitWidgetChildrenInvisible: later
+  
+extend a widget (with new widget): e.g. change controller behavior or change css
+  define new widget with new id
+  and extends the parent widget e.g. extends="com.hybris.cockpitng.widgets.common.explorertree"
 
 how I config the ui for backoffice application?
   say, the *widgets.xml define the the whole application widgets tree, then each instance can be configured base on the context e.g. item type, module, role(principal)
@@ -191,17 +199,18 @@ how I config the ui for backoffice application?
     will provides component context
     and call some context decorators to add more context atrr e.g. AdminmodeConfigurationContextDecorator(principal)/SessionUserConfigurationContextDecorator(principal)/WidgetSettingsConfigurationContextDecorator
 	
-
 	use case: advanced search for Employee - click Employee on explorerTree component
       ExplorerTreeController calls sendsOutput
       that will trigger AdvancedSearchController call loadConfiguration(typeCode e.g. Employee)
       that will call getWidgetInstanceManager().loadConfiguration(context) - say, load configuration (type, component, principal, authority) for a context
       return new DefaultConfigContext e.g. DefaultConfigContext({component=advanced-search, type=Employee, principal=admin, module=_root_})
   
+  base configuration e.g. <context type="Catalog" component="base">
+    represent an object as String - using Spring expression
+	ref: https://tinyurl.com/yxoff753
+  editor configuration e.g. <y:editors>
+  action configuration e.g. <y:actions>
   
-  base configuration: represent an object as String - using Spring expression e.g. DefaultReference widget
-  next: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8b929ff186691014b99cb77661a3ed52.html 	
-
   widget group (later)
   config positions of a widget: declared order and merging algorithm
   context: widget and type e.g. editor area for Product type
@@ -217,22 +226,14 @@ how I config the ui for backoffice application?
     Collection browser(new) and listview widget(old): table
   enable/disable description: backoffice.cockpitng.displayAttributeDescriptions
 
-
 architecture: 2 importants extensions
   backoffice: standard widgets and components
   ybackoffice: for custom
 currentObject: selected object
 
-how to?
-  use existing widget
-  define new custom widget: https://hybrisdiary.com/2018/10/15/backoffice-customization/ 
 some config path: https://help.hybris.com/1808/hcd/8bd4366a86691014b818f8dd642790a8.html
-passing data between widget
-parameterize widget (read setting infor from definition file - later)
-layout: actually a widget with some predefined slots
 
-
-make change in widget without rebuild (not including label change)
+make change in widget zul without rebuild (not including label change)
   backoffice.cockpitng.additionalResourceLoader.enabled=true
   backoffice.cockpitng.uifactory.cache.enabled=false
   backoffice.cockpitng.widgetclassloader.resourcecache.enabled=false
@@ -240,12 +241,7 @@ make change in widget without rebuild (not including label change)
 
 faq: https://tinyurl.com/y35fqrg9
 
-
-
 remain
-  how extend/override e.g. change setting of a widget?
   business role in backoffice: https://tinyurl.com/y4cvks6w	
-  extend: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8bda5dec866910148593fca2c20f6a0e.html
   understand the backoffice-widgets.xml
-  how to style a widget?
 
