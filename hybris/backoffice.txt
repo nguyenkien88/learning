@@ -51,7 +51,7 @@ widget(component): follow mvc
       when need new view
       or new logic (controller)
   
-  how to define new widget type? 
+  how to define new widget type?
     create widget defition.xml e.g. id="com.neo.codengai.widgets.codengaiImportExcel"
     create the view: e.g uploadfile.zul with elements id e.g. button, area text box
     controller: e.g. com.neo.codengai.controllers.ImportExcelController
@@ -83,6 +83,11 @@ widget(component): follow mvc
     add a widget to a slotid of another widget
     and???
   virtual-sockets: add dynamic socket, in case the widget definition does not define
+  
+  use case: advanced-search widget - click search
+  the controller call sendOutputs to advanced search engine controller
+  then call FieldSearchFacade - convert the AdvancedSearchQueryData to GenericQuery
+  and calls genericsearvice to search
 
 editor: can add in the widget zul file or using controller
   concept
@@ -137,13 +142,14 @@ important files
    widgets.xml - merge all information e.g. settings, instance id...of all widgets added to application
      store as media, when reset => create lai
      backoffice-widgets.xml
-	   built-in widget instances from hybris
+	   built-in widget instances (for same widget definition, can have multiple in the app) from hybris
 	   e.g. mainSlot(the main view off entire backoffice application) contains perspectiveViewSwitcher contains backofficeMainSlot contains explorerTree contains collapsibleContainer 
 	   contains advancedSearch contains advancedSearchEngine (1 widget tree for a application)
      other-extension-backoffice-widgets.xml e.g kadokawabackoffice-backoffice-widgets.xml: more widget instances
      reference: https://tinyurl.com/y446rhkn
   cockpit-config.xml: merge for all above files, saved as application media, when reset => create lai
   extension-backoffice-config.xml e.g. kadokawabackoffice-backoffice-config.xml: config the view of a widget based on context e.g. how editor-area widget for Product should be show?
+  how these files are loaded?
 
 override a widget by config e.g. want to remove existing widget from a slot or change to other widget or change default settings
   using widget-extension (tuong tu voi dung orchestrator drag and drop)
@@ -182,22 +188,29 @@ how I config the ui for backoffice application?
   	principal: which user/usergroup should be applied for
   	type: which type will be applied (in case the widget can handle many types)
 	merge
-  	  merge-by="type": merge with parent model (ko explicit define parent attr se lay parent model) e.g. <context merge-by="type" parent="CronJob" type="Workflow" component="simple-search">
+  	  merge-by="type": merge with parent model (ko explicit define parent attr se lay parent model - can skip some point in inheritance hierachy by specify specific parent) e.g. <context merge-by="type" parent="CronJob" type="Workflow" component="simple-search">
 	  merge-by="module": merge the current component with all other extensions e.g. <context component="explorer-tree" merge-by="module">
 	  module="xxx": not important, hyris auto change to the real extention name e.g. module="kadokawabackoffice" when build the cockpit-config.xml
 	  merge-by="source": it dung
-	  obligatoryMergeAttributes (cockpitConfigurationService): bat buoc this merge type perform - default value is module => always merge theo module,
-	  ngay ca khi define merge-type="type" or ko define merge-type
-	  
-	other: authority, source
+	  obligatoryMergeAttributes (cockpitConfigurationService): bat buoc this merge type perform - default value is module => always merge theo module
+	authority
+	  ignore by default
+	  can enable for all/separate widget by config e.g. cockpitng.configuration.authority.enabled
+	source
 	the content inside the context depends on the component attribute (see docs)
   
-  config loading (e.g. open 1 Order in backoffice)
-    DefaultConfigContext e.g. initialize nessessary contexts for the current request
-    DefaultWidgetController
-    e.g. DefaultEditorAreaController.getConfigurationLoader() => load config
-    will provides component context
-    and call some context decorators to add more context atrr e.g. AdminmodeConfigurationContextDecorator(principal)/SessionUserConfigurationContextDecorator(principal)/WidgetSettingsConfigurationContextDecorator
+  config loading (e.g. loading configuration request created when open 1 Order in backoffice)
+    load configuration for tung widget theo tung module (extension name)
+	the first module is load is config by moduleConfigurationContextStrategy (initialModules), default is platformbackoffice	
+
+	widget controller will call widget instance manager to init DefaultConfigContext object with some main atts e.g. component, type
+	and call decorators to add more attributes e.g. principal, module if needed
+	then call CockpitConfigurationService to actual load the config for each context e.g. load config for the request: {component=advanced-search, type=Order, principal=admin, module=_root_} from *config. xml file
+	this servive uses some ConfigurationContextStrategy to perform the config search, each strategy for each dimension e.g. typeConfigurationContextStrategy 
+	all the restrictions in the requests are checked then merge to the final config result using MergeUtils and store to cache
+	special case for module dimension: algorithm always looks for any other similar configuration contexts, but defined in different modules???
+	return the jaxb configuration e.g. com.hybris.cockpitng.core.config.impl.jaxb.editorarea.EditorArea
+	example: https://tinyurl.com/y24qtccg
 	
 	use case: advanced search for Employee - click Employee on explorerTree component
       ExplorerTreeController calls sendsOutput
