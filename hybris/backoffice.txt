@@ -1,9 +1,9 @@
 introduction
   backoffice framework: purpose - simplify development of backoffice application
   backoffice application is built on top of Backoffice framework
-    the codengaibackoffice is an application build on top of Backoffice framework
+  codengaibackoffice is an application build on top of Backoffice framework
   backoffice framework vs old Cockpit framework
-  built by ZK Framework with bunch of widgets(e.g. Advanced Search widget, Editor Area widget): component to add to bo bo frontend (later) - application is made up from connecting (but stand-alone) widgets 
+  built by ZK Framework with bunch of widgets(e.g. Advanced Search widget, Editor Area widget): component to add to bo bo frontend - application is made up from connecting (but stand-alone) widgets 
     
   cockpits (old cockpits and backoffice fw based cockpits)
     many cockpits with own purpose
@@ -16,12 +16,12 @@ introduction
     zul content will be saved/copied at server for next request => faster
     zul vs jsp
       using zul - when site with many dynamic data (ex: cockpit page)
-      using jsp - when most are static data?
+      using jsp - when most are static data
     some backoffice cockpits/perpective (update to date)
       administration cockpit
       product cockpit
       adaptive search cockpit
-      customer Support cockpit
+      customer support cockpit
       data hub cockpit
       order fulfillment cockpit
 
@@ -39,13 +39,13 @@ widget(component): follow mvc
 	trong 1 context cu the e.g. su dung advanced search cho Product type, admin user
     say, ket noi nhieu widgets voi nhau tao thanh backoffice application
   
-  main work with widgets
+  main tasks when working with widgets
     define widget (definition.xml - input, output, valid setting maybe with default value) 
     then create instance of a widget 
-	  using admin orchestrator or
-	  (*widgets.xml - concrete settings) vs configuration for a widget (*config.xml)
+	  using admin orchestrator 
+	  or using *widgets.xml
     com.hybris.cockpitng.core.Widget/com.hybris.cockpitng.core.WidgetDefinition
-    say a widget used in the application is an instance of a widget definition
+    say, a widget used in the application is an instance of a widget definition
     thuong dung built-in widget e.g. advanced search, explore tree
     when need to define new widget? e.g. codengaiImportExcel
       when need new view
@@ -53,7 +53,7 @@ widget(component): follow mvc
   
   how to define new widget type?
     create widget defition.xml e.g. id="com.neo.codengai.widgets.codengaiImportExcel"
-    create the view: e.g uploadfile.zul with elements id e.g. button, area text box
+    create the view/create view directly in controller: e.g uploadfile.zul with elements id e.g. button, area text box
     controller: e.g. com.neo.codengai.controllers.ImportExcelController
       how to link view and controller? using @ViewEvent
 	  injecting in controller @WireVariable/@Resource
@@ -65,23 +65,17 @@ widget(component): follow mvc
 	  thuong la set default value when define widget instance e.g.codengaibackoffice-backoffice-widget.xml
 	  value can be changed in orchestrator
   
-  how widget communicate? using widget-connection, that is set up outside the widget itself
+  how widget communicate? using widget-connection, this is set up outside the widget itself (make widget really flexible in use)
     input socket: I can receive the output of other widget with this id and type
     how can I receive an input? @SocketEvent in Controller
     output socket: I can send this object type with that id to outside world
-    how can I send output? call sendOutput (DefaultWidgetController)
-    socket-connection: when I send an output, all other sockets with appropriate id and type are received? no (not broadcast), just only the widget that connect with me by socket-connection
-    STUB?????
+    how can I send output? call sendOutput method (DefaultWidgetController)
+    socket-connection: when I send an output, all other sockets with appropriate id and type are received? no (not broadcast), just only the widget that connect with me by
+    STUB???
     should use json for in/output
     widget-connection-remove
   special widget
     create-wizard: can use ctx map in configuration file (e.g. send context info to the widget)	
-  extends/override existing widget (same view): when need to change behavior(e.g. change controller)/design of ootb widget
-    e.g. <widget-definition id="com.hybris.extended.explorertree.custom" extends="com.hybris.cockpitng.widgets.common.explorertree">
-    https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8bda5dec866910148593fca2c20f6a0e.html#loio8bda5dec866910148593fca2c20f6a0e
-  widget-extention
-    add a widget to a slotid of another widget
-    and???
   virtual-sockets: add dynamic socket, in case the widget definition does not define
   
   use case: advanced-search widget - click search
@@ -94,7 +88,7 @@ editor: can add in the widget zul file or using controller
     e.g. multi reference editor
     also a backoffice component, more fine-grained than widget
     muc dich la dung o nhieu widget khac nhau
-    say, use editor inside a widget to manipulate data
+    say, use editor inside a widget to manipulate data model of widget
   create an editor - using zkoss component e.g. TextBox: https://tinyurl.com/y4c5z2az
     definition.xml 
 	  e.g. <editor-definition id="org.myextension.editor.simpletext">
@@ -102,10 +96,10 @@ editor: can add in the widget zul file or using controller
 	  render class e.g.  MySimpleTextEditor implements CockpitEditorRenderer<String> - render(final Component parent)
 	  add event listener e.g. notify to the parent widget about the change in the editor
 	  adding parameter e.g isMultiLine
-	  EditorContext??
+	  EditorContext???
 	  create editor using .zul file e.g. view src="boolEditor.zul" (do not use render class) - using default renderer e.g. DefaultZulCockpitEditorRenderer to populate default events to parents
 	  localize
-  use editor in widget  
+  use editor in widget
 	add editor to a widget e.g. add to .zul file e.g. <editor id="textEditor" type="java.lang.String" onValueChanged="mywidgetController.doThings()" />
 	specify the default editor
 	binding editor to model e.g. syn model value with editor value
@@ -114,13 +108,15 @@ editor: can add in the widget zul file or using controller
     using config e.g. <y:editors>...<y:editor-parameter>
 	or in .zul file of widget:  <editors config="testeditors" group="common"/>
 	or set using java e.g. editor1.setProperty("mytext");
-	in widget definition e.g. <settings>: will apply for all widget instances, unless is override by above approaches
+	or in widget definition e.g. <settings>: will apply for all widget instances, unless is override by above approaches
 
 action: can add in the widget zul file or using controller
   concept
     e.g. delete action
-    using to trigger action depend on the state of widget model e.g. want an icon to appear in a widget after a certain property has a specific value
-    default not socket-aware, extends AbstractComponentWidgetAdapterAware to make it socket-aware
+    also a backoffice component, more fine-grained than widget
+    muc dich la dung o nhieu widget khac nhau
+	using to trigger action depend on the state of widget model e.g. want an icon to appear in a widget after a certain property has a specific value
+    default not socket-aware???, extends AbstractComponentWidgetAdapterAware to make it socket-aware
   create action
     definition.xml e.g. <action-definition id="com.hybris.cockpitng.action.myaction">
 	MyAction implements CockpitAction<String, String>, return ActionResult
@@ -133,7 +129,7 @@ action: can add in the widget zul file or using controller
   
 til now: inside <context> can use <base>, <editors>, <actions> and other element depends on the component  
   
-composed widget: a widget that can contains other widget inside item
+composed widget: a widget that can contains other widgets inside
   can view the nested structure in orchestrator e.g."Backoffice Main Layout"
   <widgetslot slotID="nestedWidget"> (widget .zul): only 1 nested widget
   <widgetchildren>: type=tab/list...
@@ -147,9 +143,8 @@ important files
 	   contains advancedSearch contains advancedSearchEngine (1 widget tree for a application)
      other-extension-backoffice-widgets.xml e.g kadokawabackoffice-backoffice-widgets.xml: more widget instances
      reference: https://tinyurl.com/y446rhkn
+  *-backoffice-config.xml e.g. kadokawabackoffice-backoffice-config.xml: config the view of a widget based on context e.g. how editor-area widget for Product should be show?
   cockpit-config.xml: merge for all above files, saved as application media, when reset => create lai
-  extension-backoffice-config.xml e.g. kadokawabackoffice-backoffice-config.xml: config the view of a widget based on context e.g. how editor-area widget for Product should be show?
-  how these files are loaded?
 
 override a widget by config e.g. want to remove existing widget from a slot or change to other widget or change default settings
   using widget-extension (tuong tu voi dung orchestrator drag and drop)
@@ -163,14 +158,15 @@ override a widget by config e.g. want to remove existing widget from a slot or c
     change access restrictions: </access>
     move a widget to another widget: </move>
     specify virtual sockets: </virtual-sockets>
-  cockpitWidgetChildrenInvisible: later
   
 extend a widget (with new widget): e.g. change controller behavior or change css
   define new widget with new id
-  and extends the parent widget e.g. extends="com.hybris.cockpitng.widgets.common.explorertree"
+  e.g. <widget-definition id="com.hybris.extended.explorertree.custom" extends="com.hybris.cockpitng.widgets.common.explorertree">
+  https://tinyurl.com/yxk85lsj
 
 how I config the ui for backoffice application?
-  say, the *widgets.xml define the the whole application widgets tree, then each instance can be configured base on the context e.g. item type, module, role(principal)
+  say, config set of editors, actions on widgets base on type and user role and other info...
+  say, the *widgets.xml define the the whole application widgets tree, then each instance can be configured base on the context e.g. the union of item type, module, role(principal)...
   using myextension-backoffice-config.xml - most frequently or myextension/backoffice/resources/widgets/mywidget/cockpit-config.xml - consider as default configuration
   e.g. advanced-search 6.7
     define in backoffice-widgets-6.7.0.0-RC8.jar (zul, definition, controller, css)
@@ -184,7 +180,7 @@ how I config the ui for backoffice application?
 		  <editorArea:tab>....
 	    </<editorArea>
 	  <context/>
-	component (context code) e.g. advanced-search: get from definition.xml e.g. advancedSearchConfigCtxCode: which component this congig should be applied to
+	component (context code) e.g. advanced-search: get from definition.xml e.g. advancedSearchConfigCtxCode: which component this config should be applied to
   	principal: which user/usergroup should be applied for
   	type: which type will be applied (in case the widget can handle many types)
 	merge
@@ -197,7 +193,7 @@ how I config the ui for backoffice application?
 	  ignore by default
 	  can enable for all/separate widget by config e.g. cockpitng.configuration.authority.enabled
 	source
-	the content inside the context depends on the component attribute (see docs)
+	the content inside the context depends on the component attribute (see docs + <editors>, <actions> and <base>)
   
   config loading (e.g. loading configuration request created when open 1 Order in backoffice)
     load configuration for tung widget theo tung module (extension name)
@@ -223,28 +219,19 @@ how I config the ui for backoffice application?
 	ref: https://tinyurl.com/yxoff753
   editor configuration e.g. <y:editors>
   action configuration e.g. <y:actions>
+  some config path: https://help.hybris.com/1808/hcd/8bd4366a86691014b818f8dd642790a8.html
   
-  widget group (later)
-  config positions of a widget: declared order and merging algorithm
-  context: widget and type e.g. editor area for Product type
-    merge type: parent and child
-    position: https://help.hybris.com/1808/hcd/8be26f9a86691014a90cfc9d0f34cf43.html
-  config set of editors, actions on widgets base on type and user role and other info...
-  from admin orchestrator
+  using orchestrator
     widgets.xml - merged app widgets (<widget>)
     cockpit-config.xml - merged app ui config (<context>)
     Base configuration: provide string representation of a object (belong to a type, using Spring expression language)
     Label provider
     @label
-    Collection browser(new) and listview widget(old): table
-  enable/disable description: backoffice.cockpitng.displayAttributeDescriptions
+    enable/disable description: backoffice.cockpitng.displayAttributeDescriptions
 
 architecture: 2 importants extensions
   backoffice: standard widgets and components
   ybackoffice: for custom
-currentObject: selected object
-
-some config path: https://help.hybris.com/1808/hcd/8bd4366a86691014b818f8dd642790a8.html
 
 make change in widget zul without rebuild (not including label change)
   backoffice.cockpitng.additionalResourceLoader.enabled=true
@@ -257,4 +244,7 @@ faq: https://tinyurl.com/y35fqrg9
 remain
   business role in backoffice: https://tinyurl.com/y4cvks6w	
   understand the backoffice-widgets.xml
+  widget group
+  config positions of a widget: declared order and merging algorithm
+  cockpitWidgetChildrenInvisible
 
