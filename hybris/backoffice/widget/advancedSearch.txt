@@ -1,0 +1,37 @@
+how operators e.g. like, contains....built for an search attribute?
+  load by advancedSearchOperatorService
+  base on the dataType of the search attribute e.g. String matches to AdvancedSearchOperatorType.LITERAL
+  the LITERAL in turn is configured to some ValueComparisonOperator e.g. EQUALS, ENDs_WITH etc - spring config: advancedSearchOperators
+
+how to config the search that need info of other model (do not diretly belong to current type)?
+  need to modify the generic query builder
+
+advanced search init state loading?
+  click advanced search on explorertree
+  will trigger AdvancedSearchController.onTypeChanged()
+  that will load configuration for advancedSearch components and create init search conditions
+  and call AdvancedSearchRenderer to render the init state base on configuration
+  
+the search flow?
+  AdvancedSearchController doAdvancedSearch()
+  will sendOutput(AdvancedSearchData e.g. conditions, mode, sort, etc) to AdvancedSearchEngineController
+  this will buid the query data e.g. AdvancedSearchQueryData
+  this will call DefaultFieldSearchFacade then call DefaultPlatformFieldSearchFacadeStrategy 
+  that will adjust the AdvancedSearchQueryData to com.hybris.cockpitng.search.data.SearchQueryData
+  that will call DefaultPlatformFieldSearchFacadeStrategy.buildQuery (SearchQueryData e.g. all info about the search data)
+    that will create new GenericSearchQuery
+	with the GenericQuery that is formed from
+      GenericConditions from GenericConditionQueryBuilder to actual build the query based on info data e.g. Object value e.g. 6, ValueComparisonOperator attributeOperator e.g. EQUALS, SearchQueryData searchQueryData, SearchAttributeDescriptor searchAttributeDescriptor e.g. quantity
+	  and orderBy and exclusiveTyped
+	  build order - form genericConditions
+        select
+		from - join condition here
+		where - 
+		order by
+  that will be used to initialize Pageable(BackofficeFlexibleSearchPageable)
+  then trigger DefaultGenericSearchService.search(GenericSearchQuery) with the GenericSearchQuery
+    that will call sessionService.executeInLocalView(new SessionExecutionBody)
+	that will call genericSearchQuery.getQuery().toFlexibleSearch()
+    and call flexibleSearchService.search()
+	that will return the SearchResult
+  that trigger PagingDelegateController.loadPage() 

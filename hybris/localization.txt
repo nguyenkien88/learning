@@ -29,3 +29,10 @@ localize
     properties message: getMessageSource().getMessage(...Locale)
     email template (## messageSource=classpath:/codengaicore/messages/email-customerRegistration_$lang.properties)
     sms template: messageTemplate.getName(currentLocale)
+
+
+change column back office
+  change in /kadokawabackoffice/resources/kadokawabackoffice-backoffice-labels/labels_en.properties
+  run update localize, f4 - build, restart server
+  
+xxx-locales (type, theo type structure) vs backoffice.labels - for widget config (label attribute, define tuy y)

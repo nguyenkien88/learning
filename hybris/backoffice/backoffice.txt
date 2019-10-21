@@ -60,7 +60,7 @@ widget(component): follow mvc
     input: object
     output: object
 	parameterize widget
-	  <settings>
+	  <settings> - can change at runtime using orchestrator
 	  e.g. whether my text box in my widget can resize) - access from zul view e.g ${widgetSettings.xxx} or controller e.g. getWidgetSettings().getString("xxx")
 	  thuong la set default value when define widget instance e.g.codengaibackoffice-backoffice-widget.xml
 	  value can be changed in orchestrator
@@ -78,11 +78,6 @@ widget(component): follow mvc
     create-wizard: can use ctx map in configuration file (e.g. send context info to the widget)	
   virtual-sockets: add dynamic socket, in case the widget definition does not define
   
-  use case: advanced-search widget - click search
-  the controller call sendOutputs to advanced search engine controller
-  then call FieldSearchFacade - convert the AdvancedSearchQueryData to GenericQuery
-  and calls genericsearvice to search
-
 editor: can add in the widget zul file or using controller
   concept
     e.g. multi reference editor
@@ -163,6 +158,11 @@ extend a widget (with new widget): e.g. change controller behavior or change css
   define new widget with new id
   e.g. <widget-definition id="com.hybris.extended.explorertree.custom" extends="com.hybris.cockpitng.widgets.common.explorertree">
   https://tinyurl.com/yxk85lsj
+  
+how to override widgetController e.g. override AdvancedSearchEngineController
+  create new widget definition.xml copied form advancesearchengine widget
+  modify the parent widget (advancesearch), remove the current, add new one - xxxwidgets.xml
+  define the controller extends the current controller and override the wanted method
 
 how I config the ui for backoffice application?
   say, config set of editors, actions on widgets base on type and user role and other info...
@@ -207,12 +207,6 @@ how I config the ui for backoffice application?
 	special case for module dimension: algorithm always looks for any other similar configuration contexts, but defined in different modules???
 	return the jaxb configuration e.g. com.hybris.cockpitng.core.config.impl.jaxb.editorarea.EditorArea
 	example: https://tinyurl.com/y24qtccg
-	
-	use case: advanced search for Employee - click Employee on explorerTree component
-      ExplorerTreeController calls sendsOutput
-      that will trigger AdvancedSearchController call loadConfiguration(typeCode e.g. Employee)
-      that will call getWidgetInstanceManager().loadConfiguration(context) - say, load configuration (type, component, principal, authority) for a context
-      return new DefaultConfigContext e.g. DefaultConfigContext({component=advanced-search, type=Employee, principal=admin, module=_root_})
   
   base configuration e.g. <context type="Catalog" component="base">
     represent an object as String - using Spring expression
@@ -228,7 +222,11 @@ how I config the ui for backoffice application?
     Label provider
     @label
     enable/disable description: backoffice.cockpitng.displayAttributeDescriptions
-
+  
+  tips
+    muon show 1 model voi cac attribute moi hoan toan => merge by module
+	muon thua ke tu parent => merge by type
+  
 architecture: 2 importants extensions
   backoffice: standard widgets and components
   ybackoffice: for custom
@@ -240,6 +238,45 @@ make change in widget zul without rebuild (not including label change)
   backoffice.cockpitng.resourceloader.resourcecache.enabled=false
 
 faq: https://tinyurl.com/y35fqrg9
+
+use case: advanced-search widget - dung cho ca advanced and simple search
+  definition
+    widget id: com.hybris.cockpitng.advancedsearch
+    default context code (component value in *config.xml) for advance mode: advanced-search
+	controller: com.hybris.backoffice.widgets.advancedsearch.AdvancedSearchController
+	sockets
+	  input: type - String, etc
+	  output: searchData - AdvancedSearchData, etc
+	settings
+	  disableAttributesComparator, forceSearchForCode, etc
+  view: advancedsearch.zul (ko thay define trong definition.xml)
+    grid header
+	and a widgetSlot for a nested widget e.g. slotID="nestedWidget"
+	no actions, no editors
+  instantiate (bakoffice-widgets.xml)
+    parent: in "center" slot of "collapsibleContainer" widget
+	2 children
+	  advancedSearchEngine in slotId "cockpitWidgetChildrenInvisible"
+      and hmc2list (collection browser) in slotId "nestedWidget"
+    connections
+      <widget-connection sourceWidgetId="advancedSearch" outputId="searchData" targetWidgetId="advancedSearchEngine" inputId="searchData"/>
+      many other
+  flow: open OrderEntry from explorer-tree component
+    
+  
+
+  click Employee on explorerTree component
+    ExplorerTreeController calls sendsOutput
+    that will trigger AdvancedSearchController call loadConfiguration(typeCode e.g. Employee)
+    that will call getWidgetInstanceManager().loadConfiguration(context) - say, load configuration (type, component, principal, authority) for a context
+    return new DefaultConfigContext e.g. DefaultConfigContext({component=advanced-search, type=Employee, principal=admin, module=_root_})
+  
+  click search
+    the controller call sendOutputs to advanced search engine controller
+    then call FieldSearchFacade - convert the AdvancedSearchQueryData to GenericQuery
+    and calls genericsearvice to search
+  
+
 
 remain
   business role in backoffice: https://tinyurl.com/y4cvks6w	
