@@ -226,6 +226,13 @@ how I config the ui for backoffice application?
   tips
     muon show 1 model voi cac attribute moi hoan toan => merge by module
 	muon thua ke tu parent => merge by type
+	muon hide qualifier: group lai thanh 1 panel/section => merge-mode="remove"
+  backoffice config use cases
+    apply label for a type on whole bo application: base config
+    listview column label: xxbackoffice/labels_en.properties - tu dat theo y thich
+    attibute lables for a type e.g. label in editor-area: type.orderentry.description.name=Description
+    renderer
+      custom tab/section in editor-area: e.g. <editorArea:customPanel name="refundPanel" spring-bean="orderEntryRefundRenderer" />
   
 architecture: 2 importants extensions
   backoffice: standard widgets and components
