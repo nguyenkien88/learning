@@ -56,7 +56,7 @@ stripe
   a payment gateway
   using rest api: test mode e.g. sk_test_ and live mode e.g. sk_live_
   apis
-    charge: request to charge a credit/debit card
+    charge: request to charge a credit/debit card, retrieve a charge/list charge, capture a charge
     refund: refund to a charge e.g. request contains the "charge", amount...
                 
 
