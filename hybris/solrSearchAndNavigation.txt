@@ -5,12 +5,14 @@ can start solr server indepent without start hybris: ant startSolrServer
 van theo flow Controller, Facade...nhu binh thuong, chi la dung service related to solr to search in the solr server
 log: hybris\log\solr\instances\default\solr.log
 
+
 terms
   indexed type: e.g. Product
   facet: grouping for continue navigation e.g. price facet
   relevance: su lien quan
-  boots??
+  boots e.g. text matching the identifier property has a higher score than a fuzzy search in description propert
   search query vs free text search query
+
 
 features
   search query template
@@ -18,11 +20,13 @@ features
     template for search query? built-in grouping, sorting, query - can customize
   manage search configuration
   
+
 architecture
   solrfacetsearch extention: facet search and navigation
   solrserver extension: standalone solr server - recommend only for dev, in production should create separate solr server
   solrfacetsearchbackoffice extention
   
+
 implementation
   installation
     support versions (expecially for production): https://tinyurl.com/y4po6llw
@@ -116,10 +120,8 @@ implementation
 	  actual search: solrClient.query()
 	process result after search
 	
-	  
-	
 	ordering
-	  must be in solr, not resort in java after get result from solr
+	  must be in solr, not re-sort in java after get result from solr (paging problem)
 	  using SolrSort (for each indexed type)
 	  which contains SolrSortFields: fields and ordering
 	  
@@ -128,7 +130,7 @@ implementation
   listeners 
     for indexing: before/after batch, before/after whole indexing process
 	and searching process: https://tinyurl.com/y5ew7zaf
-    
+
 
 use case for kd: e.g. https://goodsmile-global.local:9002/kadokawaacceleratorstorefront/?sort=productPrivilegeFlg&q=%3AproductPrivilegeFlg
   using rest request for searching
@@ -158,7 +160,32 @@ use case for kd: e.g. https://goodsmile-global.local:9002/kadokawaacceleratorsto
 	    goodsmile-globalIndex => searchConfiguration => legacymode = true
   kd query sample: fill in to the query field of solr server: solrserver/server123 - decode url before search
   {!boost}(+{!lucene v=$yq})&fq=allCategories_string_mv:CATEGORY\-ROOT&fq=(catalogId:"GSLS_GL\-PRODUCTCATALOG" AND catalogVersion:"Online")&fq=displaySite_string_mv:(goodsmile-global OR true)&fq=(stockLevelStatus_string:inStock) OR (hanbaiStartDateDouble_double:([1569408536267 TO *]) OR hatsubaiStartDateDouble_double:([1569408536267 TO *]))&fq=hanbaiEndDateDouble_double:([1569408536267 TO *])&fq=hatsubaiEndDateDouble_double:([1569408536267 TO *])&sort=postingDate_sortable_date desc,postingDate_sortable_date desc&start=0&rows=40&facet.field=salesMethod_string&facet.field=price_jpy_string&facet.field=allPromotions_string_mv&facet.field=categoryPath_string_mv&facet.field=allCategories_string_mv&facet.field=displaySite_string_mv&facet.field=category_string_mv&facet.field=stockLevelStatus_string&facet=true&facet.sort=count&facet.mincount=1&facet.limit=50&fl=score,*
-			
+
+
+solr search in backoffice
+  needed extentions
+    basic (storefront alos need): solrserver, solrfacetsearch
+    backofficesolrsearch: for bo
+	solrfacetsearchbackoffice: enable configuration
+  backoffice.solr.search.index.autoinit=false to disable auto index first time start up server
+  note: Solr Search in Backoffice works only for the Simple Search mode of the Advanced Search widget and Reference Editors Search => can has facet in simple search: https://tinyurl.com/yxrnsu36
+  FieldSearchFacadeStrategy: say, when perform search se choose the strategy 
+    has a child DefaultSolrFieldSearchFacadeStrategy: communication between solr server and backoffice application
+    and other child DefaultPlatformFieldSearchFacadeStrategy: for flexible search
+  say, the DefaultSolrFieldSearchFacadeStrategy is used for solr for searching (in simple mode) of a type depends on the type config in BackofficeIndexedTypeToSolrFacetSearchConfig
+  _backofficeLabel: the indexed property that have the same value as base configuration e.g. base config for product is productcode then the _backofficeLabel in solr has value is productcode
+  restrictFieldsInResponse(SolrSearchConfig): response only PK (enough for bo display), increase performance 
+  productSolr.impex (backofficesolrsearch ext): all config, indexed type for backoffice solr search
+  query
+    DefaultSolrFieldSearchFacadeStrategy
+	SearchQueryData
+    defaultBackofficeConditionsDecorators: add more condition for the query
+  
+  
+
+
+  
+
 reference
   hybris help
   https://hybrismart.com/2017/07/13/explaining-sap-hybrissolr-relevance-ranking-for-phrase-queries/
