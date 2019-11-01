@@ -34,4 +34,7 @@ the search flow?
 	that will call genericSearchQuery.getQuery().toFlexibleSearch()
     and call flexibleSearchService.search()
 	that will return the SearchResult
-  that trigger PagingDelegateController.loadPage() 
+  that trigger PagingDelegateController.loadPage()
+  
+search api
+  the default ui only apply 1 operator e.g. and/or: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/058fa02799b4474d9adf96d564a19839.html
