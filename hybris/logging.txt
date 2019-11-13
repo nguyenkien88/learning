@@ -21,4 +21,9 @@ specify logging level for a package/class
     log4j2.logger.myService.level = warn
     log4j2.logger.myService.appenderRef.stdout.ref = STDOUT
 
+
+item model changing history: binh thuong change in bo se auto be logged, muon change in java code also log
+  before: HMCManager.getInstance().logItemModification
+  now: JaloConnection.getInstance().logItemModification
+  config: hmc.storing.modifiedvalues.size=15
   

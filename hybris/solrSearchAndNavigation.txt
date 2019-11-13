@@ -1,5 +1,5 @@
 mainly indexing and searching product (storefront and backoffice)
-solr is free/full-     search, attribute nao duoc indexed => luc search se duoc included
+solr is free/full-text search, attribute nao duoc indexed => luc search se duoc included
 say, I want use name, price, description of Product to be indexed so I can search/facet refine based on that properties using solr
 can start solr server indepent without start hybris: ant startSolrServer
 van theo flow Controller, Facade...nhu binh thuong, chi la dung service related to solr to search in the solr server
@@ -81,7 +81,7 @@ implementation
 	
   searching function
     search types - ProductSearchFacade
-	  free      searches: e.g. using search box - can config search on fields nao???
+	  free searches: e.g. using search box - can config search on fields nao???
 	  vs category searches: search by category
 	return: SearchPageData with all info about
 	  search query
@@ -92,11 +92,11 @@ implementation
 	  sorts
     strategies
 	  LegacyFacetSearchStrategy: mainly use configuration for condition and params, less flexible
-	  DefaultFacetSearchStrategy: condition and parms are set directly in the query object => flexible tuy con    
+	  DefaultFacetSearchStrategy: condition and parms are set directly in the query object => flexible tuy con
 	create query: DefaultFacetSearchService
 	  say creating and populating the search query
-	  new SearchQuery(facetSearchConfig, indexedType);//or some other methods 
-      SearchQuery object: all attributes will be the info when converting to sorl query
+	  new SearchQuery(facetSearchConfig, indexedType);//or some other overload methods 
+      SearchQuery object: all attributes will be info when converting to sorl query
         queryFields: q=value
 	    filterQueryFields: fq=value - not effect the score
 	    facetFields: fields for facet purpose
@@ -104,14 +104,14 @@ implementation
 	    Some of the query parameters in the search query object will only be used together with the new search strategy. When using the legacy search strategy, that information will be taken directly from the configuration and not from the search query object. The affected parameters are:
           default query operator
           filter queries
-          free      search queries
+          free search queries
           facets (not facet values)
           fields to be included in the response
           boosts	
 	search: in strategies
-	  con    : FacetSearchCon     e.g. get config, get query...contains useful info during the search
-	  convert the hybris search query to solr query: Free    QueryBuilder vs SolrQueryConverter (with populators and post processors-5.4) vs FacetSearchListener
-	  	Free    QueryBuilder
+	  con: FacetSearchConfig e.g. get config, get query...contains useful info during the search
+	  convert the hybris search query to solr query: FreeTextQueryBuilder vs SolrQueryConverter (with populators and post processors-5.4) vs FacetSearchListener
+	  	FreeTextQueryBuilder
         SolrQueryConverter
 		  populators
 		  SolrQueryPostProcessor (deprecated from 5.7): provides a direct access to the query right before performing search on solr's index e.g. modify the query before search on apache solr
