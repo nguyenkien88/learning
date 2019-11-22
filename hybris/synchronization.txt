@@ -1,0 +1,6 @@
+synchronization editor
+  createNewElement
+  removeMissingElement
+check the catalog version diff
+sync with catalog dependency: e.g. categorycatalog staged/online and product catalog staged/online: https://tinyurl.com/wuczkeo
+
