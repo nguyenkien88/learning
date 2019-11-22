@@ -46,6 +46,3 @@ Handling exception
   writing exception handling method with @ExceptionHandler (same controller)
   @ControllerAdvise: handle exceptions from all controller - tap trung lai 1 cho
   
-    
-	
-  

@@ -103,8 +103,3 @@ Create api (resource handler)
     as server I can consume what? i can produce what?
      accept (@Procedures) vs content-type (@Consumes)
     
-    
-  
-  
-  
-  
