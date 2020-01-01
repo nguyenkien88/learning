@@ -1,0 +1,3 @@
+dynamic node
+  build a node from code, not a configuration file
+  
