@@ -1,0 +1,29 @@
+overview
+  logger: print message
+    log level:  DEBUG, INFO, WARN, ERROR, FATAL
+    say, a logger set to INFO level, then event level from INFO to FATAL will be print out
+  appender: destination e.g. file, console
+    say, assign an appender to a logger
+  layout: for formating the input
+  
+config
+  using xml e.g. /platform/ext/core/resources/hybris-log4j2.xml
+    appenders e.g. name="Console" target="SYSTEM_OUT"
+    loggers e.g. Logger name="de.hybris.platform.servicelayer.hmc" level="warn"
+  or in properties: can config for each extention (override the config from platform if duplicate for that extension)
+    old style: log4j.logger.hsqldb.db=warn, CONSOLE
+	new style (log4j2): log4j2.logger.hsqldb.name = hsqldb.db, log4j2.logger.hsqldb.level = warn
+	
+specify logging level for a package/class
+  runtime: com.kadokawa.backoffice.strategies.search.generic=debug
+  normal config
+    log4j2.logger.myService.name = com.extended.service.impl.MyService
+    log4j2.logger.myService.level = warn
+    log4j2.logger.myService.appenderRef.stdout.ref = STDOUT
+
+
+item model changing history: binh thuong change in bo se auto be logged, muon change in java code also log
+  before: HMCManager.getInstance().logItemModification
+  now: JaloConnection.getInstance().logItemModification
+  config: hmc.storing.modifiedvalues.size=15
+  

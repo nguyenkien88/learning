@@ -51,8 +51,26 @@ product attribute definition: 2 methods - type system and classification
       when we need to define product attribute only for selected number of products rather than defining for each and every product
       when we are not sure about the lifetime of the attribute which may become unnecessary after few weeks or months.
       when we need to add product attributes dynamically at runtime.
-    
-  
+    impex
+	  category classification: a product belongs to some classificationclass which have folowwing related model
+	    ClassificationSystem (similar to ProductCatalog) e.g. GSLS_Classification - contains nhieu versions, 1 active
+        ClassificationSystemVersion e.g. 1.0 contains nhieu ClassificationClass
+	    ClassificationClass: (similar to category) group nhieu attribute into a class e.g. GENERAL_ATTRIBUTE - assign to product, say a product A belongs to classification class A'
+	    ClassificationAttribute (feature) e.g. color, size, say, product A has feature B with value (ClassificationAttributeValue) C
+	    ClassificationAttributeAssignment: link the class and attribute
+	    ClassificationAttributeUnit
+		ClassificationAttributeValue
+		AttributeValueAssignment
+		
+		Feature?
+		FeatureList?
+		
+		
+	  product classification
+	    ProductFeature
+	  
+
+
 variant product
   say, a product (base product) holds product variants
   variant to base product: many to one

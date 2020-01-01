@@ -10,3 +10,7 @@ cron job
 	  create instance of HelloWorldCronJob (impex): contains Job instance and input => run this cron job with logic in this job and this input
 	  create instance of Trigger (impex - using cron expression or explicit time) => run the cronjob at specific time
   more: composite CronJob https://www.stackextend.com/hybris/use-composite-cronjob-in-hybris/
+
+
+tips
+  disable cronjob: go to backoffice set enabel=false

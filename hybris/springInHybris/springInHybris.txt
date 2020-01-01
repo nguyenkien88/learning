@@ -5,6 +5,6 @@ scope of sring model scope: https://www.intertech.com/Blog/understanding-spring-
   method param: get from model, ko co thi insantiate auto and add to model
   form submit with modelAttribute => create and add the attribute to model
   model enventually add to request scope (can show on view) - add attribute to model same effect add to request object, chi co y nghia ve mat design (model contain business data)
-  @SessionAttibutes: 
+  @SessionAttibutes
   
 flash attribute: https://dzone.com/articles/spring-mvc-flash-attributes

@@ -1,16 +1,47 @@
-email
-  terms
-    email template: subject, body
-    email page
-    email process: generate, send, remove
-    email context
-  how?
-    need model contains some info in email (e.g. Consignment)
-	define process: generate (new bean), send, remove
-	create new email context (hold all data that sent to template)
-	create email templates for subject and body using Velocity template
-	impex: 
-	  RendererTemplate - connect Context and vm file
-	  EmailPageTemplate: create template with subject and body defined in RendererTemplate
-	  EmailPage: instance of template
-	config
+terms
+  email template: subject, body
+  email page
+  email process: generate, send, remove
+  email context
+
+
+impex: 
+  RendererTemplate e.g. codengai_Email_Customer_Registration_Body - connect Context e.g. CustomerEmailContext and vm file e.g $emailResource/email-customerRegistrationBody.vm (for each language)
+  EmailPageTemplate e.g. CustomerRegistrationEmailTemplate
+    create template with subject and body defined as a RendererTemplate e.g. codengai_Email_Customer_Registration_Body
+    structure view: structure_customerRegistrationEmailTemplate.vm: define the structure of the email e.g. the html with position e.g. TopContent
+  EmailPage e.g. CustomerRegistrationEmail
+    instance of a template, belong to a catalog version e.g CustomerRegistrationEmail:Staged
+    has other info like fromName, fromEmail, customerToEmail, customerToName
+  ContentSlotName e.g. TopContent: define slot for template
+  ContentSlot e.g. EmailTopSlot: define content slot
+  ContentSlotForTemplate e.g. TopContent-CustomerRegistrationEmail: say, this template has this slot in this position 
+  role of the content slot??? in normal cms - slot se gan voi component e.g. this template has this slot/component at this position. Do the subject and htmlTemplate/body act as component?
+    
+
+run
+  define in process e.g. customerRegistrationEmailProcess.xml
+    generate email bean e.g. generateCustomerRegistrationEmail with frontendtemplate e.g. CustomerRegistrationEmailTemplate
+    send
+    remove
+  when process is triggered e.g. e.g. eventService.publishEvent(initializeEvent(new RegistrationEvent(), customerModel))
+  then the listener e.g. RegistrationEventListener will capture the event and run the process e.g. getBusinessProcessService().startProcess(dataModel);
+  that will start the beginning point of the process e.g. generateCustomerRegistrationEmail
+  that will call the impl e.g. GenerateEmailAction to executeAction
+  that will retrieve data e.g. 
+    context - CustomerEmailContext
+	emailPageModel (in impex)
+	the context data and emailPageModel will be parsed and filled to generate the real content of the email e.g. EmailMessageModel with body, header....
+	then call next step in the process e.g. sendEmail to send the emailMessageModel
+  that will call the bean sendEmail e.g. de.hybris.platform.acceleratorservices.process.email.actions.SendEmailAction to actual send the email
+    
+	
+config
+  emailservice.send.enabled = true
+  mail.from = xxx@gmail.com
+  mail.replyto = xxx@gmail.com
+  mail.smtp.server = smtp.gmail.com
+  mail.smtp.port = 465
+  mail.smtp.user = xxx@gmail.com
+  mail.smtp.password = password
+      

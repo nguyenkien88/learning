@@ -4,11 +4,11 @@ main objects
     redirect to cart/login/{/checkout/multi}
   CheckoutStep
     (acceleratorstorefrontcommons), when build will copy to custom storefront
-	act as abstract bean, define children steps in multi-step-checkout-config.xml (with specific transitions, group, validator)
-	children e.g. defaultResponsiveDeliveryAddressCheckoutStep (delivery address step)
+    act as abstract bean, define children steps in multi-step-checkout-config.xml (with specific transitions, group, validator)
+    children e.g. defaultResponsiveDeliveryAddressCheckoutStep (delivery address step)
   CheckoutStepController, AbstractCheckoutStepController, e.g. DeliveryAddressCheckoutStepController
     entry point to each step
-	@PreValidateCheckoutStep (run validator before enter)
+    @PreValidateCheckoutStep (run validator before enter)
   CheckoutGroup: a define checkout flow/container of checkout steps
   CheckoutGroupMap: how many checkout group exist in the app? 
   CheckoutFacade
@@ -17,13 +17,13 @@ main objects
 payment gateway:
   paypal, K-payment, cybersource, apple pay, Bao Kim, Ngan Luong...
   each payment gateway se support mot so Payment Methods e.g. K-payment supports: All credit, debit card and THAI QR
-  e.g. neo require thanh toan bang credit cart va qr code (thong qua K-payment gateway)
+  e.g. neo require thanh toan bang credit card va qr code (thong qua K-payment gateway)
 
 payment integration
   PSP: payment service provider
-  paymentextension: provide interface to build adapter to integrate external payment provider
+  payment extension: provide interface to build adapter to integrate external payment provider
     PaymentService
-	PaymentMethod
+    PaymentMethod
   say, passing data between hybris PaymentService to external psp using Command
     PaymentService
     Command
@@ -31,28 +31,35 @@ payment integration
     CaptureCommand
   how to integrate?
   Hosted Order Page (HOP - deligate to 3rd site and subscripion, waiting for response) vs Silent Order Post (SOP - collect info direct in the app, save db maybe)
-  payment flow - komoju
-    SummaryCheckoutStepControlle (da co payment mode): /placeOrder
-	  do validation
-	  then call next step - PaymentMethodCheckoutStepController - from multi-step-checkout-confing.xml - redirect:/checkout/multi/payment-method/add
-	    call facade to begin hop and create response subscripion (based on payment mode to choose correct payment service e.g.komojuAcceleratorPaymentService instanceof DefaultAcceleratorPaymentService) e.g. <entry key="qsp_creditcard" value-ref="komojuAcceleratorPaymentService"/>
-		but with different strategy e.g. paymentFormActionUrlStrategy - komojuPaymentFormActionUrlStrategy
-	      then call service to begin hop and create response subscripion - DefaultAcceleratorPaymentService
-		    then get hop url and call createSubscriptionRequestStrategy (CreateSubscriptionRequest) to create CreateSubscriptionRequest
-			that contains info like requestUrl, responseUrl, requestId, orderdata and signaturedata (custom) - to generate hashkey - contains all parameters that submit theo request to komoju
-			then convert CreateSubscriptionRequest to PaymentData (with all parameters and resquest post url)
-		  return PaymentData (contain required data for payment and callback url - /checkout/multi/hop) ??submit request khi nao?
-		return view: pages/checkout/multi/hostedOrderPostPage - waiting page
-	  when use finish, click done -> send request to to /checkout/multi/hop e.g. https://localhost:9002/qspjstorefront/checkout/multi/hop/response?clear=true&hmac=417b23b68970f3b18ac8e870dfb2045892c4685e1fd0b846aa25b63a6c10dc65&site=qspj&timestamp=1561003694&transaction[additional_information]=&transaction[amount]=460491&transaction[currency]=JPY&transaction[external_order_num]=155236325&transaction[grand_total]=483516&transaction[payment_method]=credit_card&transaction[payment_method_fee]=0&transaction[status]=captured&transaction[tax]=23025&transaction[uuid]=2os7skm7djb7vky61jf9e91l5
-	  with HopPaymentResponseController: request contains some info return by komoju - money, customer, cart type...
-	    doHandleHopKomojuResponse
-		  call facade completeHopCreateSubscription() - return PaymentSubscriptionResultData
-		    that calls sevice completeHopCreateSubscription() return PaymentSubscriptionResultItem - contain result info
-			  that calls komojuhoppaymentresultinterpretion strategy (all payment/customer/subscription/signature data) to CreateSubscriptionResult
-			  and validate the response and save payment entry and card info
-			  
-			  
+  
+use case: payment flow - qspj komoju
+  SummaryCheckoutStepController (da co payment mode): /placeOrder
+    do validation
+    then call next step - PaymentMethodCheckoutStepController - from multi-step-checkout-confing.xml - redirect:/checkout/multi/payment-method/add
+      call facade to begin hop and create response subscripion (based on payment mode to choose correct payment service e.g.komojuAcceleratorPaymentService instanceof DefaultAcceleratorPaymentService) e.g. <entry key="qsp_creditcard" value-ref="komojuAcceleratorPaymentService"/>
+      but with different strategy e.g. paymentFormActionUrlStrategy - komojuPaymentFormActionUrlStrategy
+        then call service to begin hop and create response subscripion - DefaultAcceleratorPaymentService
+          then get hop url and call createSubscriptionRequestStrategy (CreateSubscriptionRequest) to create CreateSubscriptionRequest
+          that contains info like requestUrl, responseUrl, requestId, orderdata and signaturedata (custom) - to generate hashkey - contains all parameters that submit theo request to komoju
+          then convert CreateSubscriptionRequest to PaymentData (with all parameters and resquest post url)
+        return PaymentData (contain required data for payment and callback url - /checkout/multi/hop)
+      return view: pages/checkout/multi/hostedOrderPostPage - waiting page
+    when use finish, click done -> send request to to /checkout/multi/hop e.g. https://localhost:9002/qspjstorefront/checkout/multi/hop/response?clear=true&hmac=417b23b68970f3b18ac8e870dfb2045892c4685e1fd0b846aa25b63a6c10dc65&site=qspj&timestamp=1561003694&transaction[additional_information]=&transaction[amount]=460491&transaction[currency]=JPY&transaction[external_order_num]=155236325&transaction[grand_total]=483516&transaction[payment_method]=credit_card&transaction[payment_method_fee]=0&transaction[status]=captured&transaction[tax]=23025&transaction[uuid]=2os7skm7djb7vky61jf9e91l5
+    with HopPaymentResponseController: request contains some info return by komoju - money, customer, cart type...
+      doHandleHopKomojuResponse
+        call facade completeHopCreateSubscription() - return PaymentSubscriptionResultData
+          that calls sevice completeHopCreateSubscription() return PaymentSubscriptionResultItem - contain result info
+            that calls komojuhoppaymentresultinterpretion strategy (all payment/customer/subscription/signature data) to CreateSubscriptionResult
+            and validate the response and save payment entry and card info
+            
+stripe
+  a payment gateway
+  using rest api: test mode e.g. sk_test_ and live mode e.g. sk_live_
+  apis
+    charge: request to charge a credit/debit card, retrieve a charge/list charge, capture a charge
+    refund: refund to a charge e.g. request contains the "charge", amount...
+                
 
 
 payment gateway adapter??
-fraud??
+fraud check??
