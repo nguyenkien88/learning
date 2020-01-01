@@ -1,8 +1,7 @@
 introduction
   backoffice framework: purpose - simplify development of backoffice application
-  backoffice application is built on top of Backoffice framework
-    the codengaibackoffice is an application build on top of Backoffice framework
-  backoffice framework vs old Cockpit framework
+  backoffice application e.g. codengaibackoffice is built on top of Backoffice framework by generate from ybackoffice
+  backoffice framework vs old cockpit framework
   built by ZK Framework with bunch of widgets(e.g. Advanced Search widget, Editor Area widget): component to add to bo bo frontend (later) - application is made up from connecting (but stand-alone) widgets 
     
   cockpits (old cockpits and backoffice fw based cockpits)
