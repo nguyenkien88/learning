@@ -29,9 +29,9 @@ ant-sonar neo
 	run ant tasks (at /platform directory)
 	  load properties: sonar/build.properties (${platformhome}, ${project.base.test} ...)
 	  jacocoalltests and jacocoallwebtests
-	    where is 'jacocoalltests' target defined?? - in acc-ant-sonar.xml (acceleratorservices extension) - this file is imported, final will be availabel in /platform/build.xml
+	    where is 'jacocoalltests' target defined?? - in acc-ant-sonar.xml (acceleratorservices extension) - this file is imported, final will be available in /platform/build.xml
 	    what 'jacocoalltests' does? - taskdef source: jacocoant.jar
-		  setup jacoco:agent => export file /log/junit/jacoco.exec => tuy con fig in jenkins ma se report classes nao
+		  setup jacoco:agent => export file /log/junit/jacoco.exec => tuy config in jenkins ma se report classes nao
 		  run ant alltests => all unit and integration tests will be run
 	then copy the jacoco.exec to codengai/codengaicore
 how jacoco work?

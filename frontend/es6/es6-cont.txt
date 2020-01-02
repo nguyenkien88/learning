@@ -1,0 +1,5 @@
+arrow function
+template literal
+spread operator
+class
+generator function

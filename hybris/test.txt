@@ -6,8 +6,10 @@ ant
   testclasses.annotations
   testclasses.packages
   testclasses.split
-  
+
   callback: write in buildcallbacks.xml
+  
+  run single test: ant alltests -Dtestclasses.packages=com.kadokawa.facades.azure.impl.* 
 
 Integration test
   @RunWith(HybrisJUnit4ClassRunner.class)
