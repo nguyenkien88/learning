@@ -12,6 +12,7 @@ flexible search
   syntax: 
     SELECT <selects> FROM <types> ( WHERE <conditions> )? ( ORDER BY <order> )?
     https://help.hybris.com/1808/hcd/8bc399c186691014b8fce25e96614547.html
+	limit result: https://stackoverflow.com/questions/51133420/how-to-limit-the-result-data-in-flexible-seach-query
     {Product!} => no sub types
     exclude specific sub types: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/2d0ca040a8934e2f8c2f1676fbb4b1fa.html
     nested query (select in where: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/da4c7e72811344aebabd50370529ef1c.html)
