@@ -1,0 +1,26 @@
+overview
+  EAI: enterprise application integration main functions
+    transform data (format)
+  EIP: Enterprise Integration Patterns
+  is a spring project for integration purpose - sharing data between applications
+  based on spring design (core, patterns)
+  message-driven
+  SI main functions
+    Message Channels
+    Adapters
+    Gateways
+    Filters
+    Transformers
+    Enrichers
+    Service Activators
+    Routers
+  
+terms
+  message includes
+    header
+    payload
+  producer send messages
+  consumer receive messages
+  message channel processes using
+    point to point method
+	or publish subcribe method (broadcast)

@@ -1,0 +1,8 @@
+One of the key themes of the Spring Framework is Inversion of Control (IoC). 
+In its broadest sense, this means that the framework handles responsibilities on behalf of the components that are managed within its context. 
+The components themselves are simplified, because they are relieved of those responsibilities. 
+For example, dependency injection relieves the components of the responsibility of locating or creating their dependencies. 
+Likewise, aspect-oriented programming relieves business components of generic cross-cutting concerns by modularizing them into reusable aspects. 
+In each case, the end result is a system that is easier to test, understand, maintain, and extend.
+
+
