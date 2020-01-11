@@ -5,22 +5,22 @@ overview
   is a spring project for integration purpose - sharing data between applications
   based on spring design (core, patterns)
   message-driven
-  SI main functions
-    Message Channels
-    Adapters
-    Gateways
-    Filters
-    Transformers
-    Enrichers
-    Service Activators
-    Routers
+
   
 terms
   message includes
     header
     payload
-  producer send messages
-  consumer receive messages
-  message channel processes using
-    point to point method
-	or publish subcribe method (broadcast)
+  producer/sender/endpoint send messages through channel/pipe
+  consumer/receiver/endpoint receive messages
+  message endpoints can be
+    Adapters
+    Gateways or
+    Filters or
+    Transformers or
+    Enrichers or
+    Service Activators or
+    Routers
+  message channels types
+    point to point/pollable channel: thuong dung cho document message, queue
+	or publish subcribe/subscribable channel: thuong dung cho even message, no queue
