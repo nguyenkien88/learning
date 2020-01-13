@@ -1,0 +1,12 @@
+like an ecosystem for web services, gom nhieu serivces
+  compute: scaling, balancing... ex: EC2 (Elastic compute cloud)
+    Elastic Load Balacing: tu dong phan phoi traffic den cac ec2 instances
+  storage: ex: S3
+  network ex: Route 53, VPC (tao subnet doc lap, kd dang dung)
+  database: include physical db and other management softwares e.g. RDS
+  developer tools
+  management tools: ex: cloudwatch
+  security and identity
+  many more...
+  
+  
