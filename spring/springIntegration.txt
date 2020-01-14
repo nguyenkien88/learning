@@ -1,3 +1,4 @@
+SI is all about messaging transformation
 overview
   EAI: enterprise application integration main functions
     transform data (format)
@@ -8,12 +9,10 @@ overview
 
   
 terms
-  message includes
+  message: data transferd by SI, includes
     header
     payload
-  producer/sender/endpoint send messages through channel/pipe
-  consumer/receiver/endpoint receive messages
-  message endpoints can be
+  endpoint: components that push (producer)/consume(consumer) message from a channel, producer/consumer can be
     Adapters
     Gateways or
     Filters or
@@ -21,6 +20,26 @@ terms
     Enrichers or
     Service Activators or
     Routers
-  message channels types
-    point to point/pollable channel: thuong dung cho document message, queue
-	or publish subcribe/subscribable channel: thuong dung cho even message, no queue
+  message channel: connect enpoints, types
+	or publish subcribe/subscribable channel: thuong dung cho event message, no queue (no buffer), just push the message to all subscribers
+    point to point/pollable channel: thuong dung cho document message, queued (has buffer), push message to single subscriber (neu co nhieu => get thang dau tien), khi nao queue empty thi code moi chay tiep
+	direct channel: 1 subscriber, no queue (lai giua 2 cai tren)
+  adapter: endpoint to connect channel with external system e.g database (your code should not know about the external system, let Spring take care of)
+    has 2 types: inbound and outbound
+    some built-in adapter: Stream (ex: stdin, stdout...), file, jdbc, mail...
+	can build custom adapter
+  filter: sit between channels, filter messages through channels e.g. only accept json message, only accept messagens contains sales data
+    decide based on header or payload of the message
+	use built-in by Spring 
+	  expression filter
+	  xpath filter
+	  xml filter
+	or build custom filter (message selector)
+	can have optional channel to get the discarded messages: discard-channel
+	
+    
+    
+  
+    
+	
+	
