@@ -41,7 +41,13 @@ terms
   transformer/translator: sit between channels, transform messages (payload, structure) e.g. transform xml to json
     built-in transformers: e.g. object/xml, object/string, object/json...
 	tip: generate java class from xml schema (jaxb)
-	
+  router: distribute messages from 1 to multiple channels
+    content routers: inspect the message to navigate to appropriate channels
+	  xpath router
+	  sprintEL router
+	  ...
+	recipient routers: no inspect, just pass the messaged to all registerd channels
+      
   
 	
     
