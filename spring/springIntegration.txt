@@ -25,17 +25,24 @@ terms
     point to point/pollable channel: thuong dung cho document message, queued (has buffer), push message to single subscriber (neu co nhieu => get thang dau tien), khi nao queue empty thi code moi chay tiep
 	direct channel: 1 subscriber, no queue (lai giua 2 cai tren)
   adapter: endpoint to connect channel with external system e.g database (your code should not know about the external system, let Spring take care of)
+    normally used to push/pop message from/to a channel
     has 2 types: inbound and outbound
     some built-in adapter: Stream (ex: stdin, stdout...), file, jdbc, mail...
 	can build custom adapter
-  filter: sit between channels, filter messages through channels e.g. only accept json message, only accept messagens contains sales data
+  filter: sit between channels, filter messages through channels e.g. only accept json message, only accept messages that contains sales data
     decide based on header or payload of the message
 	use built-in by Spring 
-	  expression filter
+	  file filter
 	  xpath filter
 	  xml filter
+	  validating filter e.g. only string that follow a schema is passed
 	or build custom filter (message selector)
 	can have optional channel to get the discarded messages: discard-channel
+  transformer/translator: sit between channels, transform messages (payload, structure) e.g. transform xml to json
+    built-in transformers: e.g. object/xml, object/string, object/json...
+	tip: generate java class from xml schema (jaxb)
+	
+  
 	
     
     
