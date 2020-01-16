@@ -47,7 +47,18 @@ terms
 	  sprintEL router
 	  ...
 	recipient routers: no inspect, just pass the messaged to all registerd channels
-      
+  enricher: special type of transformer - enrich messag - add more info to
+    header: standard e.g. priority or custom header
+	or payload
+	custom enricher with request channel and service activator
+  service activator: connect message channel to some service to to some work, the activator is triggered when a message come into the channel
+	optional return value (and send to output channel)
+	if return value but not specify output-channel then Spring will use the replyChannel in header to determine the channel
+	thuong dung de link SI voi business process e.g. sendEmail???
+	thuc chat co the dung de thay the transformer, enricher...
+  gateway: connecting point when calling SI, e.g. calling spring integration by calling a normal service (configurable)
+    synchronous gateway
+	assynchronous gateway
   
 	
     
