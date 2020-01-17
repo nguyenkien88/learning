@@ -1,0 +1,14 @@
+gtm: ref - https://chauvn.com/huong-dan-su-dung-google-tag-manager-gtm-co-ban/
+  binh thuong, muon use some statitics services (cua google va 3rd) e.g. google analytics, google remarketing => put these tags to the source code, muon dung them => put them
+  use gtm => quan ly tap trung, chi put code cua gtm vao source code, sau nay quan ly bang web app cua google
+  tag: e.g. google analytics tag - doan javascript duoc gan vao site, muc dich la thu thap du lieu nguoi dung
+    su dung gtm quan ly (add/remove) cac tag nay
+	supported tag: https://support.google.com/tagmanager/answer/6106924?hl=en
+  trigger: when a tag duoc kich hoat? e.g. page view
+  variable 
+    info can de evaluate trigger e.g. var pageUrl used in trigger de biet kich hoat page nao
+    or push data qua datalayer de dung sau nay
+	built-in e.g. event, pageUrl vs custom variable
+  
+gtm datalayer
+  
