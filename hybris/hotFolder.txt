@@ -1,0 +1,19 @@
+other way to import data to hybris, based on spring integration, periodically scan a predefined directory, if new file => processing
+  e.g. critical business data such as master data, price, stock and order information need to be moved from external systems to SAP Hybris
+  e.g. just place the file into a directory => import automatically
+  ImpexConverter (transformer?)
+  ImportService (impex)
+  beans: acceleratorservices/hot-folder-spring.xml
+  implement
+    define base directory (other than the devault)
+	define input channel adapter e.g. file:inbound-channel-adapter
+	define outbound gateway to move new files to processing directory
+	define the converter (neu chua co) e.g. UnitConverter and mapping
+	customization if needed
+	  filter
+	  decorator
+	  translator
+
+ref
+  https://www.stackextend.com/hybris/everything-about-hot-folder-in-hybris/
+  
