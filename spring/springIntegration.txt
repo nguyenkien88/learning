@@ -56,7 +56,7 @@ terms
 	if return value but not specify output-channel then Spring will use the replyChannel in header to determine the channel
 	thuong dung de link SI voi business process e.g. sendEmail???
 	thuc chat co the dung de thay the transformer, enricher...
-  gateway: connecting point when calling SI, e.g. calling spring integration by calling a normal service (configurable) -  no implementation needed
+  gateway: connecting point when calling SI, e.g. calling spring integration by calling a normal service (configurable) -  no implementation needed e.g. service.send(message) - to input channel
     synchronous gateway
 	assynchronous gateway
   

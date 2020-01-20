@@ -1,6 +1,0 @@
-Behavior ds
-Heavily used in Hybris
-e.g. CartValidationStrategy with concretes: CartValidationWithoutCartAlteringStrategy and DefaultCartValidationStrategy
-can change/config concreate by injecting
-
-Consider using Context or not (gop Client and Context)
