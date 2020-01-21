@@ -1,7 +1,12 @@
-is a framework using aop (declarative security)
-web layer vs method invocation security
+overview
+  authentication (who are you? direct login/token/integrate with other system) vs authorization (what can you do?)
+  spring security vs java auth/authr (javax.security.auth) vs j2ee auth/authr
+  based on spring aop (declarative) 
+  web layer security (for http request) vs method invocation security vs ACL (access to domain objects restriction)
 
-filter basic: javaEE reference (note4)
+
+
+
 
 filter in web layer: intercept request before it comes to controller
   DelegatingFilterProxy => delegate to Spring bean filter
