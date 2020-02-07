@@ -185,11 +185,28 @@ config for storefront e.g. goodsmile-globalIndex vs for backoffice vs Solr Confi
   when access solr admin => 2 cores: 1 for storefornt, 1 for bo (moi core has 2 phase)
   
   
-
-
-  
+use case: show category facet as tree
+  add new SolrIndexedProperty e.g. categoryPath (facet=true) with new fieldValueProvider e.g. qspCategoryPathValueProvider
+  when run index => create value for this property
+  when user search for a category e.g. CategoryPageController
+    that will call the facade (and service) to execute solr search
+	after get the response from solr will call converter to convert the solr result to facade data object e.g. ProductCategorySearchPageData
+	trong do se call populator to buildFacets() e.g. List<FacetData> (with FacetValueData)
+	then controller se convert category facet to json tree structure to show to ui e.g. jsonCatNavNodes=[{'code':'1355','name':'Tools','level':1,'count':143,'url':'/c/1355','selected':true,'children':[{'code':'1360','name':'Power Drills','parent':'1355','level':2,'count':143,'url':'/c/1360','selected':true}]}]
+    and show to productgrid/listpage
+	which contain RefinementFacetComponent e.g. ProductLeftRefinements
+	which contains facetNavRefinements.tag
+	which contains facetNavRefinementCategoryFacet.tag
+	open/close category tree how? (front-end)
+	
+more: https://hybrismart.com/2019/02/13/facet-search-the-most-comprehensible-guide-best-practices-design-patterns/
 
 reference
   hybris help
   https://hybrismart.com/2017/07/13/explaining-sap-hybrissolr-relevance-ranking-for-phrase-queries/
   https://hybrismart.com/2017/08/16/hybris-solr-query-builders-and-search-relevance/
+  
+
+  
+  
+  
