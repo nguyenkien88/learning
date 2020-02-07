@@ -185,7 +185,7 @@ config for storefront e.g. goodsmile-globalIndex vs for backoffice vs Solr Confi
   when access solr admin => 2 cores: 1 for storefornt, 1 for bo (moi core has 2 phase)
   
   
-use case: show category facet as tree
+use case 1: show category facet as tree
   add new SolrIndexedProperty e.g. categoryPath (facet=true) with new fieldValueProvider e.g. qspCategoryPathValueProvider
   when run index => create value for this property
   when user search for a category e.g. CategoryPageController
@@ -198,6 +198,29 @@ use case: show category facet as tree
 	which contains facetNavRefinements.tag
 	which contains facetNavRefinementCategoryFacet.tag
 	open/close category tree how? (front-end)
+
+
+use case 2: search box with grouping by type e.g. product, category (and label for each group)
+  solr related
+    sorlindextedproperty for some product attrs such as name, category, brand
+	
+  flow
+    input search e.g. searchboxcomponent.jsp
+    front-end control the max characters to start the search e.g. 3 - component.minCharactersBeforeRequest
+    then call autocompleteUrl e.g. /search/autocomplete/SearchBox?term=engi
+    this will call SearchPageController 
+      then call DefaultSolrProductSearchFacade 
+        then call DefaultSolrProductSearchAutocompleteService
+          then call DefaultSolrAutoSuggestService
+            then call solr client to get the suggest input
+      return AutocompleteResultData e.g. {"suggestions":[], "products":[]}
+	then the ac.autocomplete.js will use the json response to construct the html for each row and render e.g. autoSearchData object
+	  the "suggestions" for keyword part
+	  the "products" for products part
+	  
+	  
+
+
 	
 more: https://hybrismart.com/2019/02/13/facet-search-the-most-comprehensible-guide-best-practices-design-patterns/
 
