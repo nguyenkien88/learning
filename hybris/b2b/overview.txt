@@ -1,0 +1,29 @@
+business concept
+  merchant e.g. tiki: say, merchant adds new company to exsiting b2b system
+  say, when adding a company to B2B Accelerator, the merchant often creates one unit (the root unit), one cost center, and one budget, along with an administrator who is assigned to the unit. 
+  the administrator is then responsible for creating the organization's structure in order to manage the purchasing rights of those permitted to purchase from the merchant.
+  company
+    contains units
+      contains cost centers
+        that constain budgets
+    user
+      admin role
+      manager role
+      approver role
+      customer role: place order
+        customer threadhold
+      account mananger role
+    credit limit
+    one-time purchase vs replenishment vs request quote
+    https://help.sap.com/doc/PRODUCTION/4c33bf189ab9409e84e589295c36d96e/1905/en-US/loio8a3bc73686691014a9959f0785db7761_LowRes.png   
+
+b2b commerce features
+  occ (omni commerce connect)
+  assisited service
+  future stock availability
+  inventory display
+  powertools (sample)
+  predefined organization
+    
+
+  

