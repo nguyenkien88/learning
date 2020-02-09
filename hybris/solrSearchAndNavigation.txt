@@ -217,8 +217,6 @@ use case 2: search box with grouping by type e.g. product, category (and label f
 	then the ac.autocomplete.js will use the json response to construct the html for each row and render e.g. autoSearchData object
 	  the "suggestions" for keyword part
 	  the "products" for products part
-	  
-	  
 
 
 	
