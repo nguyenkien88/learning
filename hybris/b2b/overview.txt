@@ -1,3 +1,7 @@
+install
+  custom: modulegen from b2c_acc recipe, then install some addons: https://help.sap.com/viewer/4c33bf189ab9409e84e589295c36d96e/1905/en-US/8acc8a5a86691014a20781b3f738213e.html
+  or install ootb: b2b_acc_plus for investigating
+
 b2b commerce features
   occ (omni commerce connect)
   assisited service
@@ -8,27 +12,55 @@ b2b commerce features
   merchant e.g. tiki: say, merchant adds new company to exsiting b2b system
   say, when adding a company to B2B Accelerator, the merchant often creates one unit (the root unit), one cost center, and one budget, along with an administrator who is assigned to the unit. 
   the administrator is then responsible for creating the organization's structure in order to manage the purchasing rights of those permitted to purchase from the merchant.
+  organization management
   
-  organization/company (my company component)
-    contains units: 1 root unit for a company, has location, department, structure (hierachy) rieng, users (which role)
-      contains cost centers: chi tien, luc place order, cutomer se chon cost center de chi tien
-	    that contains budget (budget when choosing costcenter when place order)
-    and users: say approvers, permissions, and user groups associated with the user
-      b2b admin role: modify the structure (equal or below the position)
-      manager role: view report (equal or below the position
-      approver role: approve order (placed by customer), can set order threadhold for below customer
-      customer role: only role can place order
-        if the ordder value is within customer threadhold => place immediately
-		if exeed => need nearest approval
-      account mananger role
-	user group
-	permission
-    credit limit
-    diagram: https://help.sap.com/doc/PRODUCTION/4c33bf189ab9409e84e589295c36d96e/1905/en-US/loio8a3bc73686691014a9959f0785db7761_LowRes.png     
-    say, merchant adds a company to the system with a root unit (with an admin), a cost center, a budget. The rest responsibility is for admin
+organization/company (my company component) management
+  contains units: 1 root unit for a company, has location, department, structure (hierachy) rieng, users (which role)
+    contains cost centers: chi tien, luc place order, cutomer se chon cost center de chi tien
+      that contains budget (budget when choosing costcenter when place order)
+  and users: say approvers, permissions, and user groups associated with the user
+    b2b admin role: modify the structure (equal or below the position)
+    manager role: view report (equal or below the position
+    approver role: approve order (placed by customer), can set order threadhold for below customer
+    customer role: only role can place order
+      if the ordder value is within customer threadhold => place immediately
+      if exeed => need nearest approval
+    account mananger role
+  user group: used to assigned permission to multiple users (without adhering to the hierarchical structure)
+  permission (money limit) e.g. assigned to user group/approver
+    per order
+	or per-timespane e.g. 10k/month
+  credit limit
+  diagram: https://help.sap.com/doc/PRODUCTION/4c33bf189ab9409e84e589295c36d96e/1905/en-US/loio8a3bc73686691014a9959f0785db7761_LowRes.png     
+  say, merchant adds a company to the system with a root unit (with an admin), a cost center, a budget. The rest responsibility is for admin
+  account summnary (storefront - need accountsummaryaddon): view traction history of a unit
+
+
+architecture
+  b2bacceleratoraddon - checkout related processes
+  b2bcommercefacades
+  b2bapprovalprocessfacades
+  b2bacceleratorservices 
+  b2boccaddon
+  commerceorgaddon 
+  commerceorgsamplesaddon 
+  powertoolsstore
+  
+ 
   
   
-  one-time purchase vs replenishment vs request quote
+  
+one-time purchase vs replenishment vs request quote
     
 
-  
+
+
+
+
+
+
+
+
+
+
+
