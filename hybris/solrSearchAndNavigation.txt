@@ -1,3 +1,5 @@
+facetsearch = search + facet
+facet filter types: drill down or parallel (checkboxes)
 mainly indexing and searching product (storefront and backoffice)
 solr is free/full-text search, attribute nao duoc indexed => luc search se duoc included
 say, I want use name, price, description of Product to be indexed so I can search/facet refine based on that properties using solr
@@ -30,106 +32,106 @@ architecture
 implementation
   installation
     support versions (expecially for production): https://tinyurl.com/y4po6llw
-	configuration: standalone mode vs cloud mode - https://tinyurl.com/y57fglgl
-	  solrserver/project.properties - can override in local.properties
-	  e.g. solrserver.instances.default.autostart=true => auto start with the platform
-	  solrserver.instances.default.mode=standalone vs solrserver.instances.cloud.mode=cloud
-	  endpoint url: impex
+    configuration: standalone mode vs cloud mode - https://tinyurl.com/y57fglgl
+      solrserver/project.properties - can override in local.properties
+      e.g. solrserver.instances.default.autostart=true => auto start with the platform
+      solrserver.instances.default.mode=standalone vs solrserver.instances.cloud.mode=cloud
+      endpoint url: impex
   
   configuration
     under hybris/config/solr - default generated when build for the first time
-	configsets: diferent configuration for different index types e.g. default configsets, backoffice config set
-	schema.xml: the structure of the index
-	solrconfig.xml
-	config for instance, ant tasks for solr: https://tinyurl.com/y39halsd
+    configsets: diferent configuration for different index types e.g. default configsets, backoffice config set
+    schema.xml: the structure of the index
+    solrconfig.xml
+    config for instance, ant tasks for solr: https://tinyurl.com/y39halsd
     
   indexing function
     say, when add new attribute to a type, should/should not include it in the indexing process
-	say, send data (type attribute) to solr for indexing
-	  normal attributes: send directly to solr
-	  custom attibutes: modify, check before send to solr - using provider (thuc chat normal attributes also use the default ModelPropertyFieldValueProvider)
-	  e.g. viet custom provider to search/show how many days a product will be online from now (data not existing directly in db): http://javainsimpleway.com/value-provider-in-solr-with-example/
+    say, send data (type attribute) to solr for indexing
+      normal attributes: send directly to solr
+      custom attibutes: modify, check before send to solr - using provider (thuc chat normal attributes also use the default ModelPropertyFieldValueProvider)
+      e.g. viet custom provider to search/show how many days a product will be online from now (data not existing directly in db): http://javainsimpleway.com/value-provider-in-solr-with-example/
     indexing types
-	  full index: deleted all existing index then re-index
-	    direct mode: not rollback - row nao duoc index roi ko bi rollback, row nao fail thi thoi (lay version truoc)
-		2 phases mode: rollback - In this mode,Solr creates one extra core as a temporary core only for indexing, once indexing is success then it will be swapped with original core
-	  update index: only index for modified documents
-	  delete index: remove indexed documents
-	solr.impex (priority vs .properties??)
-	  SolrServerConfig: embedded (removed in 6.x) vs standalone vs cloud e.g. codengaiIndex
-	  SolrEndpointUrl(belong to a SolrServerConfig) e.g http://localhost:8983/solr
-	  SolrIndexConfig: batch size, number of thread, index mode (DIRECT or TWO_PHASE) 
-	  SolrIndexedType: type to be indexed e.g. Product, sorting reference e.g. sortRef1, sortRef2
-	  SolrSearchConfig: page size e.g 20
-	  SolrFacetSearchConfig: link all above configs along with currencies, languages - then link to the site - BaseSite link 1 to 1 with SolrFacetSearchConfig
-	  SolrValueRangeSet/SolrValueRange e.g. priceRangeGBP
-	  SolrIndexedProperty e.g. goodsmile-globalProductType: define properties to be indexed, how these properties should be indexed
-	    provider: translate properties which solr can not understand during indexing
-		facet[default=true]: make an property is facet indexing
-	  SolrIndexerQuery e.g. goodsmile-global-fullQuery: define the data source for the indexing process using flexible search query
-	  SolrSort e.g. sortRef5 (code=price-asc): define the insert order
-	    code and name: e.g. Online Exclusive
-	    SolrSortField: the solr fields (and asc/desc) are use in this sorting
-	  SolrIndexerCronJob: define cronjob to run the indexing e.g. cronJob for the SolrFacetSearchConfig which full/update code
-	solr_en.impex: localize for solr.impex
-    solrtrigger.impex: schedule for solr indexing job	
+      full index: deleted all existing index then re-index
+        direct mode: not rollback - row nao duoc index roi ko bi rollback, row nao fail thi thoi (lay version truoc)
+        2 phases mode: rollback - In this mode,Solr creates one extra core as a temporary core only for indexing, once indexing is success then it will be swapped with original core
+      update index: only index for modified documents
+      delete index: remove indexed documents
+    solr.impex (priority vs .properties??)
+      SolrServerConfig: embedded (removed in 6.x) vs standalone vs cloud e.g. codengaiIndex
+      SolrEndpointUrl(belong to a SolrServerConfig) e.g http://localhost:8983/solr
+      SolrIndexConfig: batch size, number of thread, index mode (DIRECT or TWO_PHASE) 
+      SolrIndexedType: type to be indexed e.g. Product, sorting reference e.g. sortRef1, sortRef2
+      SolrSearchConfig: page size e.g 20
+      SolrFacetSearchConfig: link all above configs along with currencies, languages - then link to the site - BaseSite link 1 to 1 with SolrFacetSearchConfig
+      SolrValueRangeSet/SolrValueRange e.g. priceRangeGBP
+      SolrIndexedProperty e.g. goodsmile-globalProductType: define properties to be indexed, how these properties should be indexed
+        provider: translate properties which solr can not understand during indexing
+        facet[default=true]: make an property is facet indexing
+      SolrIndexerQuery e.g. goodsmile-global-fullQuery: define the data source for the indexing process using flexible search query
+      SolrSort e.g. sortRef5 (code=price-asc): define the insert order
+        code and name: e.g. Online Exclusive
+        SolrSortField: the solr fields (and asc/desc) are use in this sorting
+      SolrIndexerCronJob: define cronjob to run the indexing e.g. cronJob for the SolrFacetSearchConfig which full/update code
+    solr_en.impex: localize for solr.impex
+    solrtrigger.impex: schedule for solr indexing job    
     indexing process - using cron job
-	use case: how stock are indexed?
-	  property for indexing: provide by gslsProductFrontStockStatusValueProvider - getCommerceStockService().getStockLevelStatusForProductAndBaseStore(product, baseStore)
-	  property name after indexing: stockLevelStatus_string (values: inStock/outOfStock)
-	  after search (solr) then populates to GslsProductData (FrontStockStatus)
-	
+    use case: how stock are indexed?
+      property for indexing: provide by gslsProductFrontStockStatusValueProvider - getCommerceStockService().getStockLevelStatusForProductAndBaseStore(product, baseStore)
+      property name after indexing: stockLevelStatus_string (values: inStock/outOfStock)
+      after search (solr) then populates to GslsProductData (FrontStockStatus)
+    
   searching function
     search types - ProductSearchFacade
-	  free searches: e.g. using search box - can config search on fields nao???
-	  vs category searches: search by category
-	return: SearchPageData with all info about
-	  search query
-	  matching products
-	  pagination data
-	  filters applied
-	  facet
-	  sorts
+      free searches: e.g. using search box - can config search on fields nao???
+      vs category searches: search by category
+    return: SearchPageData with all info about
+      search query
+      matching products
+      pagination data
+      filters applied
+      facet
+      sorts
     strategies
-	  LegacyFacetSearchStrategy: mainly use configuration for condition and params, less flexible
-	  DefaultFacetSearchStrategy: condition and parms are set directly in the query object => flexible tuy con
-	create query: DefaultFacetSearchService
-	  say creating and populating the search query
-	  new SearchQuery(facetSearchConfig, indexedType);//or some other overload methods 
+      LegacyFacetSearchStrategy: mainly use configuration for condition and params, less flexible
+      DefaultFacetSearchStrategy: condition and parms are set directly in the query object => flexible tuy con
+    create query: DefaultFacetSearchService
+      say creating and populating the search query
+      new SearchQuery(facetSearchConfig, indexedType);//or some other overload methods 
       SearchQuery object: all attributes will be info when converting to sorl query
         queryFields: q=value
-	    filterQueryFields: fq=value - not effect the score
-	    facetFields: fields for facet purpose
-	    orderFields: fields for sorting purpose
-	    Some of the query parameters in the search query object will only be used together with the new search strategy. When using the legacy search strategy, that information will be taken directly from the configuration and not from the search query object. The affected parameters are:
+        filterQueryFields: fq=value - not effect the score
+        facetFields: fields for facet purpose
+        orderFields: fields for sorting purpose
+        Some of the query parameters in the search query object will only be used together with the new search strategy. When using the legacy search strategy, that information will be taken directly from the configuration and not from the search query object. The affected parameters are:
           default query operator
           filter queries
           free search queries
           facets (not facet values)
           fields to be included in the response
-          boosts	
-	search: in strategies
-	  con: FacetSearchConfig e.g. get config, get query...contains useful info during the search
-	  convert the hybris search query to solr query: FreeTextQueryBuilder vs SolrQueryConverter (with populators and post processors-5.4) vs FacetSearchListener
-	  	FreeTextQueryBuilder
+          boosts    
+    search: in strategies
+      con: FacetSearchConfig e.g. get config, get query...contains useful info during the search
+      convert the hybris search query to solr query: FreeTextQueryBuilder vs SolrQueryConverter (with populators and post processors-5.4) vs FacetSearchListener
+          FreeTextQueryBuilder
         SolrQueryConverter
-		  populators
-		  SolrQueryPostProcessor (deprecated from 5.7): provides a direct access to the query right before performing search on solr's index e.g. modify the query before search on apache solr
-	      => change to FacetSearchListener
-		FacetSearchListener: same function with to SolrQueryPostProcessor, used in 6.x
-	  actual search: solrClient.query()
-	process result after search
-	
-	ordering
-	  must be in solr, not re-sort in java after get result from solr (paging problem)
-	  using SolrSort (for each indexed type)
-	  which contains SolrSortFields: fields and ordering
-	  
+          populators
+          SolrQueryPostProcessor (deprecated from 5.7): provides a direct access to the query right before performing search on solr's index e.g. modify the query before search on apache solr
+          => change to FacetSearchListener
+        FacetSearchListener: same function with to SolrQueryPostProcessor, used in 6.x
+      actual search: solrClient.query()
+    process result after search
+    
+    ordering
+      must be in solr, not re-sort in java after get result from solr (paging problem)
+      using SolrSort (for each indexed type)
+      which contains SolrSortFields: fields and ordering
+      
   autosuggest and spellcheck
   sort providers
   listeners 
     for indexing: before/after batch, before/after whole indexing process
-	and searching process: https://tinyurl.com/y5ew7zaf
+    and searching process: https://tinyurl.com/y5ew7zaf
 
 
 use case for kd: e.g. https://goodsmile-global.local:9002/kadokawaacceleratorstorefront/?sort=productPrivilegeFlg&q=%3AproductPrivilegeFlg
@@ -138,26 +140,26 @@ use case for kd: e.g. https://goodsmile-global.local:9002/kadokawaacceleratorsto
   GslsCategoryProductListGridComponentController
     calls productSearchFacade.categorySearch(searchQuery, pagingInfo)
       which calls productSearchService.searchAgain(searchQuery, pagingInfo)
-	    which calls DefaultSolrProductSearchService.doSearch(searchQuery, pagingInfo) 
-		  execute the search
-		    call DefaultFacetSearchService.search()
-			  which calls DefaultFacetSearchStrategy.search
-			return solrSearchResponse which contains SolrDocuments result
-		  then call defaultVisibilityFilteringSolrSearchResponseConverter to covert the response
-		  which use many populators to convert the search response (note:a converter e.g. defaultVisibilityFilteringSolrSearchResponseConverter inherits all populators from parent e.g. abstractPopulatingConverter)
-	  then call gslsProductCategorySearchPageConverter to convert the result
-	    which calls gslsProductCategorySearchPagePopulator
-		  which calls defaultCommerceSearchResultProductConverter
-		    which calls gslsSearchResultProductPopulator
-			
+        which calls DefaultSolrProductSearchService.doSearch(searchQuery, pagingInfo) 
+          execute the search
+            call DefaultFacetSearchService.search()
+              which calls DefaultFacetSearchStrategy.search
+            return solrSearchResponse which contains SolrDocuments result
+          then call defaultVisibilityFilteringSolrSearchResponseConverter to covert the response
+          which use many populators to convert the search response (note:a converter e.g. defaultVisibilityFilteringSolrSearchResponseConverter inherits all populators from parent e.g. abstractPopulatingConverter)
+      then call gslsProductCategorySearchPageConverter to convert the result
+        which calls gslsProductCategorySearchPagePopulator
+          which calls defaultCommerceSearchResultProductConverter
+            which calls gslsSearchResultProductPopulator
+            
   GslsSolrQueryPostProcessor - solrQueryPostProcessors
     is used in defaultSolrQueryConverter
-	  which is used in DefaultFacetSearchService (5.4 only)
-	  in 6.7 defaultSolrQueryConverter is used in legacyFacetSearchStrategy (vs defaultFacetSearchStrategy - in DefaultFacetSearchService)
-	    => add more criteria to the search e.g. hanbaiEndDateDouble
-		=> change the DefaultFacetSearchStrategy to legacyFacetSearchStrategy
-	  change to legacy true?
-	    goodsmile-globalIndex => searchConfiguration => legacymode = true
+      which is used in DefaultFacetSearchService (5.4 only)
+      in 6.7 defaultSolrQueryConverter is used in legacyFacetSearchStrategy (vs defaultFacetSearchStrategy - in DefaultFacetSearchService)
+        => add more criteria to the search e.g. hanbaiEndDateDouble
+        => change the DefaultFacetSearchStrategy to legacyFacetSearchStrategy
+      change to legacy true?
+        goodsmile-globalIndex => searchConfiguration => legacymode = true
   kd query sample: fill in to the query field of solr server: solrserver/server123 - decode url before search
   {!boost}(+{!lucene v=$yq})&fq=allCategories_string_mv:CATEGORY\-ROOT&fq=(catalogId:"GSLS_GL\-PRODUCTCATALOG" AND catalogVersion:"Online")&fq=displaySite_string_mv:(goodsmile-global OR true)&fq=(stockLevelStatus_string:inStock) OR (hanbaiStartDateDouble_double:([1569408536267 TO *]) OR hatsubaiStartDateDouble_double:([1569408536267 TO *]))&fq=hanbaiEndDateDouble_double:([1569408536267 TO *])&fq=hatsubaiEndDateDouble_double:([1569408536267 TO *])&sort=postingDate_sortable_date desc,postingDate_sortable_date desc&start=0&rows=40&facet.field=salesMethod_string&facet.field=price_jpy_string&facet.field=allPromotions_string_mv&facet.field=categoryPath_string_mv&facet.field=allCategories_string_mv&facet.field=displaySite_string_mv&facet.field=category_string_mv&facet.field=stockLevelStatus_string&facet=true&facet.sort=count&facet.mincount=1&facet.limit=50&fl=score,*
 
@@ -166,7 +168,7 @@ solr search in backoffice
   needed extentions
     basic (storefront also need): solrserver, solrfacetsearch
     backofficesolrsearch: for bo
-	solrfacetsearchbackoffice: enable configuration
+    solrfacetsearchbackoffice: enable configuration
   backoffice.solr.search.index.autoinit=false to disable auto index first time start up server
   note: Solr Search in Backoffice works only for the Simple Search mode of the Advanced Search widget and Reference Editors Search => can has facet, auto suggestion in simple search: https://tinyurl.com/yxrnsu36
   FieldSearchFacadeStrategy: say, when perform search se choose the strategy 
@@ -178,32 +180,49 @@ solr search in backoffice
   productSolr.impex (backofficesolrsearch ext): all config, indexed type for backoffice solr search
   query
     DefaultSolrFieldSearchFacadeStrategy
-	SearchQueryData
+    SearchQueryData
     defaultBackofficeConditionsDecorators: add more condition for the query
   
 config for storefront e.g. goodsmile-globalIndex vs for backoffice vs Solr Config for Backoffice
   when access solr admin => 2 cores: 1 for storefornt, 1 for bo (moi core has 2 phase)
   
+
+FieldValueProvider
+  built-in provider: springELValueProvider - for normal primitive, collection
+  custom
+    implement this interface(override Collection<FieldValue> getFieldValues())
+    FieldValue: e.g.  "name_text_ja":"ロータリー ハンマー"
+      name: provide by FieldNameProvider - get the name for FieldValue (add _vm, _locale, _sortable....)
+      value: custom value
+      for each languages
+        for each fieldNames: moi indexedProperty co the co nhieu field names (localize, sorting....) e.g. name = fieldNameProvider.getFieldNames(indexedProperty, language.getIsocode())
+          fieldValues.add(new FieldValue(name, valueForTheName))
+  impex
+    valueProviderParameter e.g. getLocalizedAttribute(#lang), basicAttribute, basicCollection...
+    multivalue
+	facetType
+	
   
+ 
 use case 1: show category facet as tree
   add new SolrIndexedProperty e.g. categoryPath (facet=true) with new fieldValueProvider e.g. qspCategoryPathValueProvider
   when run index => create value for this property
   when user search for a category e.g. CategoryPageController
     that will call the facade (and service) to execute solr search
-	after get the response from solr will call converter to convert the solr result to facade data object e.g. ProductCategorySearchPageData
-	trong do se call populator to buildFacets() e.g. List<FacetData> (with FacetValueData)
-	then controller se convert category facet to json tree structure to show to ui e.g. jsonCatNavNodes=[{'code':'1355','name':'Tools','level':1,'count':143,'url':'/c/1355','selected':true,'children':[{'code':'1360','name':'Power Drills','parent':'1355','level':2,'count':143,'url':'/c/1360','selected':true}]}]
+    after get the response from solr will call converter to convert the solr result to facade data object e.g. ProductCategorySearchPageData
+    trong do se call populator to buildFacets() e.g. List<FacetData> (with FacetValueData)
+    then controller se convert category facet to json tree structure to show to ui e.g. jsonCatNavNodes=[{'code':'1355','name':'Tools','level':1,'count':143,'url':'/c/1355','selected':true,'children':[{'code':'1360','name':'Power Drills','parent':'1355','level':2,'count':143,'url':'/c/1360','selected':true}]}]
     and show to productgrid/listpage
-	which contain RefinementFacetComponent e.g. ProductLeftRefinements
-	which contains facetNavRefinements.tag
-	which contains facetNavRefinementCategoryFacet.tag
-	open/close category tree how? (front-end)
+    which contain RefinementFacetComponent e.g. ProductLeftRefinements
+    which contains facetNavRefinements.tag
+    which contains facetNavRefinementCategoryFacet.tag
+    open/close category tree how? (front-end)
 
 
 use case 2: search box with grouping by type e.g. product, category (and label for each group)
   solr related
     sorlindextedproperty for some product attrs such as name, category, brand
-	
+    
   flow
     input search e.g. searchboxcomponent.jsp
     front-end control the max characters to start the search e.g. 3 - component.minCharactersBeforeRequest
@@ -213,13 +232,36 @@ use case 2: search box with grouping by type e.g. product, category (and label f
         then call DefaultSolrProductSearchAutocompleteService
           then call DefaultSolrAutoSuggestService
             then call solr client to get the suggest input
+            ...call DefaultSolrProductSearchService to convert the solr result to ProductCategorySearchPageData
       return AutocompleteResultData e.g. {"suggestions":[], "products":[]}
-	then the ac.autocomplete.js will use the json response to construct the html for each row and render e.g. autoSearchData object
-	  the "suggestions" for keyword part
-	  the "products" for products part
+    then the ac.autocomplete.js will use the json response to construct the html for each row and render e.g. autoSearchData object
+      the "suggestions" for keyword part
+      the "products" for products part
+
+use case 3: custom implement: search for category
+  SearchPageController.getAutocompleteSuggestions(term)
+    will call DefaultSolrCategorySearchFacade.textSearch(term)
+	  will call DefaultSolrCategorySearchService.textSearch(term)
+	    that will create new SolrSearchQueryData with textSearch and filters
+		then call categoryCommerceSearchQueryPageableConverter (only bean declare - from SearchQueryPageableData to SolrSearchRequest)
+		  which will use (categoryCommerceSearchSolrQueryPopulator)CategorySearchSolrQueryPopulator
+		  and categoryCommerceSearchTextPopulator (SearchTextPopulator with properties name and boots value - remove BGSearchTextPopulator)
+		then call commerceCategorySolrSearchRequestConverter (only bean declare - search and convert from SolrSearchRequest to SolrSearchResponse)
+          that will call solrCategorySearchRequestResponsePopulator e.g. SolrSearchRequestResponsePopulator
+		    that will call categoryFacetSearchService e.g. DefaultFacetSearchService to call the actual search
+		    and solrKeywordRedirectService to attachKeywordRedirect???
+		then call commerceCategorySolrSearchResponseConverter (only bean declare - from SolrSearchResponse to CategorySearchPageData)
+		  that will use commerceSearchResponseQueryPopulator (ootb)
+		  and commerceSearchResponsePaginationPopulator (ootb)
+		  and commerceSearchResponseResultsPopulator (ootb)
+		  and commerceCategorySearchResponseFreeTextSearchPopulator e.g. CategorySearchResponseFreeTextSearchPopulator
+	return CategorySearchPageData
+  return List<CategoryData>
 
 
-	
+
+
+ 
 more: https://hybrismart.com/2019/02/13/facet-search-the-most-comprehensible-guide-best-practices-design-patterns/
 
 reference
