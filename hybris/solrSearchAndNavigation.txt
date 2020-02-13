@@ -238,7 +238,7 @@ use case 2: search box with grouping by type e.g. product, category (and label f
       the "suggestions" for keyword part
       the "products" for products part
 
-use case 3: custom implement: search for category
+use case 3: custom implement - search for category
   SearchPageController.getAutocompleteSuggestions(term)
     will call DefaultSolrCategorySearchFacade.textSearch(term)
 	  will call DefaultSolrCategorySearchService.textSearch(term)
