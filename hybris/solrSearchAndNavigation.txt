@@ -10,7 +10,7 @@ log: hybris\log\solr\instances\default\solr.log
 
 terms
   indexed type: e.g. Product
-  facet: grouping for continue navigation e.g. price facet
+  facet: for refinement, grouping for continue navigation e.g. price facet
   relevance: su lien quan
   boots e.g.      matching the identifier property has a higher score than a fuzzy search in description propert
   search query vs free      search query
@@ -99,9 +99,9 @@ implementation
       say creating and populating the search query
       new SearchQuery(facetSearchConfig, indexedType);//or some other overload methods 
       SearchQuery object: all attributes will be info when converting to sorl query
-        queryFields: q=value
-        filterQueryFields: fq=value - not effect the score
-        facetFields: fields for facet purpose
+        erQueryFields: fq=value - not effect the score
+        facequeryFields: q=value
+        filttFields: fields for facet purpose
         orderFields: fields for sorting purpose
         Some of the query parameters in the search query object will only be used together with the new search strategy. When using the legacy search strategy, that information will be taken directly from the configuration and not from the search query object. The affected parameters are:
           default query operator
@@ -190,7 +190,7 @@ config for storefront e.g. goodsmile-globalIndex vs for backoffice vs Solr Confi
 FieldValueProvider
   built-in provider: springELValueProvider - for normal primitive, collection
   custom
-    implement this interface(override Collection<FieldValue> getFieldValues())
+    implement FieldValueProvider interface(override Collection<FieldValue> getFieldValues())
     FieldValue: e.g.  "name_text_ja":"ロータリー ハンマー"
       name: provide by FieldNameProvider - get the name for FieldValue (add _vm, _locale, _sortable....)
       value: custom value
@@ -202,7 +202,11 @@ FieldValueProvider
     multivalue
 	facetType
 	
-  
+question
+  how facet filter applied? thuc chat la query lai solr voi some FacetFieldValues (selected facet e.g. brand Bosch, get from ${facetValue.query.query.value})
+
+
+
  
 use case 1: show category facet as tree
   add new SolrIndexedProperty e.g. categoryPath (facet=true) with new fieldValueProvider e.g. qspCategoryPathValueProvider
@@ -213,7 +217,7 @@ use case 1: show category facet as tree
     trong do se call populator to buildFacets() e.g. List<FacetData> (with FacetValueData)
     then controller se convert category facet to json tree structure to show to ui e.g. jsonCatNavNodes=[{'code':'1355','name':'Tools','level':1,'count':143,'url':'/c/1355','selected':true,'children':[{'code':'1360','name':'Power Drills','parent':'1355','level':2,'count':143,'url':'/c/1360','selected':true}]}]
     and show to productgrid/listpage
-    which contain RefinementFacetComponent e.g. ProductLeftRefinements
+    which contain ProductRefinementFacetComponent e.g. RefinementFacetComponent in position ProductLeftRefinements
     which contains facetNavRefinements.tag
     which contains facetNavRefinementCategoryFacet.tag
     open/close category tree how? (front-end)
@@ -258,8 +262,28 @@ use case 3: custom implement - search for category
 	return CategorySearchPageData
   return List<CategoryData>
 
-
-
+use case 4: category page - price facet (muilti select)
+  fetch data
+    CategoryPageController
+	  calls DefaultSolrProductSearchFacade.categorySearch()
+	    calls DefaultSolrProductSearchService
+		  calls AbstractPopulatingConverter to convert the SearchQueryPageableData to SolrSearchRequest
+		  then calls AbstractPopulatingConverter (defaultCommerceSolrSearchRequestConverter)
+		    that will call solrCategorySearchRequestResponsePopulator e.g. SolrSearchRequestResponsePopulator
+		      that will call categoryFacetSearchService e.g. DefaultFacetSearchService to call the actual search
+			  return SolrSearchResponse with facets value as a Map. Note: facets result depends on products result - how?
+			  this facets will be convert to List<FacetData> (???) - SearchResponseFacetsPopulator
+		  after get the result e.g. ProductCategorySearchPageData
+		  will call defaultProductCategorySearchPageConverter (ProductCategorySearchPagePopulator) 
+		    to convert ProductCategorySearchPageData to ProductCategorySearchPageData with facetData e.g. ${searchPageData.facets} //only facet with values are created
+  show: product grid page (using jsp or js append)
+    contains ProductRefinementComponent component
+      contains facetNavAppliedFilters 
+	  and facetNavRefinements (currently shows categorypath, price, brand facet)
+		that contains facetNavRefinementFacet
+		filter action
+    filter: by url for each facet e.g. for brand - /kkb2b/en/USD/Open-Catalogue/Brake/c/15100?q=:relevance:brand:brand_15101&amp;layout=list
+	  
 
  
 more: https://hybrismart.com/2019/02/13/facet-search-the-most-comprehensible-guide-best-practices-design-patterns/
