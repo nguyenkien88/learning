@@ -46,7 +46,7 @@ product attribute definition: 2 methods - type system and classification
 	e.g. product A belongs to Category B which belongs to CatalogVersion C which belongs to ProductCatalog D
   classification - another way to group products
     classification attribute: say, create a classification attribute e.g. color and link to the products/categories that have that atribute
-	classification category: hold classification atribute e.g. same as normal type system category
+	classification category/class: hold classification atribute e.g. same as normal type system category
 	when?
       when we need to define product attribute only for selected number of products rather than defining for each and every product
       when we are not sure about the lifetime of the attribute which may become unnecessary after few weeks or months.
@@ -55,22 +55,23 @@ product attribute definition: 2 methods - type system and classification
 	  category classification: a product belongs to some classificationclass which have folowwing related model
 	    ClassificationSystem (similar to ProductCatalog) e.g. GSLS_Classification - contains nhieu versions, 1 active
         ClassificationSystemVersion e.g. 1.0 contains nhieu ClassificationClass
-	    ClassificationClass: (similar to category) group nhieu attribute into a class e.g. GENERAL_ATTRIBUTE - assign to product, say a product A belongs to classification class A'
+	    ClassificationClass: (similar to category) group nhieu attribute into a class e.g. GENERAL_ATTRIBUTE - assign to product, say a product A belongs to classification class A
 	    ClassificationAttribute (feature) e.g. color, size, say, product A has feature B with value (ClassificationAttributeValue) C
 	    ClassificationAttributeAssignment: link the class and attribute
 	    ClassificationAttributeUnit
 		ClassificationAttributeValue
 		AttributeValueAssignment
-		
 		Feature?
 		FeatureList?
-		
-		
+	how to get classification attribute (and value) from a product?
+	  productModel -> get ProductFeatureModel(s) -> get ClassAttributeAssignmentModel -> getclassificationAttribute
+	  DefaultClassificationService.getFeatures()
+	    productModel -> get classificationClasses (category) for that product => get all ClassAttributeAssignmentModel for that class => FeatureList for that product
+		LocalizedFeature <kkb2bClassification/1.0/4739.input power, 6738: [FeatureValue[value:170 description:null unit:ClassificationAttributeUnitModel (8796093350500@1)]]>
+		getClass().getSimpleName(), getCode(), getValues()
 	  product classification
 	    ProductFeature
-	  
-
-
+  more: https://cxwiki.sap.com/pages/viewpage.action?spaceKey=release5&title=Product+Modeling
 variant product
   say, a product (base product) holds product variants
   variant to base product: many to one
