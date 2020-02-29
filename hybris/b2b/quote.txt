@@ -1,0 +1,43 @@
+https://help.sap.com/viewer/4c33bf189ab9409e84e589295c36d96e/1905/en-US/a795b4722f6942c091ef716c66ddb37d.html
+who can create quote?
+  buyer e.g. when they place an order with a really big quantity and want a special price
+  or sales rep  (using asm)
+
+the process?
+  used in negotiation process
+  say, buyer submit a quote request (cart value more than a amount (default: $25000 - include promotion)) to negociate the final price 
+    then the sales rep adjust (add/remove product, add expiry date, comment...)
+    and submit the verndor quote to seller approval (if the quote value exeed the vendor threshold, if not => auto approved)
+      if reject -> send back to sales rep
+      if approve -> send to buyer
+        if reject -> send to sales rep
+        if agree -> checkout (converted to an normal order)
+  quote (create by buyer) vs vendor quote (the quote that sent back to buyer)
+  quote status: different for each role
+  
+  buyer can
+    create/submit a quote request
+	  say, a buyer convert their active session cart into a quote request, a cart can be prepared from
+	    Add items from the storefront
+        Add items using the Quick Order feature
+        Restore a saved cart
+        Importing a cart from a CSV file
+	  can save the draft quote for submit later
+    view the quote (status)
+	cancel/accept vendro quote (Vendor Quote status)
+	sometime the checkout fail because some reaonse make the cart change (compare to the time it sent to sales rep e.g. applied new promotion) => customize: QuoteCartValidationStrategy
+	requote: create from inactive (canceld, order, expired) quote (quicly from often quote)
+  
+    promotion vs order discount and quote discount
+
+  sales rep can
+    
+  
+implementation
+  required/recommended exts
+    Assisted Service Module is required for the sales rep to modify quotes.
+    commerceorgaddon AddOn is not required for Commerce Quotes, but is needed for the order approval process in the buying organization.
+    commerceorgsamplesaddon AddOn includes sample data to implement Commerce Quotes in the powertools storefront.
+  when a quote is modified => become session cart
+  
+  

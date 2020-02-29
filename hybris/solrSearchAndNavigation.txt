@@ -203,8 +203,9 @@ FieldValueProvider
 	facetType
 	
 question
-  how facet filter applied? thuc chat la query lai solr voi some FacetFieldValues (selected facet e.g. brand Bosch, get from ${facetValue.query.query.value})
-
+  how facet filter applied? 
+    thuc chat la query lai solr voi some FacetFieldValues (concat - e.g. :relevance:discontinued:false%3Flayout%3Dgrid:brand:brand_15103)
+  facet priority: 
 
 
  
