@@ -27,17 +27,27 @@ the process?
 	cancel/accept vendro quote (Vendor Quote status)
 	sometime the checkout fail because some reaonse make the cart change (compare to the time it sent to sales rep e.g. applied new promotion) => customize: QuoteCartValidationStrategy
 	requote: create from inactive (canceld, order, expired) quote (quicly from often quote)
-  
     promotion vs order discount and quote discount
-
-  sales rep can
-    
   
-implementation
+  sales rep/sell approver
+  expired date: default is 30 days
+  
+implementation (https://help.sap.com/viewer/4c33bf189ab9409e84e589295c36d96e/1905/en-US/3b6500f9d136444f8d56c966ac269cca.html)
   required/recommended exts
     Assisted Service Module is required for the sales rep to modify quotes.
     commerceorgaddon AddOn is not required for Commerce Quotes, but is needed for the order approval process in the buying organization.
     commerceorgsamplesaddon AddOn includes sample data to implement Commerce Quotes in the powertools storefront.
-  when a quote is modified => become session cart
+  session cart and quote object: a session cart is converted to a quote when request quote (buyer) or submit quote (sales rep)
+  types
+    QuoteData/Model
+	CommerceCartMetadata
+	CommerceCartMetadataBuilder
+	QuoteFacade
+	QuoteDiscountForm/QuoteForm
+	MyQuotesController/QuoteController
+	more: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/a9abcd409d1644e9886a3e92c621e38e.html
+  
+ 
+ 
   
   
