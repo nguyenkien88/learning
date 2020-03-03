@@ -1,7 +1,7 @@
 https://help.sap.com/viewer/4c33bf189ab9409e84e589295c36d96e/1905/en-US/a795b4722f6942c091ef716c66ddb37d.html
 who can create quote?
   buyer e.g. when they place an order with a really big quantity and want a special price
-  or sales rep  (using asm)
+  or sales rep  (using asm): user group - salesemployee, salesapprover
 
 the process?
   used in negotiation process
@@ -31,7 +31,12 @@ the process?
   
   sales rep/sell approver
   expired date: default is 30 days
+  for each step, a copy of the quote is created (with new version and status for the viewer)
+
+user types: buyer, seller, seller approver
   
+  
+
 implementation (https://help.sap.com/viewer/4c33bf189ab9409e84e589295c36d96e/1905/en-US/3b6500f9d136444f8d56c966ac269cca.html)
   required/recommended exts
     Assisted Service Module is required for the sales rep to modify quotes.
