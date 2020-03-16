@@ -36,3 +36,9 @@ change column back office
   run update localize, f4 - build, restart server
   
 xxx-locales (type, theo type structure) vs backoffice.labels - for widget config (label attribute, define tuy y)
+
+
+use cases for localize
+  backoffice action name: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/8c79ce7486691014a355f3b39c5491a3.html?q=actionName => Redeploy backoffice
+  
+  
