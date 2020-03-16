@@ -34,7 +34,12 @@ the process?
   for each step, a copy of the quote is created (with new version and status for the viewer)
 
 user types: buyer, seller, seller approver
-  
+  configurable e.g. commerceservices.quote.buyer.usergroup.uid
+  which quotes are visible to which users? 
+    AssistedServiceQuoteUserIdentificationStrategy
+	DefaultQuoteUserIdentificationStrategy
+	DefaultQuoteUserTypeIdentificationStrategy
+	DefaultQuoteStateSelectionStrategy
   
 
 implementation (https://help.sap.com/viewer/4c33bf189ab9409e84e589295c36d96e/1905/en-US/3b6500f9d136444f8d56c966ac269cca.html)
@@ -52,7 +57,52 @@ implementation (https://help.sap.com/viewer/4c33bf189ab9409e84e589295c36d96e/190
 	MyQuotesController/QuoteController
 	more: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/a9abcd409d1644e9886a3e92c621e38e.html
   
- 
+flow
+  tat cat deu thao tac tren session cart (co the 1 so info in QuoteData)
+  
+  /create
+    initiateQuote() 
+      getSessionCart()
+  	and create quote model from session cart and save
+  	remove session cart
+  	then convert the created quote model to quote data 
+  	  that uses quotePopulator to convert all info
+    redirect to /edit quote
+      
+  	
+  /edit
+    enableQuoteEdit()
+      find quoteModel
+      loadQuoteAsSessionCart() - create new or get from cart reference
+        if checkout then set previousEstimatedTotal() and remove existing discount from quote model
+        else 
+  	    update some quote model info 
+        	and create cart from the quote: clone and set cart model ref to the quote model  
+  	  return the cart model
+      then calculate cart and set the created cart to session cart
+    then get the cartdata from session cart
+      lay quotemodel tu cartmodel.getQuoteRef() and convert to quotedata and set to the cartData
+    then fill quote form with data from cart data
+      name and des will be filled
+    then create product entries from cart data
+    return to the view
+    
+    
+  /cart/update
+    updateCartEntry()
+      that will update whole (and recalculate the cart)
+  	and return CartModificationData (mostly entry info)
+    then redirect to quote /edit
+    
+  
+  /discount/apply
+    applyQuoteDiscount() //for session cart
+      get the quoteModel from session cart
+      clear old discount from the quote/cart
+      create and set the global discountvalue and save the cart model
+  
+  
+   
  
   
   

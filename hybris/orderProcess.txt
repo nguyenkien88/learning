@@ -61,7 +61,7 @@ hybris pricing
 	  currency conversion: auto by conversion rate
 	  unitFactor: 100usd for 5 pieces
 	  say, calculate price of a PriceRow
-	  use BidDecimal for price with scale factor - jdbcmappings.big_decimal_scale (properties)
+	  use BigDecimal for price with scale factor - jdbcmappings.big_decimal_scale (properties)
 	  create list of PriceRow(europe1Prices) for ProductModel
 	  => cuoi cung the factory will get the most relevance PriceRow (base on the product and current customer) - only 1 final price
 	  see more: https://mjyothula.wordpress.com/2017/01/06/price-factory/
