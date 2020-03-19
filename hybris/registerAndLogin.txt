@@ -1,0 +1,17 @@
+/normal register (RegisterPageController/LoginPageController)
+  create RegisterData from register form
+    then call customer facade to register
+      that will call modelService to create new CustomerModel
+	  and set common info for user
+	  then call DefaultCustomerAccountService register()
+	    that will generate the uid, set pass and save customer
+		then publish the register event to the RegistrationEventListener to send email 
+		
+/b2b register (/kkb2b/ja/USD/my-company/organization-management/manage-users/create: UserManagementPageController)
+  call (b2BCustomerForm)
+    that will create CustomerData from b2BCustomerForm
+	then set some cms data for model
+	and call b2bUserFacade.updateCustomer
+	  that will call modelService to create B2BCustomerModel
+  
+  
