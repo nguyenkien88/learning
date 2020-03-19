@@ -1,0 +1,5 @@
+Page with and without frontend
+  binh thuong ContentPage will have template (with frontend file and content slot), the specific page will define specific component to those content slot
+  without frontend => just a model (with content from template), with some basic info like title
+    for example admin registration page (from the template without front end), just used to store title :D
+  
