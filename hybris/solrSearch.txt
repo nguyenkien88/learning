@@ -99,9 +99,9 @@ implementation
       say creating and populating the search query
       new SearchQuery(facetSearchConfig, indexedType);//or some other overload methods 
       SearchQuery object: all attributes will be info when converting to sorl query
-        erQueryFields: fq=value - not effect the score
+        QueryFields: fq=value - not effect the score
         facequeryFields: q=value
-        filttFields: fields for facet purpose
+        fieldFields: fields for facet purpose
         orderFields: fields for sorting purpose
         Some of the query parameters in the search query object will only be used together with the new search strategy. When using the legacy search strategy, that information will be taken directly from the configuration and not from the search query object. The affected parameters are:
           default query operator

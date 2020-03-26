@@ -1,0 +1,7 @@
++ email content
++ localized
++ backoffice ui config
++ integrate frontend
++ preparing commit code
++ prepare impex build script
++ story related things

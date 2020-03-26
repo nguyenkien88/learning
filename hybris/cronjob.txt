@@ -2,7 +2,10 @@ cron job
   execute some business logic (job) manually or auto via Trigger, run in backgound at own Thread
   use for long/periodic task
   how?
-    CronJob hold the job and the input for each run
+    CronJob 
+	  hold the job 
+	  and the input for each run (cronjobmodel)
+	  and the trigger
 	Job: hold logic
 	  HelloWorldCronJob model extends CronJob (hold data the job needs): identity of the job (items.xml)
 	  HelloWorldJob extends AbstractJobPerformable 
@@ -13,4 +16,4 @@ cron job
 
 
 tips
-  disable cronjob: go to backoffice set enabel=false
+  disable cronjob: go to backoffice set enable=false
