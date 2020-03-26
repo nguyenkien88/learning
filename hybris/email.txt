@@ -26,16 +26,27 @@ run
     remove
   when process is triggered e.g. e.g. eventService.publishEvent(initializeEvent(new RegistrationEvent(), customerModel))
   then the listener e.g. RegistrationEventListener will capture the event and run the process e.g. getBusinessProcessService().startProcess(dataModel);
+    different between process model types?
   that will start the beginning point of the process e.g. generateCustomerRegistrationEmail
   that will call the impl e.g. GenerateEmailAction to executeAction
   that will retrieve data e.g. 
     context - CustomerEmailContext
-	emailPageModel (in impex)
-	the context data and emailPageModel will be parsed and filled to generate the real content of the email e.g. EmailMessageModel with body, header....
-	then call next step in the process e.g. sendEmail to send the emailMessageModel
+    emailPageModel (in impex)
+    the context data and emailPageModel will be parsed and filled to generate the real content of the email e.g. EmailMessageModel with body, header....
+    then call next step in the process e.g. sendEmail to send the emailMessageModel
   that will call the bean sendEmail e.g. de.hybris.platform.acceleratorservices.process.email.actions.SendEmailAction to actual send the email
     
-	
+short flow
+  facade
+    create and publish event
+    event listener listens and receive the specific event
+      then create and set some specific info for the process model
+      and call process service to start the process with id
+      which start a process (xml) - start action bean with email template
+        with subject
+        and body that both have email context
+          which will use the neccessary info from process model to set for the template    
+    
 config
   emailservice.send.enabled = true
   mail.from = xxx@gmail.com
@@ -45,3 +56,9 @@ config
   mail.smtp.user = xxx@gmail.com
   mail.smtp.password = password
       
+error
+  Failed to lookup BaseSite for BusinessProcess: thieu khai bao emailContext (xxxfacade-spring.xml)/thieu mapping model for the bussiness process model (xxxcore-spring.xml)
+  (processContextResolutionStrategyMap)
+
+
+  
