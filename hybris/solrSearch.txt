@@ -296,5 +296,10 @@ reference
   
 
   
+free text type
+  free text
+  fuzzy: for misspelled case
+  wildcard: binh thuong match whole term moi seach ra, with wildcard chi match 1 part
+  phrase: 
   
   
