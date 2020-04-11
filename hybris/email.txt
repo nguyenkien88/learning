@@ -60,5 +60,10 @@ error
   Failed to lookup BaseSite for BusinessProcess: thieu khai bao emailContext (xxxfacade-spring.xml)/thieu mapping model for the bussiness process model (xxxcore-spring.xml)
   (processContextResolutionStrategyMap)
 
+want to send multiple (different emails in same process)
+  create nhieu genereateEmailActions lien tiep nhau
 
+imporant classes
+  GenerateEmailAction
+  SendEmailAction
   
