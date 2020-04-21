@@ -200,13 +200,106 @@ FieldValueProvider
   impex
     valueProviderParameter e.g. getLocalizedAttribute(#lang), basicAttribute, basicCollection...
     multivalue
-	facetType
-	
+    facetType
+    
 question
-  how facet filter applied? 
-    thuc chat la query lai solr voi some FacetFieldValues (concat - e.g. :relevance:discontinued:false%3Flayout%3Dgrid:brand:brand_15103)
-  facet priority: 
+  how facets filter applied? 
+    thuc chat la query lai solr voi some FacetFieldValues (SearchQueryData.value - e.g. :relevance:discontinued:false%3Flayout%3Dgrid:brand:brand_15103)  
+  indexed property facet priority: priority for indexing facet?
+  query facet priority: priority for query? - show on ui
+  
 
+
+use case 0: product search full flow with facets - keyword 'filter'
+  search types: 2
+    category search (luc populate add them category url: SolrSearchStatePopulator)
+	and free text search
+  classes
+    SearchStateData
+      contains SearchQueryData (value='filter', group...)
+    SolrSearchRequest
+      contains SearchQuery (contains all info before put to solr client: query, boots, highlight...)
+  flow
+    SearchPageController.textSearch('filter')
+      calls DefaultSolrProductSearchFacade.textSearch(searchStateData)
+        calls SolrSearchQueryDecoderPopulator (freeTextSearch, sort, filterTerms...)
+        and KKSolrSearchQueryDecoderPopulator (group, enhancedSearch)
+        to convert SearchQueryData to SolrSearchQueryData (freeTextSearch='filter', sort, filterTerms, group, enhancedSearch...)
+        then calls DefaultSolrProductSearchService.doSearch(solrSearchQueryData)
+          that will create SearchQueryPageableData(SolrSearchQueryData, PageableData)
+          and calls KKExtendedSearchSolrQueryPopulator: not important
+          and SearchPagePopulator: to popuplate paging info e.g pageSize...
+          and SearchSortPopulator: to poppulate sort info for SearchQuery
+          and SearchTextPopulator: to clean (replate :, AND, OR...) and set searchText for SolrSearchRequest
+          and SearchFiltersPopulator: to populate filter query
+          and KKSearchSolrQueryPopulator: to add some filter RawQuery to the SearchQuery for enhancedSearch and group (seriesName_text_)
+          to convert searchQueryPageableData to SolrSearchRequest
+          
+		  then calls SolrSearchRequestResponsePopulator to convert solrSearchRequest to solrSearchResponse
+            that will call to DefaultFacetSearchService.search(SearchQuery)
+              that will call DefaultFacetSearchStrategy.search(SearchQuery)
+                that will call FacetSearchQueryBasicPopulator to poplate basic info e.g. {!boost}(+{!lucene v=$yq})
+                and FacetSearchQueryFilterQueriesPopulator 
+                FacetSearchQueryExcludedItemsFilterPopulator
+                FacetSearchQueryCatalogVersionsFilterPopulator
+                FacetSearchQueryGroupingPopulator
+                FacetSearchQuerySortsPopulator
+                FacetSearchQueryPagingPopulator
+                FacetSearchQueryFacetsPopulator: use FaceType here
+                FacetSearchQueryFieldsPopulator
+                FacetSearchQueryHighlightingFieldsPopulator: add <em></em> here
+                FacetSearchQuerySpellcheckPopulator
+                FacetSearchQueryParamsPopulator
+                QspFacetSearchQueryPriceSliderFacetPopulator
+                to convert the searchQuery(and FacetSearchContext) to real org.apache.solr.client.solrj.SolrQuery
+                
+                and do the search
+                
+                then call FacetSearchResultBasicPopulator: to populate SearchQuery
+                and FacetSearchResultFacetsPopulator: to populate 
+                and FacetSearchResultDocumentsPopulator
+                and FacetSearchResultSortsPopulator
+                to covert the result data to SearchResult
+                and calls DefaultSolrKeywordRedirectService to attach keyword redirect
+          
+		  then call SearchResponseQueryPopulator to popuplate the query (SolrSearchQueryData)
+          and KKSearchResponsePaginationPopulator
+          and SearchResponseResultsPopulator
+          and KKSearchResponseFacetsPopulator: build facets (list FacetData: name, code, value(FacetValueData))
+          and SearchResponseFacetFilterPopulator
+          and SearchResponseBreadcrumbsPopulator
+          and SearchResponseSortsPopulator
+          and SearchResponseFreeTextSearchPopulator
+          and SearchResponseCategoryCodePopulator
+          and SearchResponseSubCategoriesPopulator
+          and SearchResponseSpellingSuggestionPopulator
+          and SearchResponseKeywordRedirectPopulator
+          and KKSearchResponseQueryPopulator: set group and enhancedSearch
+          to convert solrSearchResponse to FacetSearchPageData/ProductCategorySearchPageData(SolrSearchQueryData(currentQuery))
+		then call ProductCategorySearchPagePopulator
+		  that will populate category info (CategoryData)
+		    with CategoryPopulator
+		    and VariantValueParentCategoryPopulator
+		    and KKCategoryPopulator
+		  and breadcrumb info: BreadcrumbPopulator
+		  and facet info: FacetPopulator
+		  and result info: searchResultPopulator
+		    with KKSearchResultVariantOptionsProductPopulator
+			and SearchResultPickupAvailabilityPopulator
+			and KKSearchResultProductPopulator
+			and WishListProductSearchPopulator
+		  and spelling info: SpellingSuggestionPopulator
+		 
+		and KKProductCategorySearchPagePopulator
+		to convert ProductCategorySearchPageData to ProductCategorySearchPageData (use in UI)
+		
+              
+              
+              
+          
+            
+          
+    
 
  
 use case 1: show category facet as tree
@@ -246,45 +339,45 @@ use case 2: search box with grouping by type e.g. product, category (and label f
 use case 3: custom implement - search for category
   SearchPageController.getAutocompleteSuggestions(term)
     will call DefaultSolrCategorySearchFacade.textSearch(term)
-	  will call DefaultSolrCategorySearchService.textSearch(term)
-	    that will create new SolrSearchQueryData with textSearch and filters
-		then call categoryCommerceSearchQueryPageableConverter (only bean declare - from SearchQueryPageableData to SolrSearchRequest)
-		  which will use (categoryCommerceSearchSolrQueryPopulator)CategorySearchSolrQueryPopulator
-		  and categoryCommerceSearchTextPopulator (SearchTextPopulator with properties name and boots value - remove BGSearchTextPopulator)
-		then call commerceCategorySolrSearchRequestConverter (only bean declare - search and convert from SolrSearchRequest to SolrSearchResponse)
+      will call DefaultSolrCategorySearchService.textSearch(term)
+        that will create new SolrSearchQueryData with textSearch and filters
+        then call categoryCommerceSearchQueryPageableConverter (only bean declare - from SearchQueryPageableData to SolrSearchRequest)
+          which will use (categoryCommerceSearchSolrQueryPopulator)CategorySearchSolrQueryPopulator
+          and categoryCommerceSearchTextPopulator (SearchTextPopulator with properties name and boots value - remove BGSearchTextPopulator)
+        then call commerceCategorySolrSearchRequestConverter (only bean declare - search and convert from SolrSearchRequest to SolrSearchResponse)
           that will call solrCategorySearchRequestResponsePopulator e.g. SolrSearchRequestResponsePopulator
-		    that will call categoryFacetSearchService e.g. DefaultFacetSearchService to call the actual search
-		    and solrKeywordRedirectService to attachKeywordRedirect???
-		then call commerceCategorySolrSearchResponseConverter (only bean declare - from SolrSearchResponse to CategorySearchPageData)
-		  that will use commerceSearchResponseQueryPopulator (ootb)
-		  and commerceSearchResponsePaginationPopulator (ootb)
-		  and commerceSearchResponseResultsPopulator (ootb)
-		  and commerceCategorySearchResponseFreeTextSearchPopulator e.g. CategorySearchResponseFreeTextSearchPopulator
-	return CategorySearchPageData
+            that will call categoryFacetSearchService e.g. DefaultFacetSearchService to call the actual search
+            and solrKeywordRedirectService to attachKeywordRedirect???
+        then call commerceCategorySolrSearchResponseConverter (only bean declare - from SolrSearchResponse to CategorySearchPageData)
+          that will use commerceSearchResponseQueryPopulator (ootb)
+          and commerceSearchResponsePaginationPopulator (ootb)
+          and commerceSearchResponseResultsPopulator (ootb)
+          and commerceCategorySearchResponseFreeTextSearchPopulator e.g. CategorySearchResponseFreeTextSearchPopulator
+    return CategorySearchPageData
   return List<CategoryData>
 
 use case 4: category page - price facet (muilti select)
   fetch data
     CategoryPageController
-	  calls DefaultSolrProductSearchFacade.categorySearch()
-	    calls DefaultSolrProductSearchService
-		  calls AbstractPopulatingConverter to convert the SearchQueryPageableData to SolrSearchRequest
-		  then calls AbstractPopulatingConverter (defaultCommerceSolrSearchRequestConverter)
-		    that will call solrCategorySearchRequestResponsePopulator e.g. SolrSearchRequestResponsePopulator
-		      that will call categoryFacetSearchService e.g. DefaultFacetSearchService to call the actual search
-			  return SolrSearchResponse with facets value as a Map. Note: facets result depends on products result - how?
-			  this facets will be convert to List<FacetData> (???) - SearchResponseFacetsPopulator
-		  after get the result e.g. ProductCategorySearchPageData
-		  will call defaultProductCategorySearchPageConverter (ProductCategorySearchPagePopulator) 
-		    to convert ProductCategorySearchPageData to ProductCategorySearchPageData with facetData e.g. ${searchPageData.facets} //only facet with values are created
+      calls DefaultSolrProductSearchFacade.categorySearch()
+        calls DefaultSolrProductSearchService
+          calls AbstractPopulatingConverter to convert the SearchQueryPageableData to SolrSearchRequest
+          then calls AbstractPopulatingConverter (defaultCommerceSolrSearchRequestConverter)
+            that will call solrCategorySearchRequestResponsePopulator e.g. SolrSearchRequestResponsePopulator
+              that will call categoryFacetSearchService e.g. DefaultFacetSearchService to call the actual search
+              return SolrSearchResponse with facets value as a Map. Note: facets result depends on products result - how?
+              this facets will be convert to List<FacetData> (???) - SearchResponseFacetsPopulator
+          after get the result e.g. ProductCategorySearchPageData
+          will call defaultProductCategorySearchPageConverter (ProductCategorySearchPagePopulator) 
+            to convert ProductCategorySearchPageData to ProductCategorySearchPageData with facetData e.g. ${searchPageData.facets} //only facet with values are created
   show: product grid page (using jsp or js append)
     contains ProductRefinementComponent component
       contains facetNavAppliedFilters 
-	  and facetNavRefinements (currently shows categorypath, price, brand facet)
-		that contains facetNavRefinementFacet
-		filter action
+      and facetNavRefinements (currently shows categorypath, price, brand facet)
+        that contains facetNavRefinementFacet
+        filter action
     filter: by url for each facet e.g. for brand - /kkb2b/en/USD/Open-Catalogue/Brake/c/15100?q=:relevance:brand:brand_15101&amp;layout=list
-	  
+      
 
  
 more: https://hybrismart.com/2019/02/13/facet-search-the-most-comprehensible-guide-best-practices-design-patterns/
