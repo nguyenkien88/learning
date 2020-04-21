@@ -58,8 +58,39 @@ security and user management
 	....
 access right with impex
 
+backoffice authority group (BackofficeRole)
+  widget viewing restriction: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/75d58cc59ba14947ae206a313821016b.html
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Consent: agreement to use personal data of user at some entry points in the application
   e.g. I approve to use my personal data for receiving e-mail newsletters for Marketing campaigns.
+
+
+
+
+
+
+
+
 
 
