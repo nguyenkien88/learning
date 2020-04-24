@@ -26,6 +26,20 @@ Controller
         built in
 	    custom
 
+redirect
+  when? 
+    want to redirect to other url (call other controller/static page - the model will lost)
+	it is a new request
+  want to pass model info when call redirect?
+    using addFlashAttributes() from RedirectAttributes (is a Model)
+  vs forward
+    forward is still the same request/response with whole info
+	process in server, url does not change
+  PRG pattern: Post => Redirect (if need data - using RedirectAttributes) => Get
+    avoid resubmit form
+  
+
+
 redering web view
   controller method ---- logical name view --- view implementation
   ViewResolver: resolve logical view name
