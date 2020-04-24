@@ -203,8 +203,11 @@ FieldValueProvider
     facetType
     
 question
-  how facets filter applied? 
-    thuc chat la query lai solr voi some FacetFieldValues (SearchQueryData.value - e.g. :relevance:discontinued:false%3Flayout%3Dgrid:brand:brand_15103)  
+  how facets filter applied?: thuc chat la query lai solr voi some FacetFieldValues (SearchQueryData.value - e.g. :relevance:discontinued:false%3Flayout%3Dgrid:brand:brand_15103)
+    each facet field has FacetData (has multiple FacetValueData with the query - see SolrSearchQueryEncoderPopulator)
+	moi facetValue se co filterTerms rieng, when applied order facet => concat
+	
+	
   indexed property facet priority: priority for indexing facet?
   query facet priority: priority for query? - show on ui
   
@@ -222,7 +225,7 @@ use case 0: product search full flow with facets - keyword 'filter'
   flow
     SearchPageController.textSearch('filter')
       calls DefaultSolrProductSearchFacade.textSearch(searchStateData)
-        calls SolrSearchQueryDecoderPopulator (freeTextSearch, sort, filterTerms...)
+        calls SolrSearchQueryDecoderPopulator (freeTextSearch, sort, filterTerms...) - to decode the search query filter:relevance:xxx
         and KKSolrSearchQueryDecoderPopulator (group, enhancedSearch)
         to convert SearchQueryData to SolrSearchQueryData (freeTextSearch='filter', sort, filterTerms, group, enhancedSearch...)
         then calls DefaultSolrProductSearchService.doSearch(solrSearchQueryData)
@@ -230,7 +233,7 @@ use case 0: product search full flow with facets - keyword 'filter'
           and calls KKExtendedSearchSolrQueryPopulator: not important
           and SearchPagePopulator: to popuplate paging info e.g pageSize...
           and SearchSortPopulator: to poppulate sort info for SearchQuery
-          and SearchTextPopulator: to clean (replate :, AND, OR...) and set searchText for SolrSearchRequest
+          and SearchTextPopulator: to clean (replace :, AND, OR...) and set searchText for SolrSearchRequest
           and SearchFiltersPopulator: to populate filter query
           and KKSearchSolrQueryPopulator: to add some filter RawQuery to the SearchQuery for enhancedSearch and group (seriesName_text_)
           to convert searchQueryPageableData to SolrSearchRequest
@@ -256,13 +259,12 @@ use case 0: product search full flow with facets - keyword 'filter'
                 and do the search
                 
                 then call FacetSearchResultBasicPopulator: to populate SearchQuery
-                and FacetSearchResultFacetsPopulator: to populate 
+                and FacetSearchResultFacetsPopulator
                 and FacetSearchResultDocumentsPopulator
                 and FacetSearchResultSortsPopulator
                 to covert the result data to SearchResult
                 and calls DefaultSolrKeywordRedirectService to attach keyword redirect
-          
-		  then call SearchResponseQueryPopulator to popuplate the query (SolrSearchQueryData)
+		  then call SearchResponseQueryPopulator: to popuplate the query (SolrSearchQueryData)
           and KKSearchResponsePaginationPopulator
           and SearchResponseResultsPopulator
           and KKSearchResponseFacetsPopulator: build facets (list FacetData: name, code, value(FacetValueData))
@@ -283,37 +285,29 @@ use case 0: product search full flow with facets - keyword 'filter'
 		    and KKCategoryPopulator
 		  and breadcrumb info: BreadcrumbPopulator
 		  and facet info: FacetPopulator
+		    with FacetValuePopulator
+			and SolrSearchStatePopulator
+			  with SolrSearchQueryEncoderPopulator: build query for FacetDataValue here
+			  and KKSolrSearchQueryEncoderPopulator
 		  and result info: searchResultPopulator
 		    with KKSearchResultVariantOptionsProductPopulator
 			and SearchResultPickupAvailabilityPopulator
 			and KKSearchResultProductPopulator
 			and WishListProductSearchPopulator
 		  and spelling info: SpellingSuggestionPopulator
-		 
 		and KKProductCategorySearchPagePopulator
 		to convert ProductCategorySearchPageData to ProductCategorySearchPageData (use in UI)
-		
-              
-              
-              
-          
-            
-          
-    
 
  
 use case 1: show category facet as tree
   add new SolrIndexedProperty e.g. categoryPath (facet=true) with new fieldValueProvider e.g. qspCategoryPathValueProvider
   when run index => create value for this property
-  when user search for a category e.g. CategoryPageController
+  when user search
     that will call the facade (and service) to execute solr search
     after get the response from solr will call converter to convert the solr result to facade data object e.g. ProductCategorySearchPageData
     trong do se call populator to buildFacets() e.g. List<FacetData> (with FacetValueData)
     then controller se convert category facet to json tree structure to show to ui e.g. jsonCatNavNodes=[{'code':'1355','name':'Tools','level':1,'count':143,'url':'/c/1355','selected':true,'children':[{'code':'1360','name':'Power Drills','parent':'1355','level':2,'count':143,'url':'/c/1360','selected':true}]}]
-    and show to productgrid/listpage
-    which contain ProductRefinementFacetComponent e.g. RefinementFacetComponent in position ProductLeftRefinements
-    which contains facetNavRefinements.tag
-    which contains facetNavRefinementCategoryFacet.tag
+    and show to productgrid/listpage: facetNavRefinementCategoryFacet.tag
     open/close category tree how? (front-end)
 
 
