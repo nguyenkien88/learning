@@ -100,10 +100,10 @@ implementation
       new SearchQuery(facetSearchConfig, indexedType);//or some other overload methods 
       SearchQuery object: all attributes will be info when converting to sorl query
         QueryFields: fq=value - not effect the score
-        facequeryFields: q=value
+        facetqueryFields: q=value
         fieldFields: fields for facet purpose
         orderFields: fields for sorting purpose
-        Some of the query parameters in the search query object will only be used together with the new search strategy. When using the legacy search strategy, that information will be taken directly from the configuration and not from the search query object. The affected parameters are:
+        some of the query parameters in the search query object will only be used together with the new search strategy. When using the legacy search strategy, that information will be taken directly from the configuration and not from the search query object. The affected parameters are:
           default query operator
           filter queries
           free search queries
@@ -186,6 +186,22 @@ solr search in backoffice
 config for storefront e.g. goodsmile-globalIndex vs for backoffice vs Solr Config for Backoffice
   when access solr admin => 2 cores: 1 for storefornt, 1 for bo (moi core has 2 phase)
   
+
+ValueResolver (replacement for FieldValueProvider)
+  InputDocument
+  IndexerBatchContext (indextype, facet config, items...)
+  indexProperties, model
+  ValueResolverContext
+  QualifierProvider: e.g. language/currency....
+  resolve()
+    loadData: loads (valid) data and store in the resolverContext??
+    then for each indexed property
+	  if can not apply the qualifier (e.g. languageQualifier need the property is localized) 
+	    then call addFieldValues (and call document.addField(indexedProperty, theValue(with no qualifier affected), qualifier))
+	  else
+	    call QualifierProvider.getAvailableQualifiers(), for each QualifierProvider
+		then apply this qualifier e.g. LanguageQualifier -> commonI18NService.setCurrentLanguage (execute in session context)
+		then set some info for resolver context (will be used in document.addField e.g. resolverContext.getFieldQualifier() - _en)
 
 FieldValueProvider
   built-in provider: springELValueProvider - for normal primitive, collection
