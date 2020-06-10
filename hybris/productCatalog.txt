@@ -72,6 +72,10 @@ product attribute definition: 2 methods - type system and classification
 	  product classification
 	    ProductFeature
   more: https://cxwiki.sap.com/pages/viewpage.action?spaceKey=release5&title=Product+Modeling
+  index
+    CommerceClassificationPropertyValueProvider (old api)
+    ProductClassificationAttributesValueResolver (new)
+  
 variant product
   say, a product (base product) holds product variants
   variant to base product: many to one

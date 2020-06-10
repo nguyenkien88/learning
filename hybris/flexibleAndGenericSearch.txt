@@ -53,7 +53,7 @@ flexible search
           getSearchRestrictionService().enableSearchRestrictions();
       }
     creating restriction - SearchRestriction - apply for which type and which user/usergroup?
-      using backoffice
+      using backoffice: create new Personalization rule
       using java api: e.g. SearchRestrictionModel searchRestriction = modelService.create(SearchRestrictionModel.class);
       using impex
   
