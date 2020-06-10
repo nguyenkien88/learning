@@ -199,7 +199,7 @@ ValueResolver (replacement for FieldValueProvider)
 	  if can not apply the qualifier (e.g. languageQualifier need the property is localized) 
 	    then call addFieldValues (and call document.addField(indexedProperty, theValue(with no qualifier affected), qualifier))
 	  else
-	    call QualifierProvider.getAvailableQualifiers(), for each QualifierProvider
+	    call QualifierProvider.getAvailableQualifiers() e.g. LanguageQualifier(language, locale), for each QualifierProvider
 		then apply this qualifier e.g. LanguageQualifier -> commonI18NService.setCurrentLanguage (execute in session context)
 		then set some info for resolver context (will be used in document.addField e.g. resolverContext.getFieldQualifier() - _en)
 
