@@ -75,6 +75,9 @@ product attribute definition: 2 methods - type system and classification
   index
     CommerceClassificationPropertyValueProvider (old api)
     ProductClassificationAttributesValueResolver (new)
+  summary
+    product has list features
+    each feature has an assignment (attribute and class) and (attribute) values
   
 variant product
   say, a product (base product) holds product variants
