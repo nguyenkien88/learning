@@ -1,0 +1,11 @@
+Scripting cronjob
+  runtime cronjob with script as execuation code
+  when? co the dung in case run groovy script take long time and want to has a cronjob run to check log
+    ScriptModel (impex using impex): create a script with type e.g. Groovy and content (execution code)
+	ScriptingJobModel: refer to above script e.g.contain URI e.g. model://productSpecs9 of the script
+	CronJob
+	then call the cronjob in hac or backoffice
+	e.g. def dynamicCJ = cronJobService.getCronJob("mydynamicCronJob")
+		 cronJobService.performCronJob(dynamicCJ,true)
+    can create trigger as normal
+  
