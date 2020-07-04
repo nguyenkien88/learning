@@ -1,0 +1,14 @@
+docs: https://help.sap.com/viewer/1be46286b36a4aa48205be5a96240672/SHIP/en-US/2be55790d99e4a1dad4caa7a1fc1738f.html
+
+processes (on sap cloud)
+   build (build env), deployment(dev, stg, prod), configuration(dev, stg, prod)
+sap cloud build is environment agnostic
+general steps
+  Perform the build once. Build is environment agnostic.
+  Deploy the build to all environments, starting from development, then staging, and finally to production.
+  Test the build on every environment before promoting the build to the next environment.
+The (build) manifest (manifest.json) file is a JSON data structure that provides project configuration to the build process
+  commerceSuiteVersion
+  useCloudExtensionPack
+  extension-packs: extra software artifacts
+  
