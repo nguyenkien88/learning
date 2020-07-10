@@ -104,8 +104,9 @@ Branching
   cleaner history vs merge (result is the same)
   Says, rebase branch1 dua tren branch2 (apply branch2 to branch1): save change of branch1 to temp file -> apply change from branch2 -> apply change from temp file.
   
-  
-  
+
+question  
+  fork(git hub) vs clone? clone: ok, fork: create new personal repo on server (from now ko lien quan den original source), van co get code moi tu original bang sync
   
   
   
