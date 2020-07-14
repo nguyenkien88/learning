@@ -404,5 +404,71 @@ free text type
   fuzzy: for misspelled case
   wildcard: binh thuong match whole term moi seach ra, with wildcard chi match 1 part
   phrase: 
+ 
+solr more
+  solr index/search(matching)/score on tokens (not the "String abc" shown in solr admin, cang nhieu tokens match score cang cao?	)
+  process
+    hyris: => collect raw data from db => create solr document
+    solr: => analyze (xxxer) => index
+    hyris: => build search query
+    solr: => search using query
+  schema.xml: define which type of fields, fields are indexed/searched - admin ui: /schema
+  solrconfig.xml - admin ui /config
+    data dir
+    cache
+    request handler: e.g. /select performing search and return response. say, 
+    implicit request hanlers
+    all extends RequestHandlerBase with: defaults/append/invariants SolrParams
+    search components: actual logic handling searching: query cp, facet cp, highlighting cp
+    first and last component for search handler
+  stored vs indexed
+    stored: store in original form, retrieved but not indexed - maybe use for display only, not for search
+    indexed: used for search/sort  
+    dynamicField?
+    fields that are not explicitly defined in solr.impex but if match with dynamic fields still be indexed
+  anylysis phase (for both indexing and querying phase????) => token: search on token (not original text)
+    tokenizers + filters in sequence = analyzer: indexAnalyzer and queryAnalyzer
+    say, set up a single analyzer class or a analyzer chain
+    say, an annalyzer examines the "text" (normal: only text type use analyzer, string type thuong ko dung analyzer - string search exactly match, used for ID) and generate tokens token stream
+    say, fields with type "text_ja" will used this analyzer (with tokenizers and filters)
+    say, if the (output)query tokens match the (output) index tokens => match
+	text (document fields content) => tokenizers (thuong la whitespace and small set of punctuation) => TokenStream => filters (work (keep/transform/discard) on tokens) =>	
+	built-in tokenizers
+    built-in filters
+	stopwords.txt: stop analyze for tokens that in the file (remove those tokens)
+    stem: tu goc e.g. hugging, hugged, hugs => hug (stem filter)
+    CharFilter: add, change, or remove characters while preserving the original character offsets to support features like highlighting - beforer tokenizers
+	using admin ui analysis
+  indexing
+    post tool
+	built-in index handlers (a type of request handler used for indexing)
+	
+  Field Values versus Indexed Terms???
+  multiterm analyzer??
+    schema.xml vs solr.impex?
+  index replication?
+  solution?
+    ASCIIFoldingFilterFactory?
+	CharFilter?
+	CJKWidthFilter?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
+
+
+
+
   
