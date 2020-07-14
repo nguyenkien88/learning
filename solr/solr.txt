@@ -95,10 +95,10 @@ configuration
 	  forward request to specific core
 	    with specific <requestHanlder> e.g. select req handler
 	parameter decoration then components chaning
-	  <lst name="defaults">: defaults params if not set by client
-	  
+	  <lst name="defaults">: defaults params if not set by client  
   
-
+how to customize solr?
+  extending class or configuration
 	  
 solr and hybris
   indexing: from hybris relational db to solr server (thuong dung cron job)
