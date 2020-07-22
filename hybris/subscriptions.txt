@@ -1,0 +1,6 @@
+Subscription Billing Gateway (SBG)
+say, customer subscriptions a product means mua dinh ky product do in period of time
+related features
+  entitlement: the value customer receives
+  subscriptions term and condition
+  subscriptions price plans
