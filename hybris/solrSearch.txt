@@ -416,7 +416,8 @@ solr more
   solrconfig.xml - admin ui /config
     data dir
     cache
-    request handler: e.g. /select performing search and return response. say, 
+    request handler: each request handler is a solr plugin e.g. /select performing search and return response
+	  calls query parser (term + param => query)
     implicit request hanlers
     all extends RequestHandlerBase with: defaults/append/invariants SolrParams
     search components: actual logic handling searching: query cp, facet cp, highlighting cp
@@ -442,7 +443,20 @@ solr more
   indexing
     post tool
 	built-in index handlers (a type of request handler used for indexing)
-	
+  querying
+    parameter: fq, sort, fl
+
+
+text normalization
+  normalization: when 2 strings are considered equivalent e.g. same linguistic meaning? (treat both the same in the application) - Unicode normalization standard
+  normalization forms/algorithms: NFC (form C), NFD (form D), NFKC (form KC), and NFKD (form KD)
+    NF: normalization form
+	K: compability
+	C: composition
+	D: decomposition
+  canonical equivalent: 2 strings are considered as canonical equivalent if represent the same abstract character - appearance and behavior same
+  compability equivalent: apperence and behavior not same
+  
   Field Values versus Indexed Terms???
   multiterm analyzer??
     schema.xml vs solr.impex?
@@ -451,6 +465,7 @@ solr more
     ASCIIFoldingFilterFactory?
 	CharFilter?
 	CJKWidthFilter?
+	Javascript normalize: https://developer.mozilla.org/vi/docs/Web/JavaScript/Reference/Global_Objects/String/normalize 
 
 
 
