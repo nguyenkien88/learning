@@ -94,4 +94,16 @@ CodengaiStoreSystemSetup
 
 note: import tay (hac) ko tu dong run may file localize
 
+item expression
+  normal
+  nested e.g. catalogVersion(catalog(id),version) => clothescatalog:Staged 
+  subtype e.g. owner(Principal.uid) (owner original is type Item, but want to explicitly use Principal as the owner)
   
+special cases: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/1c8f5bebdc6e434782ff0cfdb0ca1847.html
+  document id
+  attribute with translator
+  alternative pattern e.g. owner(Principal.uid|AbstractOrder.code)
+  import api: ImpExReader e.g. #% impex.includeExternalData(ImpExManager.class.getResourceAsStream(""myDataFile.csv""), ""utf-8"", 1, -1 );"
+  export api: Exporter
+  script generator: cool
+
