@@ -106,4 +106,6 @@ special cases: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905
   import api: ImpExReader e.g. #% impex.includeExternalData(ImpExManager.class.getResourceAsStream(""myDataFile.csv""), ""utf-8"", 1, -1 );"
   export api: Exporter
   script generator: cool
+  
+scripting in impex: You can use Beanshell, Groovy, or Javascript as scripting languages within ImpEx
 
