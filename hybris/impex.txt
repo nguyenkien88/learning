@@ -107,5 +107,5 @@ special cases: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905
   export api: Exporter
   script generator: cool
   
-scripting in impex: You can use Beanshell, Groovy, or Javascript as scripting languages within ImpEx
+scripting in impex: can use Beanshell, Groovy, or Javascript as scripting languages within ImpEx
 
