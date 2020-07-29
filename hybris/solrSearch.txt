@@ -467,7 +467,8 @@ text normalization
 	CJKWidthFilter?
 	Javascript normalize: https://developer.mozilla.org/vi/docs/Web/JavaScript/Reference/Global_Objects/String/normalize 
 
-
+solr admin ui
+  
 
 
 
