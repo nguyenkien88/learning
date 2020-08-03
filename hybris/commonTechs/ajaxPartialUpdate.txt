@@ -17,4 +17,3 @@ add new product with can not find product error message
   then focus out
   that will call controller to get the json product data => not found
   that will call jquery to add the error text
-
