@@ -1,0 +1,20 @@
+acc.quickorder.js
+jquery template
+  Easily convert JSON object to HTML without need for parsing (ko can dung string concatenation), thuong dung voi ajax call
+  Reusability
+  Rendered and cached on client-side
+  Templates are written in pure HTML with Template Tags and simple jQuery code for magic to happen
+  Maximize the separation of UI and DATA
+
+add new product row with jQuery template (render html)
+  enter product code (all parameters get from DOM e.g. event.target.value, parentLi.val) - findElement from jQuery
+  then focus out
+  that will call controller to get the json product data
+  and when the result returned -> use jquery template to render new row
+  
+add new product with can not find product error message
+  enter product code
+  then focus out
+  that will call controller to get the json product data => not found
+  that will call jquery to add the error text
+
