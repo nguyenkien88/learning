@@ -70,7 +70,10 @@ structure
     theme: e.g. change color for whole site in variables.less/theme-variables.less, customize (or create new theme: https://help.sap.com/viewer/4c33bf189ab9409e84e589295c36d96e/1811/en-US/f6f04222657e422c9b05856f0c050104.html)
   share variables: /resources/generateVariables.properties, when build will update generatedVariables.tag, generatedVariables.js, generatedVariables.less
   
-  
+view types: /views
+  pages: complete page to render to users
+  cms: use as component to insert to page - has controller (extends AbstractAcceleratorCMSComponentController)
+  fragments
 
 
   

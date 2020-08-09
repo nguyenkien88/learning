@@ -1,3 +1,5 @@
+ga.js(legacy) vs analytics.js
+
 gtm: ref - https://chauvn.com/huong-dan-su-dung-google-tag-manager-gtm-co-ban/
   binh thuong, muon use some statitics services (cua google va 3rd) e.g. google analytics, google remarketing => put these tags to the source code, muon dung them => put them
   use gtm => quan ly tap trung, chi put code cua gtm vao source code, sau nay quan ly bang web app cua google

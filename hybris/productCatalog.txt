@@ -16,61 +16,61 @@ structuring products with categories (hierachy structure)
     how to create products/categories? through 3rd (erp...), Product Information System (PIM), file import (categories.impex) or create manually
     thong thuong lay theo the expectation from frontend navigation
     nested categories allowed: e.g. processors cat contains - intel cat and amd cat
-	control the visibility of category: e.g. allowedPrincipals to customergroup only
-	catetory media: categories_media.impex
-	productcockpit (productmanager/1234)
+    control the visibility of category: e.g. allowedPrincipals to customergroup only
+    catetory media: categories_media.impex
+    productcockpit (productmanager/1234)
   catalog versions
     container that contains categories
-	multiple catalog versions in 1 catalog: e.g. codengaiProductCatalog catalog contains 2 versions: Staged and Online
-	co the co nhieu hon 2 verions, tuy business purpose, only 1 is active at a time (for frontend)
-	  e.g. Staged and Online catalog versions for editing purpose
-	  Summer, Winter and Online catalog versions for seasonal purpose: when summer -> synchronize Summer catalog version to Online version (the active)
+    multiple catalog versions in 1 catalog: e.g. codengaiProductCatalog catalog contains 2 versions: Staged and Online
+    co the co nhieu hon 2 verions, tuy business purpose, only 1 is active at a time (for frontend)
+      e.g. Staged and Online catalog versions for editing purpose
+      Summer, Winter and Online catalog versions for seasonal purpose: when summer -> synchronize Summer catalog version to Online version (the active)
     synchronize catalog versions: source and target catalog version
-	  can applied only for specific category/product
-	  by default only affected the categories/products that are exist in both catalog version, other do not touch
-	  can config to remove the products/categories that in the target but not in the source e.g. truong hop summer, winter, online -> sync summer to online, should remove the winter related
-	synchronize catalog versions between 2 different catalogs?
-	  use case: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/8b4a208b8669101487c784b5f8557c30.html
-	  
+      can applied only for specific category/product
+      by default only affected the categories/products that are exist in both catalog version, other do not touch
+      can config to remove the products/categories that in the target but not in the source e.g. truong hop summer, winter, online -> sync summer to online, should remove the winter related
+    synchronize catalog versions between 2 different catalogs?
+      use case: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/8b4a208b8669101487c784b5f8557c30.html
+      
 multiple catalogs?
   when? use case
     muon 1 site cho My ban category 1 and 2, 1 site cho Viet Name ban category a and b
-	2 sites nay active dong thoi (ko dung catalog version duoc)
-	=> multiple catalogs
-	conclusion: when run nhieu sites dong thoi => multiple catalogs, moi catalog cho moi site
+    2 sites nay active dong thoi (ko dung catalog version duoc)
+    => multiple catalogs
+    conclusion: when run nhieu sites dong thoi => multiple catalogs, moi catalog cho moi site
   recommend for complex catalogs system: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/8c0c3e6d86691014aa39adc69c2502c1.html
   
 product attribute definition: 2 methods - type system and classification
   type system
     see typesystem.txt 
-	e.g. product A belongs to Category B which belongs to CatalogVersion C which belongs to ProductCatalog D
+    e.g. product A belongs to Category B which belongs to CatalogVersion C which belongs to ProductCatalog D
   classification - another way to group products
     classification attribute: say, create a classification attribute e.g. color and link to the products/categories that have that atribute
-	classification category/class: hold classification atribute e.g. same as normal type system category
-	when?
+    classification category/class: hold classification atribute e.g. same as normal type system category
+    when?
       when we need to define product attribute only for selected number of products rather than defining for each and every product
       when we are not sure about the lifetime of the attribute which may become unnecessary after few weeks or months.
       when we need to add product attributes dynamically at runtime.
     impex
-	  category classification: a product belongs to some classificationclass which have folowwing related model
-	    ClassificationSystem (similar to ProductCatalog) e.g. GSLS_Classification - contains nhieu versions, 1 active
+      category classification: a product belongs to some classificationclass which have folowwing related model
+        ClassificationSystem (similar to ProductCatalog) e.g. GSLS_Classification - contains nhieu versions, 1 active
         ClassificationSystemVersion e.g. 1.0 contains nhieu ClassificationClass
-	    ClassificationClass: (similar to category) group nhieu attribute into a class e.g. GENERAL_ATTRIBUTE - assign to product, say a product A belongs to classification class A
-	    ClassificationAttribute (feature) e.g. color, size, say, product A has feature B with value (ClassificationAttributeValue) C
-	    ClassificationAttributeAssignment: link the class and attribute
-	    ClassificationAttributeUnit
-		ClassificationAttributeValue
-		AttributeValueAssignment
-		Feature?
-		FeatureList?
-	how to get classification attribute (and value) from a product?
-	  productModel -> get ProductFeatureModel(s) -> get ClassAttributeAssignmentModel -> getclassificationAttribute
-	  DefaultClassificationService.getFeatures()
-	    productModel -> get classificationClasses (category) for that product => get all ClassAttributeAssignmentModel for that class => FeatureList for that product
-		LocalizedFeature <kkb2bClassification/1.0/4739.input power, 6738: [FeatureValue[value:170 description:null unit:ClassificationAttributeUnitModel (8796093350500@1)]]>
-		getClass().getSimpleName(), getCode(), getValues()
-	  product classification
-	    ProductFeature
+        ClassificationClass: (similar to category) group nhieu attribute into a class e.g. GENERAL_ATTRIBUTE - assign to product, say a product A belongs to classification class A
+        ClassificationAttribute (feature) e.g. color, size, say, product A has feature B with value (ClassificationAttributeValue) C
+        ClassificationAttributeAssignment: link the class and attribute
+        ClassificationAttributeUnit
+        ClassificationAttributeValue
+        AttributeValueAssignment
+        Feature?
+        FeatureList?
+    how to get classification attribute (and value) from a product?
+      productModel -> get ProductFeatureModel(s) -> get ClassAttributeAssignmentModel -> getclassificationAttribute
+      DefaultClassificationService.getFeatures()
+        productModel -> get classificationClasses (category) for that product => get all ClassAttributeAssignmentModel for that class => FeatureList for that product
+        LocalizedFeature <kkb2bClassification/1.0/4739.input power, 6738: [FeatureValue[value:170 description:null unit:ClassificationAttributeUnitModel (8796093350500@1)]]>
+        getClass().getSimpleName(), getCode(), getValues()
+      product classification
+        ProductFeature
   more: https://cxwiki.sap.com/pages/viewpage.action?spaceKey=release5&title=Product+Modeling
   index
     CommerceClassificationPropertyValueProvider (old api)
@@ -82,12 +82,43 @@ product attribute definition: 2 methods - type system and classification
 variant product
   say, a product (base product) holds product variants
   variant to base product: many to one
-  VariantCategory (Color, Size - base product has this)
-  VariantValueCategory (Red/Black, Small/Large - variant products have this)
-  Get all variants => join or baseProducts.getVariants
+  Get all variants => join or baseProduct.getVariants
+  product variant modeling: 5 ways
+	how ui show?: show for all types e.g. if multi-dementional then show multi-dementional else show base on variantType e.g. ApparelStyleVariantProduct (hard code for specific type)
+	how solr search?: just related to the full/update query
+    default variant modeling: a variant product is an instance of concrete variant type e.g. TmpColorVariantProduct
+      base product: ProductModel
+      TmpColorVariantProductModel <- VariantProductModel (<- ProductModel)
+      1-by-1 variant type level modeling e.g. 1st-level variant also a base product to 2nd-variant - see image: https://tinyurl.com/y5ryr5on
+	  each variantType e.g. TmpColorVariantProduct has the variant attribute e.g. color
+	  how the impex for ProductModel variantType(VariantTypeModel) can match to VariantProductModel? because type system for VariantProductModel has metatype="VariantType" (https://tinyurl.com/yyum4a94)
+	modified variant modeling: same with 1st type, just differ about how selected products (base or variant) in indexing
+	multi-dimensional
+	  default support maximumm three dimensions: Color, Fit, Size
+	  variantType of base product must be GenericVariantProduct
+      VariantCategory (Color, Size - base product has this)
+      VariantValueCategory (Red/Black, Small/Large - variant products e.g. GenericVariantProduct have this)
+	  sample impex: https://tinyurl.com/y2podskx
+	product family
+	using category
+  	
 
 
 catalog aware item type (aware for synchronize) and catalog unaware (not aware for synchronize, should not be different between 2 versions)
-multi language site: http://javainsimpleway.com/multi-country-site-in-hybris/
 https://help.hybris.com/1808/hcd/8c32805c866910148932c1df5d0e89c1.html
-multi-dementional product: many size e.g. shoes  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
