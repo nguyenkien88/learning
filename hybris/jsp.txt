@@ -1,4 +1,5 @@
 Tag file
   A tag file is a source file that contains a fragment of JSP code that is reusable as a custom tag
   
-template:stylesheets => insert template/stylesheets.tag
+custom tag e.g. cms:pageSlot
+  tag handler: de.hybris.platform.acceleratorcms.tags2.CMSContentSlotTag
