@@ -83,7 +83,8 @@ variant product
   say, a product (base product) holds product variants
   variant to base product: many to one
   Get all variants => join or baseProduct.getVariants
-  product variant modeling: 5 ways
+  product variant modeling: 5 ways - more: https://hybrismart.com/2016/10/21/variant-product-modeling/ and 
+	how db store?: baseProduct.getVariants() for all ways
 	how ui show?: show for all types e.g. if multi-dementional then show multi-dementional else show base on variantType e.g. ApparelStyleVariantProduct (hard code for specific type)
 	how solr search?: just related to the full/update query
     default variant modeling: a variant product is an instance of concrete variant type e.g. TmpColorVariantProduct
@@ -96,9 +97,17 @@ variant product
 	multi-dimensional
 	  default support maximumm three dimensions: Color, Fit, Size
 	  variantType of base product must be GenericVariantProduct
-      VariantCategory (Color, Size - base product has this)
-      VariantValueCategory (Red/Black, Small/Large - variant products e.g. GenericVariantProduct have this)
+      VariantCategory (Color, Size - base product has this as supercat)
+      VariantValueCategory (Red/Black, Small/Large - variant products e.g. GenericVariantProduct have this as supercat)
 	  sample impex: https://tinyurl.com/y2podskx
+	  related populator (populate from product.getVariants())
+	    ProductVariantMatrixPopulator: product.setVariantMatrix(List<VariantMatrixElementData>) => show on ui base on this
+	  how spring bean configured?
+	    ProductPageController
+        uses bean productVariantFacade(DefaultProductVariantFacade)
+        which uses bean productVariantConfiguredPopulator() with variant related Map<OPTION, Populator> (merged with the map from parent:defaultProductConfiguredPopulator)
+        which extends defaultProductConfiguredPopulator(DefaultConfigurablePopulator) with default Map<OPTION, Populator>
+		related: VariantOptionDataMediaPopulator
 	product family
 	using category
   	
