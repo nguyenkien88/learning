@@ -8,3 +8,6 @@ scope of sring model scope: https://www.intertech.com/Blog/understanding-spring-
   @SessionAttibutes
   
 flash attribute: https://dzone.com/articles/spring-mvc-flash-attributes
+modifyPopulatorList bean (ModifyPopulatorListBeanPostProcessor implements BeanPostProcessor)
+inject prorotype scope into singleton scope: <lookup-method name="createTarget" bean="variantOptionData"/>: method injection - https://dzone.com/articles/method-injection-spring
+mapMergeDirective (MapMergeDirectiveBeanPostProcessor): modify a map in another spring bean
