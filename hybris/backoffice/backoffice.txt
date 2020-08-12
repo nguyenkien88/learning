@@ -2,7 +2,7 @@ introduction
   backoffice framework: purpose - simplify development of backoffice application
   backoffice application e.g. codengaibackoffice is built on top of Backoffice framework by generate from ybackoffice
   backoffice framework vs old cockpit framework
-  built by ZK Framework with bunch of widgets(e.g. Advanced Search widget, Editor Area widget): component to add to bo bo frontend (later) - application is made up from connecting (but stand-alone) widgets 
+  built by ZK Framework with bunch of widgets(e.g. Advanced Search widget, Editor Area widget): component to add to backoffice frontend (later) - application is made up from connecting (but stand-alone) widgets 
     
   cockpits (old cockpits and backoffice fw based cockpits)
     many cockpits with own purpose
@@ -30,19 +30,19 @@ backoffice framework module
     backoffice: all built-in widgets, actions... 
     ybackoffic: template
     platformbackoffice
- 		
+         
 widget(component): follow mvc
   concept
-    1 group gom .zul, definition.xml, controller e.g. advanced search widget, workflow widget
-	duoc su dung trong backoffice application
-	trong 1 context cu the e.g. su dung advanced search cho Product type, admin user
+    1 group (e.g. advanced search widget, workflow widget) gom .zul, definition.xml, controller
+    duoc su dung trong backoffice application
+    trong 1 CONTEXT cu the e.g. su dung advanced search cho Product type, admin user
     say, ket noi nhieu widgets voi nhau tao thanh backoffice application
   
   main tasks when working with widgets
     define widget (definition.xml - input, output, valid setting maybe with default value) 
     then create instance of a widget 
-	  using admin orchestrator 
-	  or using *widgets.xml
+      using admin orchestrator 
+      or using *widgets.xml
     com.hybris.cockpitng.core.Widget/com.hybris.cockpitng.core.WidgetDefinition
     say, a widget used in the application is an instance of a widget definition
     thuong dung built-in widget e.g. advanced search, explore tree
@@ -55,14 +55,14 @@ widget(component): follow mvc
     create the view/create view directly in controller: e.g uploadfile.zul with elements id e.g. button, area text box
     controller: e.g. com.neo.codengai.controllers.ImportExcelController
       how to link view and controller? using @ViewEvent
-	  injecting in controller @WireVariable/@Resource
+      injecting in controller @WireVariable/@Resource
     input: object
     output: object
-	parameterize widget
-	  <settings> - can change at runtime using orchestrator
-	  e.g. whether my text box in my widget can resize) - access from zul view e.g ${widgetSettings.xxx} or controller e.g. getWidgetSettings().getString("xxx")
-	  thuong la set default value when define widget instance e.g.codengaibackoffice-backoffice-widget.xml
-	  value can be changed in orchestrator
+    parameterize widget
+      <settings> - can change at runtime using orchestrator
+      e.g. whether my text box in my widget can resize) - access from zul view e.g ${widgetSettings.xxx} or controller e.g. getWidgetSettings().getString("xxx")
+      thuong la set default value when define widget instance e.g.codengaibackoffice-backoffice-widget.xml
+      value can be changed in orchestrator
   
   how widget communicate? using widget-connection, this is set up outside the widget itself (make widget really flexible in use)
     input socket: I can receive the output of other widget with this id and type
@@ -74,7 +74,7 @@ widget(component): follow mvc
     should use json for in/output
     widget-connection-remove
   special widget
-    create-wizard: can use ctx map in configuration file (e.g. send context info to the widget)	
+    create-wizard: can use ctx map in configuration file (e.g. send context info to the widget)    
   virtual-sockets: add dynamic socket, in case the widget definition does not define
   
 editor: can add in the widget zul file or using controller
@@ -85,39 +85,39 @@ editor: can add in the widget zul file or using controller
     say, use editor inside a widget to manipulate data model of widget
   create an editor - using zkoss component e.g. TextBox: https://tinyurl.com/y4c5z2az
     definition.xml 
-	  e.g. <editor-definition id="org.myextension.editor.simpletext">
-	  possible handling type
-	  render class e.g.  MySimpleTextEditor implements CockpitEditorRenderer<String> - render(final Component parent)
-	  add event listener e.g. notify to the parent widget about the change in the editor
-	  adding parameter e.g isMultiLine
-	  EditorContext???
-	  create editor using .zul file e.g. view src="boolEditor.zul" (do not use render class) - using default renderer e.g. DefaultZulCockpitEditorRenderer to populate default events to parents
-	  localize
+      e.g. <editor-definition id="org.myextension.editor.simpletext">
+      possible handling type
+      render class e.g.  MySimpleTextEditor implements CockpitEditorRenderer<String> - render(final Component parent)
+      add event listener e.g. notify to the parent widget about the change in the editor
+      adding parameter e.g isMultiLine
+      EditorContext???
+      create editor using .zul file e.g. view src="boolEditor.zul" (do not use render class) - using default renderer e.g. DefaultZulCockpitEditorRenderer to populate default events to parents
+      localize
   use editor in widget
-	add editor to a widget e.g. add to .zul file e.g. <editor id="textEditor" type="java.lang.String" onValueChanged="mywidgetController.doThings()" />
-	specify the default editor
-	binding editor to model e.g. syn model value with editor value
-	set intial value: <editor id="textEditor" type="java.lang.String" property="textEditorProperty" value="Put some text here." />
+    add editor to a widget e.g. add to .zul file e.g. <editor id="textEditor" type="java.lang.String" onValueChanged="mywidgetController.doThings()" />
+    specify the default editor
+    binding editor to model e.g. syn model value with editor value
+    set intial value: <editor id="textEditor" type="java.lang.String" property="textEditorProperty" value="Put some text here." />
   editor parameter passing: e.g. isMultiLine
     using config e.g. <y:editors>...<y:editor-parameter>
-	or in .zul file of widget:  <editors config="testeditors" group="common"/>
-	or set using java e.g. editor1.setProperty("mytext");
-	or in widget definition e.g. <settings>: will apply for all widget instances, unless is override by above approaches
+    or in .zul file of widget:  <editors config="testeditors" group="common"/>
+    or set using java e.g. editor1.setProperty("mytext");
+    or in widget definition e.g. <settings>: will apply for all widget instances, unless is override by above approaches
 
 action: can add in the widget zul file or using controller
   concept
     e.g. delete action
     also a backoffice component, more fine-grained than widget
     muc dich la dung o nhieu widget khac nhau
-	using to trigger action depend on the state of widget model e.g. want an icon to appear in a widget after a certain property has a specific value
+    using to trigger action depend on the state of widget model e.g. want an icon to appear in a widget after a certain property has a specific value
     default not socket-aware???, extends AbstractComponentWidgetAdapterAware to make it socket-aware
   create action
     definition.xml e.g. <action-definition id="com.hybris.cockpitng.action.myaction">
-	MyAction implements CockpitAction<String, String>, return ActionResult
-	localize
+    MyAction implements CockpitAction<String, String>, return ActionResult
+    localize
   use action in widget
     add to the widget view: <action actionId="org.myextension.action.myaction" property="product"/>
-	action status flags: OBJECT_MODIFIED, OBJECT_PERSISTED, OBJECT_DELETED
+    action status flags: OBJECT_MODIFIED, OBJECT_PERSISTED, OBJECT_DELETED
   DefaultActionRenderer: renderer for the action, some default settings e.g. icon, hover, disable icon, name, style class...can customize using *config.xml
   action and editor ui mapping: https://help.sap.com/viewer/5c9ea0c629214e42b727bf08800d8dfa/1905/en-US/b7d4b1d9e7564f5dae5307e821733fb4.html
   
@@ -132,13 +132,13 @@ important files
    widgets.xml - merge all information e.g. settings, instance id...of all widgets added to application
      store as media, when reset => create lai
      backoffice-widgets.xml
-	   built-in widget instances (for same widget definition, can have multiple in the app) from hybris
-	   e.g. mainSlot(the main view off entire backoffice application) contains perspectiveViewSwitcher contains backofficeMainSlot contains explorerTree contains collapsibleContainer 
-	   contains advancedSearch contains advancedSearchEngine (1 widget tree for a application)
+       built-in widget instances (for same widget definition, can have multiple in the app) from hybris
+       e.g. mainSlot(the main view off entire backoffice application) contains perspectiveViewSwitcher contains backofficeMainSlot contains explorerTree contains collapsibleContainer 
+       contains advancedSearch contains advancedSearchEngine (1 widget tree for a application)
      other-extension-backoffice-widgets.xml e.g kadokawabackoffice-backoffice-widgets.xml: more widget instances
      reference: https://tinyurl.com/y446rhkn
   *-backoffice-config.xml e.g. kadokawabackoffice-backoffice-config.xml: config the view of a widget based on context e.g. how editor-area widget for Product should be show?
-  cockpit-config.xml: merge for all above files, saved as application media, when reset => create lai
+  cockpit-config.xml: merge for all above *-backoffice-config.xml files, saved as application media, when reset => create lai
 
 override a widget by config e.g. want to remove existing widget from a slot or change to other widget or change default settings
   using widget-extension (tuong tu voi dung orchestrator drag and drop)
@@ -159,7 +159,7 @@ extend a widget (with new widget): e.g. change controller behavior or change css
   https://tinyurl.com/yxk85lsj
   
 how to override widgetController e.g. override AdvancedSearchEngineController
-  create new widget definition.xml copied form advancesearchengine widget
+  create new widget definition.xml copied from advancesearchengine widget
   modify the parent widget (advancesearch), remove the current, add new one - xxxwidgets.xml
   define the controller extends the current controller and override the wanted method
 
@@ -170,46 +170,46 @@ how I config the ui for backoffice application?
   e.g. advanced-search 6.7
     define in backoffice-widgets-6.7.0.0-RC8.jar (zul, definition, controller, css)
     configuration attributes: e.g. for advanced search widget - https://tinyurl.com/yxlm38hu @XXXX: direct attribute, oXXX: inner tag
-	
+    
   context: component, type, principal, parent
     syntax e.g. create context then declare namespace e.g. editorArea to use
-	  <context type="UserGroup" component="editor-area" merge-by="module">
+      <context type="UserGroup" component="editor-area" merge-by="module">
         <editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
-		  //follow editor area widget docs
-		  <editorArea:tab>....
-	    </<editorArea>
-	  <context/>
-	component (context code) e.g. advanced-search: get from definition.xml e.g. advancedSearchConfigCtxCode: which component this config should be applied to
-  	principal: which user/usergroup should be applied for
-  	type: which type will be applied (in case the widget can handle many types)
-	merge
-  	  merge-by="type": merge with parent model (ko explicit define parent attr se lay parent model - can skip some point in inheritance hierachy by specify specific parent) e.g. <context merge-by="type" parent="CronJob" type="Workflow" component="simple-search">
-	  merge-by="module": merge the current component with all other extensions e.g. <context component="explorer-tree" merge-by="module">
-	  module="xxx": not important, hyris auto change to the real extention name e.g. module="kadokawabackoffice" when build the cockpit-config.xml
-	  merge-by="source": it dung
-	  obligatoryMergeAttributes (cockpitConfigurationService): bat buoc this merge type perform - default value is module => always merge theo module
-	authority
-	  ignore by default
-	  can enable for all/separate widget by config e.g. cockpitng.configuration.authority.enabled
-	source
-	the content inside the context depends on the component attribute (see docs + <editors>, <actions> and <base>)
+          //follow editor area widget docs
+          <editorArea:tab>....
+        </<editorArea>
+      <context/>
+    component (context code) e.g. advanced-search: get from definition.xml e.g. advancedSearchConfigCtxCode: which component this config should be applied to
+      principal: which user/usergroup should be applied for
+      type: which type will be applied (in case the widget can handle many types)
+    merge
+        merge-by="type": merge with parent model (ko explicit define parent attr se lay parent model - can skip some point in inheritance hierachy by specify specific parent) e.g. <context merge-by="type" parent="CronJob" type="Workflow" component="simple-search">
+      merge-by="module": merge the current component with all other extensions e.g. <context component="explorer-tree" merge-by="module">
+      module="xxx": not important, hyris auto change to the real extention name e.g. module="kadokawabackoffice" when build the cockpit-config.xml
+      merge-by="source": it dung
+      obligatoryMergeAttributes (cockpitConfigurationService): bat buoc this merge type perform - default value is module => always merge theo module
+    authority
+      ignore by default
+      can enable for all/separate widget by config e.g. cockpitng.configuration.authority.enabled
+    source
+    the content inside the context depends on the component attribute (see docs + <editors>, <actions> and <base>)
   
   config loading (e.g. loading configuration request created when open 1 Order in backoffice)
     load configuration for tung widget theo tung module (extension name)
-	the first module is load is config by moduleConfigurationContextStrategy (initialModules), default is platformbackoffice	
+    the first module is load is config by moduleConfigurationContextStrategy (initialModules), default is platformbackoffice    
 
-	widget controller will call widget instance manager to init DefaultConfigContext object with some main atts e.g. component, type
-	and call decorators to add more attributes e.g. principal, module if needed
-	then call CockpitConfigurationService to actual load the config for each context e.g. load config for the request: {component=advanced-search, type=Order, principal=admin, module=_root_} from *config. xml file
-	this servive uses some ConfigurationContextStrategy to perform the config search, each strategy for each dimension e.g. typeConfigurationContextStrategy 
-	all the restrictions in the requests are checked then merge to the final config result using MergeUtils and store to cache
-	special case for module dimension: algorithm always looks for any other similar configuration contexts, but defined in different modules???
-	return the jaxb configuration e.g. com.hybris.cockpitng.core.config.impl.jaxb.editorarea.EditorArea
-	example: https://tinyurl.com/y24qtccg
+    widget controller will call widget instance manager to init DefaultConfigContext object with some main atts e.g. component, type
+    and call decorators to add more attributes e.g. principal, module if needed
+    then call CockpitConfigurationService to actual load the config for each context e.g. load config for the request: {component=advanced-search, type=Order, principal=admin, module=_root_} from *config. xml file
+    this servive uses some ConfigurationContextStrategy to perform the config search, each strategy for each dimension e.g. typeConfigurationContextStrategy 
+    all the restrictions in the requests are checked then merge to the final config result using MergeUtils and store to cache
+    special case for module dimension: algorithm always looks for any other similar configuration contexts, but defined in different modules???
+    return the jaxb configuration e.g. com.hybris.cockpitng.core.config.impl.jaxb.editorarea.EditorArea
+    example: https://tinyurl.com/y24qtccg
   
   base configuration e.g. <context type="Catalog" component="base">
     represent an object as String - using Spring expression
-	ref: https://tinyurl.com/yxoff753
+    ref: https://tinyurl.com/yxoff753
   editor configuration e.g. <y:editors>
   action configuration e.g. <y:actions>
   some config path: https://help.hybris.com/1808/hcd/8bd4366a86691014b818f8dd642790a8.html
@@ -224,12 +224,12 @@ how I config the ui for backoffice application?
   
   tips
     muon show 1 model voi cac attribute moi hoan toan => merge by module
-	muon thua ke tu parent => merge by type
-	muon hide qualifier: group lai thanh 1 panel/section => merge-mode="remove"
+    muon thua ke tu parent => merge by type
+    muon hide qualifier: group lai thanh 1 panel/section => merge-mode="remove"
   backoffice config use cases
     apply label for a type on whole bo application: base config
     listview column label: xxbackoffice/labels_en.properties - tu dat theo y thich
-    attibute lables for a type e.g. label in editor-area: type.orderentry.description.name=Description
+    attibute labels for a type e.g. label in editor-area: type.orderentry.description.name=Description
     renderer
       custom tab/section in editor-area: e.g. <editorArea:customPanel name="refundPanel" spring-bean="orderEntryRefundRenderer" />
   
@@ -249,28 +249,26 @@ use case: advanced-search widget - dung cho ca advanced and simple search
   definition
     widget id: com.hybris.cockpitng.advancedsearch
     default context code (component value in *config.xml) for advance mode: advanced-search
-	controller: com.hybris.backoffice.widgets.advancedsearch.AdvancedSearchController
-	sockets
-	  input: type - String, etc
-	  output: searchData - AdvancedSearchData, etc
-	settings
-	  disableAttributesComparator, forceSearchForCode, etc
+    controller: com.hybris.backoffice.widgets.advancedsearch.AdvancedSearchController
+    sockets
+      input: type - String, etc
+      output: searchData - AdvancedSearchData, etc
+    settings
+      disableAttributesComparator, forceSearchForCode, etc
   view: advancedsearch.zul (ko thay define trong definition.xml)
     grid header
-	and a widgetSlot for a nested widget e.g. slotID="nestedWidget"
-	no actions, no editors
+    and a widgetSlot for a nested widget e.g. slotID="nestedWidget"
+    no actions, no editors
   instantiate (bakoffice-widgets.xml)
     parent: in "center" slot of "collapsibleContainer" widget
-	2 children
-	  advancedSearchEngine in slotId "cockpitWidgetChildrenInvisible"
+    2 children
+      advancedSearchEngine in slotId "cockpitWidgetChildrenInvisible"
       and hmc2list (collection browser) in slotId "nestedWidget"
     connections
       <widget-connection sourceWidgetId="advancedSearch" outputId="searchData" targetWidgetId="advancedSearchEngine" inputId="searchData"/>
       many other
   flow: open OrderEntry from explorer-tree component
     
-  
-
   click Employee on explorerTree component
     ExplorerTreeController calls sendsOutput
     that will trigger AdvancedSearchController call loadConfiguration(typeCode e.g. Employee)
@@ -282,10 +280,20 @@ use case: advanced-search widget - dung cho ca advanced and simple search
     then call FieldSearchFacade - convert the AdvancedSearchQueryData to GenericQuery
     and calls genericsearvice to search
   
+use case: filter for navigation node - customer support backoffice: customer.support.1@sap.com/1234
+  widget: csExplorerTree
+  based on <widget-connection sourceWidgetId="csExplorerTree" outputId="nodeSelected" targetWidgetId="allReturnsConditionEvaluator" inputId="input"/>
+    when user click node navigation node:  <n:type-node id="customersupportbackoffice.typenode.all.returns" />
+    ExplorerTreeController will call sendOutput(String id-dataSelected, Object data-customersupportbackoffice.typenode.all.returns) to allReturnsConditionEvaluator
+  based on <widget-connection sourceWidgetId="allReturnsConditionEvaluator" outputId="true" targetWidgetId="allReturnsFilter" inputId="nodeSelected"/>
+    the evaluator (ConditionEvaluatorWidgetController) will evaluate the expression to check if the output data should be passed through and send data to allReturnsFilter
+  based on <widget-connection sourceWidgetId="allReturnsFilter" outputId="outContext" targetWidgetId="csAdvancedSearch" inputId="initContext"/>
+    the allReturnsFilter (AllReturnsFilterController) will modify the search condition before send to advanced search
+
 
 
 remain
-  business role in backoffice: https://tinyurl.com/y4cvks6w	
+  business role in backoffice: https://tinyurl.com/y4cvks6w    
   understand the backoffice-widgets.xml
   widget group
   config positions of a widget: declared order and merging algorithm
