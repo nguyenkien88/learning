@@ -281,6 +281,7 @@ use case: advanced-search widget - dung cho ca advanced and simple search
     and calls genericsearvice to search
   
 use case: filter for navigation node - customer support backoffice: customer.support.1@sap.com/1234
+  add filter condition to explorerTree node (advanced search)
   widget: csExplorerTree
   based on <widget-connection sourceWidgetId="csExplorerTree" outputId="nodeSelected" targetWidgetId="allReturnsConditionEvaluator" inputId="input"/>
     when user click node navigation node:  <n:type-node id="customersupportbackoffice.typenode.all.returns" />
