@@ -1,0 +1,11 @@
+Sap cloud for customer integration module: integrate with Sap cloud for customer (c4c) using data hub
+features
+  customer replication: sync customer data from commerce to c4c
+  quote replication: replicate created quotes from sap commerce -> c4c then sales rep manipulate the quotes on c4c -> replicate back to sap commerce
+    this can also achieve by scpi
+  support ticket replication
+  asm integration: access asm mode (sap commerce cloud) from c4c to do some customer assistance tasks e.g. check cart, create quotes...
+  data privacy management
+
+archietecture: https://help.sap.com/viewer/908ee62fb58e4ec99cea045413ff7225/2005/en-US/aed8e4eae88f4025879a50b1beffbe24.html
+
