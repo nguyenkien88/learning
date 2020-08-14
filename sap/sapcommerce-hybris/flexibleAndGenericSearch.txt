@@ -96,6 +96,22 @@ generics search
     AdvanceSearchController (backoffice/widgets) builds the AdvancedSearchData e.g. mode (SIMPLE/ADVANCE, condition, query, sorts...)
     then calls AdvanceSearchEngineController do some more set up for the query e.g. paging
     then calls DefaultGenericSearchService to search (convert to flexible search)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
       
     
     
