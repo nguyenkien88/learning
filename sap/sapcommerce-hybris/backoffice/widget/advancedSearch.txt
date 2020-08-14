@@ -31,7 +31,7 @@ the search flow?
   that will be used to initialize Pageable(BackofficeFlexibleSearchPageable)
   then trigger DefaultGenericSearchService.search(GenericSearchQuery) with the GenericSearchQuery
     that will call sessionService.executeInLocalView(new SessionExecutionBody)
-	that will call genericSearchQuery.getQuery().toFlexibleSearch()
+	that will call genericSearchQuery.getQuery().toFlexibleSearch() (GenericQuery.java)
     and call flexibleSearchService.search()
 	that will return the SearchResult
   that trigger PagingDelegateController.loadPage()
