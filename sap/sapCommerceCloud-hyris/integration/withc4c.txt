@@ -8,4 +8,3 @@ features
   data privacy management
 
 archietecture: https://help.sap.com/viewer/908ee62fb58e4ec99cea045413ff7225/2005/en-US/aed8e4eae88f4025879a50b1beffbe24.html
-
