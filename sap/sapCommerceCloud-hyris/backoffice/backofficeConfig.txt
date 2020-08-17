@@ -1,0 +1,69 @@
+say, config set of editors, actions on widgets base on type and user role and other info...
+say, the *widgets.xml define the the whole application widgets tree, then each instance can be configured base on the context e.g. the union of item type, module, role(principal)...
+using myextension-backoffice-config.xml - most frequently or myextension/backoffice/resources/widgets/mywidget/cockpit-config.xml - consider as default configuration
+e.g. advanced-search 6.7
+  define in backoffice-widgets-6.7.0.0-RC8.jar (zul, definition, controller, css)
+  configuration attributes: e.g. for advanced search widget - https://tinyurl.com/yxlm38hu @XXXX: direct attribute, oXXX: inner tag
+  
+context: component, type, principal, parent
+  syntax e.g. create context then declare namespace e.g. editorArea to use
+    <context type="UserGroup" component="editor-area" merge-by="module">
+      <editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+        //follow editor area widget docs
+        <editorArea:tab>....
+      </<editorArea>
+    <context/>
+  component (context code) e.g. advanced-search: get from definition.xml e.g. advancedSearchConfigCtxCode: which component this config should be applied to
+    principal: which user/usergroup should be applied for
+    type: which type will be applied (in case the widget can handle many types)
+  merge
+      merge-by="type": merge with parent model (ko explicit define parent attr se lay parent model - can skip some point in inheritance hierachy by specify specific parent) e.g. <context merge-by="type" parent="CronJob" type="Workflow" component="simple-search">
+    merge-by="module": merge the current component with all other extensions e.g. <context component="explorer-tree" merge-by="module">
+    module="xxx": not important, hyris auto change to the real extention name e.g. module="kadokawabackoffice" when build the cockpit-config.xml
+    merge-by="source": it dung
+    obligatoryMergeAttributes (cockpitConfigurationService): bat buoc this merge type perform - default value is module => always merge theo module
+  authority
+    ignore by default
+    can enable for all/separate widget by config e.g. cockpitng.configuration.authority.enabled
+  source
+  the content inside the context depends on the component attribute (see docs + <editors>, <actions> and <base>)
+
+config loading (e.g. loading configuration request created when open 1 Order in backoffice)
+  load configuration for tung widget theo tung module (extension name)
+  the first module is load is config by moduleConfigurationContextStrategy (initialModules), default is platformbackoffice    
+
+  widget controller will call widget instance manager to init DefaultConfigContext object with some main atts e.g. component, type
+  and call decorators to add more attributes e.g. principal, module if needed
+  then call CockpitConfigurationService to actual load the config for each context e.g. load config for the request: {component=advanced-search, type=Order, principal=admin, module=_root_} from *config. xml file
+  this servive uses some ConfigurationContextStrategy to perform the config search, each strategy for each dimension e.g. typeConfigurationContextStrategy 
+  all the restrictions in the requests are checked then merge to the final config result using MergeUtils and store to cache
+  special case for module dimension: algorithm always looks for any other similar configuration contexts, but defined in different modules???
+  return the jaxb configuration e.g. com.hybris.cockpitng.core.config.impl.jaxb.editorarea.EditorArea
+  example: https://tinyurl.com/y24qtccg
+
+base configuration e.g. <context type="Catalog" component="base">
+  represent an object as String - using Spring expression
+  ref: https://tinyurl.com/yxoff753
+editor configuration e.g. <y:editors>
+action configuration e.g. <y:actions>
+some config path: https://help.hybris.com/1808/hcd/8bd4366a86691014b818f8dd642790a8.html
+
+using orchestrator
+  widgets.xml - merged app widgets (<widget>)
+  cockpit-config.xml - merged app ui config (<context>)
+  Base configuration: provide string representation of a object (belong to a type, using Spring expression language)
+  Label provider
+  @label
+  enable/disable description: backoffice.cockpitng.displayAttributeDescriptions
+
+tips
+  muon show 1 model voi cac attribute moi hoan toan => merge by module
+  muon thua ke tu parent => merge by type
+  muon hide qualifier: group lai thanh 1 panel/section => merge-mode="remove"
+backoffice config use cases
+  apply label for a type on whole bo application: base config
+  listview column label: xxbackoffice/labels_en.properties - tu dat theo y thich
+  attibute labels for a type e.g. label in editor-area: type.orderentry.description.name=Description
+  renderer
+    custom tab/section in editor-area: e.g. <editorArea:customPanel name="refundPanel" spring-bean="orderEntryRefundRenderer" />
+  
