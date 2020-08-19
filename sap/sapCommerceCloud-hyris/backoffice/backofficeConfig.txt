@@ -5,8 +5,10 @@ e.g. advanced-search 6.7
   define in backoffice-widgets-6.7.0.0-RC8.jar (zul, definition, controller, css)
   configuration attributes: e.g. for advanced search widget - https://tinyurl.com/yxlm38hu @XXXX: direct attribute, oXXX: inner tag
   
-context: component, type, principal, parent
-  syntax e.g. create context then declare namespace e.g. editorArea to use
+context: com.hybris.cockpitng.core.config.impl.jaxb.Context
+  3 standard attribute component, type, principal
+  
+  syntax
     <context type="UserGroup" component="editor-area" merge-by="module">
       <editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
         //follow editor area widget docs
@@ -16,8 +18,8 @@ context: component, type, principal, parent
   component (context code) e.g. advanced-search: get from definition.xml e.g. advancedSearchConfigCtxCode: which component this config should be applied to
     principal: which user/usergroup should be applied for
     type: which type will be applied (in case the widget can handle many types)
-  merge
-      merge-by="type": merge with parent model (ko explicit define parent attr se lay parent model - can skip some point in inheritance hierachy by specify specific parent) e.g. <context merge-by="type" parent="CronJob" type="Workflow" component="simple-search">
+  merge: the purpope is inherit config from other configuration, the other word, merge-by defines the algorithm that the inheritance should be applied
+    merge-by="type": merge with parent model (ko explicit define parent attr se lay parent model - can skip some point in inheritance hierachy by specify specific parent) e.g. <context merge-by="type" parent="Item" type="B2BCustomer" component="simple-search">
     merge-by="module": merge the current component with all other extensions e.g. <context component="explorer-tree" merge-by="module">
     module="xxx": not important, hyris auto change to the real extention name e.g. module="kadokawabackoffice" when build the cockpit-config.xml
     merge-by="source": it dung
@@ -28,12 +30,11 @@ context: component, type, principal, parent
   source
   the content inside the context depends on the component attribute (see docs + <editors>, <actions> and <base>)
 
-config loading (e.g. loading configuration request created when open 1 Order in backoffice)
+config loading (e.g. loading configuration request when open 1 Order in backoffice)
   load configuration for tung widget theo tung module (extension name)
   the first module is load is config by moduleConfigurationContextStrategy (initialModules), default is platformbackoffice    
-
   widget controller will call widget instance manager to init DefaultConfigContext object with some main atts e.g. component, type
-  and call decorators to add more attributes e.g. principal, module if needed
+  and call decorators (defaultCockpitConfigurationService-widgetConfigurationContextDecoratorList) to add more attributes e.g. principal, module if needed
   then call CockpitConfigurationService to actual load the config for each context e.g. load config for the request: {component=advanced-search, type=Order, principal=admin, module=_root_} from *config. xml file
   this servive uses some ConfigurationContextStrategy to perform the config search, each strategy for each dimension e.g. typeConfigurationContextStrategy 
   all the restrictions in the requests are checked then merge to the final config result using MergeUtils and store to cache
