@@ -1,0 +1,2 @@
+gigyaloginaddon
+  GigyaRaasComponent is created, using this component SAP Customer Data Cloud screen sets are rendered on the storefront

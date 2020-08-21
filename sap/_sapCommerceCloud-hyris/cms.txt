@@ -1,8 +1,11 @@
-Page with and without frontend
-  binh thuong ContentPage will have template (with frontend file and content slot), the specific page will define specific component to those content slot
+page with and without frontend
+  binh thuong ContentPage will have template (with frontend file and content slots), the specific page will define specific component to those content slots
   without frontend => just a model (with content from template), with some basic info like title
     for example admin registration page (from the template without front end), just used to store title :D
 
+page template with and without frontend
+  with e.g. LandingPage2Template
+  without e.g. LoginPageTemplate 
 
 wcms: content types in storefront is built/managed by wcms module
   from extensions: CMS2, CMS2Lib, CMSCockpit => way to create/maintain website content
