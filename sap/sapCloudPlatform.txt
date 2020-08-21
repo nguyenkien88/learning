@@ -1,0 +1,9 @@
+global account
+  sub account
+	subscription
+	  go to application
+	    design/deploy/operate endpoints
+    space
+      service instances
+	    service key
+	  
