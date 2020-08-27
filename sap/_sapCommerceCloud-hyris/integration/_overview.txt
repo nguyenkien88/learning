@@ -26,3 +26,6 @@ core module
     communication setting (backoffice) - essential-data.impex
       RFC destination setting
       HTTP destination setting	
+
+next?
+  scpi => integration suite trial => specific services
