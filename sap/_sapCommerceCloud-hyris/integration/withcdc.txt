@@ -1,2 +1,11 @@
-gigyaloginaddon
-  GigyaRaasComponent is created, using this component SAP Customer Data Cloud screen sets are rendered on the storefront
+features
+  Raas: single sign on
+  profile/consent management
+  session management
+  privacy management
+  delete user sync
+
+architectures
+  gigyaXXX
+  gigyaloginaddon
+    GigyaRaasComponent is created, using this component SAP Customer Data Cloud screen sets are rendered on the storefront
