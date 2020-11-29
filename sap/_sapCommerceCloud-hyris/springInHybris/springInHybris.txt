@@ -1,9 +1,9 @@
 servlet: https://stackoverflow.com/questions/3106452/how-do-servlets-work-instantiation-sessions-shared-variables-and-multithreadi/3106909#3106909
 scope of sring model scope: https://www.intertech.com/Blog/understanding-spring-mvc-model-and-session-attributes/
-  @ModelAttribute
-  method: execute first => store as model attribute
-  method param: get from model, ko co thi insantiate auto and add to model
-  form submit with modelAttribute => create and add the attribute to model
+@ModelAttribute: is to prepopulate Model object before a handler method is called.
+  method: execute before @RequestMethod => store the return value as model attribute (default value)
+  method param: binding, ko co thi insantiate auto and add to model
+  form submit with modelAttribute => create/bindingValue and add the attribute to model
   model enventually add to request scope (can show on view) - add attribute to model same effect add to request object, chi co y nghia ve mat design (model contain business data)
   @SessionAttibutes
   
