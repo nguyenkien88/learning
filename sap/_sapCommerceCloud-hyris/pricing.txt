@@ -17,7 +17,7 @@ pricing
     see more: https://mjyothula.wordpress.com/2017/01/06/price-factory/
   tax calculation: all taxes of a product represent by TaxRow - getEurope1Taxes()
     tuong tu PriceRow - potential tax
-    tax (and discount) is accumulate - apply nhieu tax (say, a TaxRow apply for customer/cg and product/pg - if non set) => apply for all
+    tax (and discount) is accumulate - apply nhieu tax (say, a TaxRow apply for customer/cg and product/pg - if non set => apply for all)
     isAbsolute: chuyen nganh thue - thue tuyet doi la thue tinh ra so tien cu the e.g. 100bth, thue tuong doi: tinh theo % gia tri hang hoa => neo dung absolute = true (confirm)
   discount calculation: DiscountRow - potential, say, a discount is assigned to Product/pg or Customer/cg
     similar to tax
@@ -27,11 +27,12 @@ pricing
     result after Europe1PriceFactory run filtering/matching
   an orderEntry has taxValues()/discountValues() => co matched tax/discount
   TaxValue/DiscountValue apply(): apply for the tax/discount for the specific quantity, price, country (convertion rate) => get appliedValue() to get the real number.
-override price calculation: cartentry/orderentry: PriceFactory - default implementation is Europe1PriceFactory
-  getBasePrice() 
-  getTaxValues()
-  getDiscountValues()
-  see more: https://www.stechies.com/customize-price-factory/
+  override price calculation: cartentry/orderentry: PriceFactory - default implementation is Europe1PriceFactory
+    getBasePrice() 
+    getTaxValues()
+    getDiscountValues()
+    see more: https://www.stechies.com/customize-price-factory/
+
 neo price
   cart and order
     delivery cost
@@ -50,8 +51,6 @@ neo price
     tax values
     total price: before discount - discount
     total price before discount
-    totalPriceBeforeDiscount (of order entry)
-    totalPrice (of order entry - totalPriceBeforeDiscount - discount)
     subtotal (total price of 1 order entry - sum(subtotal) => order total)
     discountvalues(of order entry)
     taxvalues(of order entry)

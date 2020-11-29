@@ -1,0 +1,59 @@
+https: the data (including form) is encrypted before sent
+pseudo-class:
+
+normal form
+  structure a form
+    screen reader?
+    <form>: no nested
+    form control can be outside the form: them attr form="formId"
+	<fieldset> and <legend>
+	<section>
+	<ul>, <ol>, <li>
+	<label for=""> and <label><input></label>
+  form control (input/textarea/button/select)
+    cuoi cung thi data send to server as: name(name attr)/value pair
+	readonly(sent with other form data) vs disable (is not sent to server)
+    once the form is submitted all form controls that have a name attribute are sent except non-selected checkable(checkbox and radio)
+  <input>
+	text(default and fallback if browser not support a type)
+	password
+	hidden (hidden ui, data still sent to server)
+	checkbox
+	radio
+	button/submit/reset: act same as a button - khac nhau o style and the label content
+	img: like <img> but can be used to submit the form
+	file: accept="image/*;capture=camera" => mobile use cam
+	html5: differ from how browser support enter value and validate when submit(e.g. not validate when click e type="button")
+	  email: pattern
+	  search: differ with text on how browser support e.g. style and auto save to autocomplete
+	  tel: browser on smart device can support by auto using numberic keypad
+	  url: with protocol
+	  number: min/max/step
+	  range: use along with <output>
+	  date, time: date/time/month/week/datetime-local: support differ between browser - thuong dung lib - https://flatlogic.com/blog/best-javascript-date-picker-libraries/
+	  color: 
+  <select>
+    <option>: if not specify value attr => use content to submit
+	selected
+	optgroup: grouping
+	multiple
+  <datalist id="thesuggestionlist">: autocomplete, use along with <input list="thesuggestionlist">
+  <progress>/<meter>: dynamic by js
+  <button>: type=submit/reset/button(use js to handle submit)
+  
+
+
+
+
+ajax
+  submit FormData with ajax
+display fields error and global error  
+  
+  
+
+
+validation message
+  normal form submit: flash message
+  ajax: handle using javascript
+
+

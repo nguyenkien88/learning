@@ -1,0 +1,2 @@
+normal: click button => color box open => oncomplete: binding events
+json form: bind (ajaxForm/ajaxSubmit) => base on return json => show popup

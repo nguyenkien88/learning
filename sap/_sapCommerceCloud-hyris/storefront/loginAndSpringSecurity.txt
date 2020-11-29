@@ -36,3 +36,28 @@ in hybris
 	All remaining paths trigger a redirect to the loginUrl if called on a secure channel without the GUID cookie set
 	
   Cross-Site Request Forgery:???
+
+  login
+    StorefrontAuthenticationSuccessHandler.onAuthenticationSuccess (extends spring SavedRequestAwareAuthenticationSuccessHandler)
+    call customerfacade.loginsuccess()
+      get user data to set language/currency
+  	change user of session cart to current user
+  	if has session cart => do some check
+  	then trigger LoginSuccessEvent
+    and DefaultCartRestorationStrategy.restoreCart
+      will call DefaultCartFacade.restoreSavedCart()
+  	  will get the cart of logged in user 
+  	  and call DefaultCommerceCartRestorationStrategy.restoreCart
+  	    that will clear some data e.g. paymenttransaction
+  	    and call DefaultCommerceCartCalculationStrategy.recalculateCart() (in transaction) - some hook trigger before calculate
+  	      will call DefaultCalculationService.recalculate() to calculate entry and cart total
+  	  	and update promotion
+  	    and set the session cart
+    and get the targeturl from determineTargetUrl to redirect the request
+
+
+
+
+
+
+
