@@ -1,5 +1,12 @@
 https: the data (including form) is encrypted before sent
-pseudo-class:
+pseudo-class
+  define a state of an html element at specific time
+  used to style e.g. a:visited {color:red}, validate form, checkbox/radio select...
+  :hover
+  :focus
+  :active
+  :required/:optional
+  all: https://www.w3schools.com/css/css_pseudo_classes.asp
 
 normal form
   structure a form
@@ -41,7 +48,28 @@ normal form
   <progress>/<meter>: dynamic by js
   <button>: type=submit/reset/button(use js to handle submit)
   
+form styling: https://developer.mozilla.org/en-US/docs/Learn/Forms/Styling_web_forms
 
+client side validation: good for user experience, used combine with server validation
+  2 types: built-in validation e.g. input type="email" and custom validation using js
+  built-in
+    required
+	minlength/maxlength
+	min/max
+	type
+	pattern
+	when an element is valid/invalid, the pseudo-class :valid/:invalid(st other pseudo-class is added) auto added to the element e.g. input:valid
+  js: e.g. customize the validation message: with or without using Constraint Validation API
+	with Constraint Validation API
+	  use along with aboves built-in validation attributes
+	  e.g. add inputlistener -> if(!email.validity.valid) => if(if(email.validity.valueMissing)){errorSpan.textContext='er ne'}
+    without Constraint Validation API (without using built-in validation attrs): it's better using lib e.g. Validate.js
+	  
+      
+	
+	
+  
+  
 
 
 
