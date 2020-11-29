@@ -8,7 +8,7 @@ pseudo-class
   :required/:optional
   all: https://www.w3schools.com/css/css_pseudo_classes.asp
 
-normal form
+html form
   structure a form
     screen reader?
     <form>: no nested
@@ -65,21 +65,30 @@ client side validation: good for user experience, used combine with server valid
 	  e.g. add inputlistener -> if(!email.validity.valid) => if(if(email.validity.valueMissing)){errorSpan.textContext='er ne'}
     without Constraint Validation API (without using built-in validation attrs): it's better using lib e.g. Validate.js
 	  
-      
-	
-	
-  
-  
+submit form
+  if the action is https, the page is not => still encrypted
+  if the page is https, the action is not => browser auto notify user
+  submmit form with GET method (GET method is empty body) => the input auto show on url
+  submit as normal: full page reload
+    using input/buton type = submit
+	js: formElement.submit()
+  submit using ajax
+    must manually handle response
+	2 ways
+      using XMLHttpRequest: mannual build the request and send (can specify synchronous request but not recommended)
+	  using XMLHttpRequest and FormData(create or bind from an existing html form): XHR.send(aFormData);
+
+FormData
+  can submit type String or Blob or File
+  using FormData with file attach: need to read the file manually then append to the FormData
 
 
 
+
+building custom form controls
 ajax
   submit FormData with ajax
 display fields error and global error  
-  
-  
-
-
 validation message
   normal form submit: flash message
   ajax: handle using javascript
