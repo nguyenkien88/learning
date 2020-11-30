@@ -74,9 +74,11 @@ submit form
 	js: formElement.submit()
   submit using ajax
     must manually handle response
-	2 ways
+	approaches
       using XMLHttpRequest: mannual build the request and send (can specify synchronous request but not recommended)
 	  using XMLHttpRequest and FormData(create or bind from an existing html form): XHR.send(aFormData);
+      using jQuery: $.ajax/$.get/$.post (note: $.submit()-handler, trigger when form is submit->do st and actual submit inside)
+
 
 FormData
   can submit type String or Blob or File
