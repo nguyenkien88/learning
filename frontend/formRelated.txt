@@ -72,17 +72,28 @@ submit form
   submit as normal: full page reload
     using input/buton type = submit
 	js: formElement.submit()
-  submit using ajax
-    must manually handle response
-	approaches
-      using XMLHttpRequest: mannual build the request and send (can specify synchronous request but not recommended)
-	  using XMLHttpRequest and FormData(create or bind from an existing html form): XHR.send(aFormData);
-      using jQuery: $.ajax/$.get/$.post (note: $.submit()-handler, trigger when form is submit->do st and actual submit inside)
+  submit using ajax: must manually handle response by callback function
+    using XMLHttpRequest: mannual build the request and send (can specify synchronous request but not recommended)
+	using XMLHttpRequest and FormData(create or bind from an existing html form): XHR.send(aFormData);
+    using jQuery: $.getJSON/$.ajax/$.get/$.post (note: $.submit()-handler, trigger when form is submit->do st and actual submit inside)
 
-
+form validation
+  normal submit: add message to redirectmodel => have a error div for every page to check if error not empty => show
+  ajax: handle normal using javascript
+    set html content
+	using jquery template...
+	
 FormData
   can submit type String or Blob or File
   using FormData with file attach: need to read the file manually then append to the FormData
+
+spring form
+  
+
+
+
+
+
 
 
 

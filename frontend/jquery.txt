@@ -1,0 +1,7 @@
+$ and jQuery: same
+var element = $(cssSelector) => element is jQuery object => do whatever u want
+
+selector and filter
+traverse through the dom: next/prev/parent/parents/find...
+chaning methods
+
