@@ -1,7 +1,24 @@
 $ and jQuery: same
 var element = $(cssSelector) => element is jQuery object => do whatever u want
+jqueryElement vs actual html element e.g. $(selector) vs $(selector)[0]
+$(this): make this e.g. clicked button become jquery object => can use methods of jquery
+$(document).on('ready',function({//binding events})) vs $(window).on('load', function({}))
+  document.ready: when all html elements ready - come first
+  window.load: when all elements and resources e.g. images are ready - come later
 
-selector and filter
+selector and filter(like pseudo class in css)
 traverse through the dom: next/prev/parent/parents/find...
 chaning methods
 
+modify
+  adding content: append/prepend/before/after/html vs text (escape html)
+  wrap/unwrap
+  removing content: empty/remove
+  changing attr: removeAttr/attr
+  working with css:reading attr e.g. $(selector).css("top")/changing
+  add/remove class: addClass/removeClass/toogleClass
+  bind/unbind event: on/off
+  event object: e.stopPropagation()/return false;/e.preventDefault() - pure javascript vs jQuery context
+    https://medium.com/@jacobwarduk/how-to-correctly-use-preventdefault-stoppropagation-or-return-false-on-events-6c4e3f31aedb
+  event helper: element.click(function) same as element.on('click', function)
+  
