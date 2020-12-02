@@ -21,4 +21,13 @@ modify
   event object: e.stopPropagation()/return false;/e.preventDefault() - pure javascript vs jQuery context
     https://medium.com/@jacobwarduk/how-to-correctly-use-preventdefault-stoppropagation-or-return-false-on-events-6c4e3f31aedb
   event helper: element.click(function) same as element.on('click', function)
-  
+  animate(for numeric values only e.g. width/opacity...): 
+    animate: attr, speed, animateType, callback
+    fadeIn/fadeOut/fadeTo
+	hide/show/toggle
+	slideUp/slideDown/slideToggle
+
+ajax with jquery
+jquery ui	
+using plugins: other libs using with jquery e.g. responsiveSlider
+
