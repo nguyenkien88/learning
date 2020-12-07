@@ -1,4 +1,6 @@
-$ and jQuery: same
+$ and jQuery: same in jQuery context
+chrome dev tools: $ - default is document.querySelector (vanilla js), if using jQuery lib: override => jQuery
+
 var element = $(cssSelector) => element is jQuery object => do whatever u want
 jqueryElement vs actual html element e.g. $(selector) vs $(selector)[0]
 $(this): make this e.g. clicked button become jquery object => can use methods of jquery

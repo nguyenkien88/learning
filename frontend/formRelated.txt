@@ -1,4 +1,5 @@
 https: the data (including form) is encrypted before sent
+viewpagesource(origin content) vs inspect(current content)
 pseudo-class
   define a state of an html element at specific time
   used to style e.g. a:visited {color:red}, validate form, checkbox/radio select...
@@ -89,13 +90,6 @@ FormData
 
 spring form
   
-
-
-
-
-
-
-
 
 
 building custom form controls
