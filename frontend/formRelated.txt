@@ -96,20 +96,31 @@ spring mvc plus
   params="param1=kaka"
   headers="attr1=value1"
   handler method signature: arbitrary order except BindingResult
-    request/responsee e.g. ServletRequest/HttpServletRequest/ServletResponse/HttpServletResponse
-	@RequestBody Object body => convert the request body (thuong la json) to object
+    request/response e.g. ServletRequest/HttpServletRequest/ServletResponse/HttpServletResponse
+	@RequestBody Object body => convert the request body (thuong la json) to java object
 	HttpSession
 	@PathVariable/@MatrixVariable/@RequestParam(required by default)
 	Model/Map/ModelMap/RedirectAttributes(when return :redirect => spring use this instead of the Model)
 	@InitBinder/@ModelAttribute/Error/BindingResult (must after the command/modelatribute object)
+	  as method level: run before every request mapping: add attr for model - use as a common data for controller
+	  as method arg: 
+	    step 1: get the argument object from model (neu ko co san thi init using default constructor)
+		step 2: binding data by name (and validate using @Valid)
+		step 3(optional): validate using validator
     full list: https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/mvc.html 
   handler return type
     ModelAndView/Model/Map/View/String
     void
-    @ResponseBody e.g. return the httpresponse as json...
-	HttpEntity/ResponseEntity
+    @ResponseBody e.g. auto covert object and return [json] in response body
+	HttpEntity/ResponseEntity: more power full than @RequestBody, can custom to the response header, status.
+	  binh thuong Spring se handle header/status
 	full list: https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/mvc.html
-	
+  @SessionAttribute: the model attr once created will be last for whole session
+  RedirectAttributes: when controller redirect, attrs in RedirectAttributes model will be used instead of normal Model
+  Flash attrs:
+
+
+
 	
 building custom form controls
 ajax
