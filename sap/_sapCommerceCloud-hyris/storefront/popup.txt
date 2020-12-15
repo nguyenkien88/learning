@@ -1,2 +1,7 @@
-normal: click button => color box open => oncomplete: binding events
-json form: bind (ajaxForm/ajaxSubmit) => base on return json => show popup
+colorbox: show all the html from href attr as an popup
+  normal
+    click button => call GET request from href attr to get a page => show as popup (pass data in url)
+	success: binding if needed
+  can pass nhieu data (in form)
+    bind form.ajaxForm (submit as ajax)
+	success: get the result (thuong la 1 page) => show popup
