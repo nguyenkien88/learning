@@ -26,7 +26,7 @@ html form
 	text(default and fallback if browser not support a type)
 	password
 	hidden (hidden ui, data still sent to server)
-	checkbox
+	checkbox: only checked items are sent (same name => can map as List<String> e.g. list of id)
 	radio
 	button/submit/reset: act same as a button - khac nhau o style and the label content
 	img: like <img> but can be used to submit the form
@@ -117,7 +117,20 @@ spring mvc plus
 	full list: https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/mvc.html
   @SessionAttribute: the model attr once created will be last for whole session
   RedirectAttributes: when controller redirect, attrs in RedirectAttributes model will be used instead of normal Model
-  Flash attrs:
+  Flash attrs
+  @CookieValue
+  @RequestHeader
+  @InitBinder: use in controller level, process request param e.g. trim String type before mapping to handler
+  
+HandlerInterceptor/HandlerInterceptorAdapter e.g. RequireHardLogin
+  run before/after(before view is rendered)/complete(view is rendered) handle a request
+  interceptor(already map to handler) vs filter (still not mapping to handler)
+  
+Exception handling
+  @ExceptionHandler
+  @ControllerAdvice
+  ...
+
 
 
 
