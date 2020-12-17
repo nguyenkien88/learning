@@ -112,7 +112,7 @@ spring mvc plus
     ModelAndView/Model/Map/View/String
     void
     @ResponseBody e.g. auto covert object and return [json] in response body
-	HttpEntity/ResponseEntity: more power full than @RequestBody, can custom to the response header, status.
+	HttpEntity/ResponseEntity: more power full than @ResponseBody, can custom to the response header, status.
 	  binh thuong Spring se handle header/status
 	full list: https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/mvc.html
   @SessionAttribute: the model attr once created will be last for whole session
@@ -121,6 +121,11 @@ spring mvc plus
   @CookieValue
   @RequestHeader
   @InitBinder: use in controller level, process request param e.g. trim String type before mapping to handler
+
+binding request param/form attribute to java object
+  mannual creted by java code
+  Converter/ConverterFactory 
+  HandlerMethodArgumentResolver
   
 HandlerInterceptor/HandlerInterceptorAdapter e.g. RequireHardLogin
   run before/after(before view is rendered)/complete(view is rendered) handle a request
@@ -131,7 +136,11 @@ Exception handling
   @ControllerAdvice
   ...
 
-
+spring tags (spring.tld)
+  <spring:argument> argument for <spring:message> and <spring:theme>
+  
+spring form tags (spring-form.tld): https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/html/spring-form-tld.html
+  
 
 
 	
