@@ -1,7 +1,8 @@
 colorbox: show all the html from href attr as an popup
-  normal
+  call server to get the popup
     click button => call GET request from href attr to get a page => show as popup (pass data in url)
 	success: binding if needed
   can pass nhieu data (in form)
     bind form.ajaxForm (submit as ajax)
 	success: get the result (thuong la 1 page) => show popup
+  show hidden popup: use hidden html for href attr
