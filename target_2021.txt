@@ -18,8 +18,10 @@ habit
   doc dzone  
   
 mai
-  day som: tap the duc + hoc/doc sach
   sac pin kindle
+  mua noi hap
+  
+  day som: tap the duc + hoc/doc sach
   di lam som
   
   mua bot diep ca
