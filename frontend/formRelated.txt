@@ -136,10 +136,12 @@ Exception handling
   @ControllerAdvice
   ...
 
-spring tags (spring.tld)
+spring tags (spring.tld): tags that support for jsp for some purpuse e.g. evaluating errors, localize...
   <spring:argument> argument for <spring:message> and <spring:theme>
   
-spring form tags (spring-form.tld): https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/html/spring-form-tld.html
+spring form tags (spring-form.tld): make the binding data between html form and model easier
+  wrapper of standard html form tag
+  https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/html/spring-form-tld.html
   
 
 
