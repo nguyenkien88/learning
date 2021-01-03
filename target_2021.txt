@@ -1,3 +1,4 @@
+xac dinh duoc huong nghe nghiep lau dai
 health
   11h -> 5h45: tap the duc + hoc/doc sach
   thang 1: uong thu bot diep ca
@@ -20,6 +21,7 @@ mai
   day som: tap the duc + hoc/doc sach
   sac pin kindle
   di lam som
+  
   mua bot diep ca
   toi: xem phim sub eng
   
