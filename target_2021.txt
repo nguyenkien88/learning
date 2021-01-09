@@ -1,7 +1,7 @@
 xac dinh duoc huong nghe nghiep lau dai
 health
-  11h -> 5h45: tap the duc + hoc/doc sach
-  thang 1: uong thu bot diep ca
+  11h -> 6h15: tap the duc + hoc/doc sach
+  thang 1: uong thu bot diep ca (hold)
 it
   get java core certificate
   spring
@@ -14,17 +14,9 @@ choi
   du lich 2 noi  
 tieng anh
   phim with engsub: fsharetv  
-habit
-  doc dzone  
-  
-mai
-  sac pin kindle
-  mua noi hap
-  
-  day som: tap the duc + hoc/doc sach
-  di lam som
-  
-  mua bot diep ca
-  toi: xem phim sub eng
+good habit
+  doc dzone
+  day som
+  doc sach buoi toi
   
   
