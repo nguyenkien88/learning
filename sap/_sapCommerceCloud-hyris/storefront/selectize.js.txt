@@ -4,3 +4,4 @@ action
   setup: var $select = $('#select-tools').selectize({//default settting})
   then get the Selectize object (to control behavior): var control = $select[0].selectize;
   and call method on the control object: e.g. control.clear();
+ref: https://selectize.github.io/selectize.js/
