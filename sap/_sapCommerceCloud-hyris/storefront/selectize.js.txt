@@ -1,0 +1,6 @@
+support for <select> tag
+by default load some data from select tag e.g. options, items (selected value)
+action
+  setup: var $select = $('#select-tools').selectize({//default settting})
+  then get the Selectize object (to control behavior): var control = $select[0].selectize;
+  and call method on the control object: e.g. control.clear();

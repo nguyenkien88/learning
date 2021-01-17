@@ -33,3 +33,4 @@ ajax with jquery
 jquery ui	
 using plugins: other libs using with jquery e.g. responsiveSlider
 
+javascript naming convention: var $a=... => convention for naming jquery object
