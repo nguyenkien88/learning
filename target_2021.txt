@@ -1,7 +1,6 @@
 xac dinh duoc huong nghe nghiep lau dai
 health
   11h -> 6h15: tap the duc + hoc/doc sach
-  thang 1: uong thu bot diep ca (hold)
 it
   get java core certificate
   spring
@@ -19,6 +18,7 @@ good habit
   ngu som, day som
   sang uong dau xay
   doc sach buoi toi
+  uong dap ca
   
   
   
