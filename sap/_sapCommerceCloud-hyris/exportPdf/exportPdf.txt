@@ -1,0 +1,15 @@
+tools
+  freemarker and
+  flying saucer
+image: using base64
+font: DejavuSan
+
+@media print {}
+@page
+footer/header
+page-break
+
+
+run sample
+  copy PdfGeneration-0.0.1-SNAPSHOT-jar-with-dependencies.jar and pdf.html to o D and run
+  java -cp PdfGeneration-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.nk.pdf.Main
