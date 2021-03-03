@@ -1,0 +1,8 @@
+freemarker
+
+Configuration: should singleton for 1 template (spring with scope = singleton)
+Template
+data model
+  java bean
+  map
+  

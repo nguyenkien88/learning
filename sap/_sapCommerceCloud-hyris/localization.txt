@@ -19,6 +19,8 @@ types of file
   report with jasper: resourceBundle attribute e.g. codengaincockpits/resources/localization/jasperreport_en.properties
   ui-storefront: e.g. web/webroot/WEB-INF/messages/base_en.properties: jsp
     dynamic type
+  change tab name backoffice: e.g./tmpdealerbackoffice/resources/tmpdealerbackoffice-backoffice-labels/labels_en.properties
+    update locale + restart server
 
 default system language vs default user language
 

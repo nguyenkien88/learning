@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<title>
+    tmp Site | Homepage
+</title>
+
+<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8"/>
+
+<meta charset="utf-8">
+
+<style>
+
+div.header {
+    display: block;
+    position: running(header);
+}
+
+@font-face {
+   font-family: DejaVu Sans;
+}
+
+@Page {
+  size: 15in 18in;
+  margin: 1in;
+  
+  @top-left {
+  	content: element(header);
+  }
+  
+  @bottom-left {
+	content: "Copyright © 2020 Toyota Motors Philippines (TMP). All rights reserved.";
+  }
+  
+  @bottom-right {
+	content: "Page " counter(page) " of " counter(pages);
+  }
+}
+
+@media print {
+	html {
+		font-family: DejaVu Sans, sans-serif;
+		-ms-text-size-adjust: 100%;
+		-webkit-text-size-adjust: 100%;
+	}
+	body {
+		margin: 0;
+	}
+	* {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	*:before,
+	*:after {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	html {
+		font-size: 10px;
+		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	}
+	body {
+		font-family: DejaVu Sans;
+		font-size: 15px;
+		line-height: 1.27;
+		color: #141f2b;
+		background-color: #fff;
+	}
+	input,
+	button,
+	select,
+	textarea {
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+	}
+	a {
+		color: #141f2b;
+		text-decoration: none;
+	}
+	a:hover,
+	a:focus {
+		color: #cb0000;
+		text-decoration: underline;
+	}
+	a:focus {
+		outline: 5px auto -webkit-focus-ring-color;
+		outline-offset: -2px;
+	}
+	figure {
+		margin: 0;
+	}
+	img {
+		vertical-align: middle;
+	}
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	.h1,
+	.h2,
+	.h3,
+	.h4,
+	.h5,
+	.h6 {
+		font-family: inherit;
+		font-weight: 700;
+		line-height: 1.1;
+		color: inherit;
+	}
+	h2,
+	.h2 {
+		font-size: 34px;
+	}
+	h3,
+	.h3 {
+		font-size: 24px;
+	}
+	h4,
+	.h4 {
+		font-size: 17px;
+	}
+	p {
+		margin: 0 0 9.5px;
+	}
+	.text-left {
+		text-align: left;
+	}
+	.text-right {
+		text-align: right;
+	}
+	.text-center {
+		text-align: center;
+	}
+	.text-justify {
+		text-align: justify;
+	}
+	.text-uppercase {
+		text-transform: uppercase;
+	}
+	.row {
+		margin-left: -10px;
+		margin-right: -10px;
+	}
+	.col-sm-3,
+	.col-md-4,
+	.col-xs-6,
+	.col-sm-6,
+	.col-md-6,
+	.col-md-8,
+	.col-xs-12 {
+		position: relative;
+		min-height: 1px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+	.col-xs-6,
+	.col-xs-12 {
+		float: left;
+	}
+	.col-xs-12 {
+		width: 100%;
+	}
+	.col-xs-6 {
+		width: 50%;
+	}
+	.col-sm-3 {
+		float: left;
+	}
+	.col-sm-3 {
+		width: 25%;
+	}
+	.col-md-4,
+	.col-md-8 {
+		float: left;
+	}
+	.col-md-8 {
+		width: 66.66666667%;
+	}
+	.col-md-4 {
+		width: 33.33333333%;
+	}
+	.form__color--variant {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -moz-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: stretch;
+		-webkit-align-items: stretch;
+		-moz-box-align: stretch;
+		-ms-flex-align: stretch;
+		align-items: stretch;
+		-webkit-flex-flow: row wrap;
+		-ms-flex-flow: row wrap;
+		flex-flow: row wrap;
+	}
+	.form__color--item {
+		width: 30%;
+		margin: 0 15px 20px 0;
+	}
+	.form__color--radio {
+		display: inline-block;
+		position: relative;
+		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		width: 100%;
+	}
+	.form__color--radio input {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+		top: 0;
+		margin: 0;
+		height: 18px;
+		width: 18px;
+	}
+	.form__color--radio .bg__gradient--top {
+		width: 90%;
+		height: 13px;
+		-webkit-border-radius: 15px;
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#ffffff));
+		background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0), #ffffff);
+		background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0), #ffffff);
+		background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0), #ffffff);
+		background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff);
+		position: absolute;
+		left: 5%;
+		top: 10%;
+		opacity: 0.4;
+		z-index: 100;
+	}
+	.form__color--style {
+		width: 100%;
+		height: 40px;
+		-webkit-border-radius: 15px;
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+		-webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+		-moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+		box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+		display: block;
+		position: relative;
+		z-index: 1;
+		margin-bottom: 5px;
+		border: solid 1px #d5d5d5;
+	}
+	.form__color--style.active,
+	.form__color--style:hover {
+		border: solid 6px #141f2b !important;
+	}
+	.form__color--name {
+		font-size: 13px;
+		display: block;
+		margin-left: 5px;
+	}
+	.form__color--name.active {
+		font-weight: 700 !important;
+	}
+	.pdp__top--car .title-label {
+		margin-bottom: 20px;
+	}
+	.info-dealer {
+		display: flex;
+	}
+	.infor-dealer-detail {
+		padding-left: 40px;
+		margin-bottom: 40px;
+	}
+	.form-inline .form-group {
+		display: inline-block;
+		margin-bottom: 0;
+		vertical-align: middle;
+	}
+	.form-inline .form-control {
+		display: inline-block;
+		width: auto;
+		vertical-align: middle;
+	}
+	.form-inline .form-control-static {
+		display: inline-block;
+	}
+	.form-inline .input-group {
+		display: inline-table;
+		vertical-align: middle;
+	}
+	.form-inline .input-group .input-group-addon,
+	.form-inline .input-group .input-group-btn,
+	.form-inline .input-group .form-control {
+		width: auto;
+	}
+	.form-inline .input-group>.form-control {
+		width: 100%;
+	}
+	.form-inline .control-label {
+		margin-bottom: 0;
+		vertical-align: middle;
+	}
+	.form-inline .radio,
+	.form-inline .checkbox {
+		display: inline-block;
+		margin-top: 0;
+		margin-bottom: 0;
+		vertical-align: middle;
+	}
+	.form-inline .radio label,
+	.form-inline .checkbox label {
+		padding-left: 0;
+	}
+	.form-inline .radio input[type="radio"],
+	.form-inline .checkbox input[type="checkbox"] {
+		position: relative;
+		margin-left: 0;
+	}
+	.form-inline .has-feedback .form-control-feedback {
+		top: 0;
+	}
+	.clearfix:before,
+	.clearfix:after,
+	.row:before,
+	.row:after {
+		content: " ";
+		display: table;
+	}
+	.clearfix:after,
+	.row:after {
+		clear: both;
+	}
+	.w100 {
+		width: 100%;
+	}
+	.text-red {
+		color: #cb0000;
+	}
+	.text-green {
+		color: #1fa706;
+	}
+	.text-white {
+		color: #fff;
+	}
+	.text-grey {
+		color: #637385;
+	}
+	.padding-wrapper {
+		padding-left: 30px;
+		padding-right: 30px;
+		margin: 0;
+	}
+	.form-control {
+		border-color: #b0b8c1;
+		height: 44px;
+	}
+	.mt-0 {
+		margin-top: 0 !important;
+	}
+	.mr-0 {
+		margin-right: 0 !important;
+	}
+	.mb-0 {
+		margin-bottom: 0 !important;
+	}
+	.ml-0 {
+		margin-left: 0 !important;
+	}
+	.ml-1 {
+		margin-left: 10px;
+	}
+	.mr-1 {
+		margin-right: 10px;
+	}
+	.tmp-icon {
+		display: inline-block;
+		background-repeat: no-repeat;
+		background-position: center center;
+		-moz-background-size: 100% 100%;
+		-o-background-size: 100% 100%;
+		background-size: 100% 100%;
+	}
+	.tmp-icon.ic-pay-at-dealer {
+		background-image: url("/templates/ic-dealer.svg");
+		width: 103px;
+		height: 103px;
+	}
+	.tmp-icon.ic-info {
+		background-image: url("../images/icons/ic-info.svg");
+		width: 24px;
+		height: 24px;
+		vertical-align: middle;
+	}
+	.fz-14 {
+		font-size: 14px;
+	}
+	.fz-17 {
+		font-size: 17px;
+	}
+	.mb-0 {
+		margin-bottom: 0;
+	}
+	.mb-1 {
+		margin-bottom: 10px;
+	}
+	.mb-2 {
+		margin-bottom: 20px;
+	}
+	.mb-3 {
+		margin-bottom: 30px;
+	}
+	.mb-4 {
+		margin-bottom: 40px;
+	}
+	.mb-5 {
+		margin-bottom: 50px;
+	}
+	.mb-6 {
+		margin-bottom: 60px;
+	}
+	.mt-0 {
+		margin-top: 0;
+	}
+	.mt-3 {
+		margin-top: 30px;
+	}
+	.mt-5 {
+		margin-top: 50px;
+	}
+	.pb-2 {
+		padding-bottom: 20px;
+	}
+	.pb-5 {
+		padding-bottom: 50px;
+	}
+	.text-align-left {
+		text-align: left;
+	}
+	.pl-2 {
+		padding-left: 20px;
+	}
+	.pr-3 {
+		padding-right: 30px;
+	}
+	.uppercase {
+		text-transform: uppercase;
+	}
+	body {
+		overflow-x: hidden;
+		position: relative;
+		font-weight: 500;
+	}
+	.no-margin {
+		margin: 0 !important;
+	}
+	.checkout-summary {
+		z-index: 400;
+	}
+	.checkout-summary {
+		padding-right: 40px;
+		float: right !important;
+	}
+	.checkout-summary .sidebar {
+		background-color: #ffffff;
+	}
+	.checkout-summary .sidebar {
+		-webkit-box-shadow: 0 17px 12px 0 rgba(0, 0, 0, 0.14);
+		-moz-box-shadow: 0 17px 12px 0 rgba(0, 0, 0, 0.14);
+		box-shadow: 0 17px 12px 0 rgba(0, 0, 0, 0.14);
+		border: solid 1px #c3c8cc;
+	}
+	.checkout-order-summary {
+		padding: 30px 20px 15px;
+		border: 1px solid #cccccc;
+		border-top: 0;
+		margin-left: 20px;
+		margin-right: 20px;
+		padding-left: 0;
+		padding-right: 0;
+		padding-top: 0;
+	}
+	.quote-pdf {
+		width: 1190px;
+		padding: 40px 40px 40px 40px;
+		margin: 0 auto;
+		overflow: hidden;
+		position: relative;
+		background-color: white;
+	}
+	.vehicle__order--title {
+		background-color: #fff;
+		border-bottom: solid 1px #c3c8cc;
+		padding: 20px;
+		margin: 0;
+	}
+	.vehicle__order--detail {
+		-webkit-box-shadow: 0 17px 12px 0 rgba(0, 0, 0, 0.14);
+		-moz-box-shadow: 0 17px 12px 0 rgba(0, 0, 0, 0.14);
+		box-shadow: 0 17px 12px 0 rgba(0, 0, 0, 0.14);
+		border: solid 1px #c3c8cc;
+		background-color: #eef0f2;
+	}
+	.vehicle__order--item {
+		border-bottom: solid 1px #c3c8cc;
+	}
+	.vehicle__order--item h4 {
+		line-height: 1.18;
+		margin-top: 5px;
+	}
+	.vehicle__order--item .form-group {
+		margin: 0;
+		padding: 8px 20px;
+	}
+	.vehicle__order--item .form-group.vehicle__order--top {
+		padding: 18px 20px;
+	}
+	.vehicle__order--item .form-group>.col-xs-6 {
+		padding: 0;
+	}
+	.vehicle__order--item .form-group:hover {
+		background-color: #fff;
+		cursor: pointer;
+	}
+	.vehicle__order--item .form-group:last-child {
+		margin-bottom: 20px;
+	}
+	.vehicle__order--item .form-group.financing {
+		border-bottom: solid 1px #c3c8cc;
+	}
+	.vehicle__order--update:hover svg path {
+		fill: #cb0000;
+		stroke: #cb0000;
+	}
+	#pdf-canvas {
+		position: relative;
+	}
+	#pdf-canvas .sidebar {
+		border: none;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+	}
+	#pdf-canvas .process__loading {
+		left: 50%;
+		z-index: 9999;
+		top: 70px;
+	}
+	.w-pdf {
+		width: 1190px;
+		padding: 70px 68px 50px 70px;
+		height: 1682px;
+		margin: 0 auto;
+		overflow: hidden;
+		position: relative;
+		background-color: white;
+	}
+	.product-listing {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.product-listing .product-item {
+		margin-bottom: 20px;
+	}
+	.product-listing .product-item .img-item {
+		display: table;
+		vertical-align: middle;
+		height: 100px;
+		width: 100%;
+		margin-bottom: 10px;
+	}
+	.product-listing .product-item .img-item img {
+		max-width: 100%;
+		max-height: 100px;
+	}
+	.product-listing .product-item:nth-of-type(4n+1) {
+		clear: left;
+	}
+	.dealder__address--info .tmp-icon {
+		width: 50px;
+		height: 47px;
+	}
+	#pdf-canvas1,
+	#pdf-canvas2,
+	#pdf-canvas3 {
+		position: relative;
+	}
+	#pdf-canvas3 {
+		padding-bottom: 40px;
+	}
+	#pdf-canvas1 .product-summary-img img {
+		height: 180px;
+		width: auto !important;
+	}
+	.content-pdf3 h4 {
+		margin-bottom: 30px;
+		padding-bottom: 30px;
+		border-bottom: solid 2px #d0d5da;
+	}
+	.logo-pdf {
+		height: 38px;
+	}
+	#pdf-canvas1 .form__color--item {
+		width: 117px;
+	}
+	.page-break-after {
+		page-break-after: always;
+	}
+	.sub-section-left {
+		width: 70%;
+		float: left; 
+		font-weight: normal;
+	}
+	.sub-section-right {
+		width: 30%;
+		float: left;
+		text-align: right;
+		font-weight: normal;
+	}
+	.font-weight-normal {
+		font-weight: normal;
+	}
+}
+
+
+</style>
+</head>
+
+<body>
+    <div class="header">
+    	 <div style="padding: 10px 40px 10px 40px; margin: 0 auto; background-color: white;">
+	    	 <div class="row">
+			    <div class="col-xs-12">
+			    	 <img class="logo-pdf d-inline-block mt-3 mb-5" 
+			    	 	src="data:image/png;base64,${logoUrl}" alt="logo" />
+			    </div>
+		    </div>
+	    </div>
+    </div>
+    
+    <div class="quote-pdf">
+        <div class="main__inner-wrapper">
+            <div id="pdf-canvas">
+                <div id="pdf-canvas1" class="pdf1 page-break-after">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-8 checkout-left">
+                            <div class="vehicle__order--detail mb-4">
+                                <h3 class="bg-white text-uppercase vehicle__order--title">
+                                	Order summary 
+                                	<span style="float:right;" >
+                                		<span class="fz-14 font-weight-normal">MSRP: <span style="font-size:24px;">${MSRP}</span> </span>
+                                	</span>
+                                </h3>
+                                <div class="vehicle__order--item">
+                                    <div class="form-group row mb-2 vehicle__order--top">
+                                        <div class="col-xs-6">
+                                            <h4 class="mb-0">Upgrades</h4>
+                                        </div>
+                                    </div>
+                                    
+                                    <#list upgradeItems as upgradeItem>
+	                                    <div class="form-group row">
+	                                        <div class="col-xs-6 sub-section-left">
+	                                            ${upgradeItem.product.name}
+	                                        </div>
+	                                        <div class="col-xs-6 text-right sub-section-right">
+	                                        	<#if upgradeItem.totalPrice??>
+		                                            <span class="fz-14" style="font-weight: normal;"> ${upgradeItem.totalPrice.formattedValue}</span>
+	                                        	</#if>
+	                                        </div>
+	                                    </div>
+									</#list>
+                                </div>
+
+                                <div class="vehicle__order--item">
+                                    <div class="form-group row mb-2  vehicle__order--top">
+                                        <div class="col-xs-6">
+                                            <h4 class="mb-0">Services</h4>
+                                        </div>
+                                    </div>
+                                    
+                                    <#list serviceItems as serviceItem>
+	                                    <div class="form-group row">
+	                                        <div class="col-xs-6 sub-section-left">
+	                                            ${serviceItem.product.name}
+	                                        </div>
+	                                        <div class="col-xs-6 text-right sub-section-right">
+	                                            <span class="fz-14" style="font-weight: normal;"> ${serviceItem.totalPrice.formattedValue}</span>
+	                                        </div>
+	                                    </div>
+									</#list>
+                                </div>
+
+                                <div class="vehicle__order--item">
+                                    <div class="form-group row mb-2 vehicle__order--top">
+                                        <div class="col-xs-6">
+                                            <h4 class="mb-0">Payment</h4>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-xs-6 sub-section-left">
+                                            Transaction type
+                                        </div>
+                                        <div class="col-xs-6 text-right sub-section-right">
+                                            <span class="fz-14" style="font-weight: normal;">${vehicleTransactionType}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="vehicle__order--item">
+                                    <div class="form-group row mb-2 vehicle__order--top">
+                                        <div class="col-xs-6 sub-section-left">
+                                            <h4 class="mb-0">Insurance</h4>
+                                        </div>
+                                    </div>
+                                    
+                                    <#if includeVehicleInsurance>
+	                                    <div class="form-group row">
+	                                        <div class="col-xs-6 sub-section-left">
+	                                            <span>Financial Protection</span>
+	                                            <span class="d-inline-block text-grey ml-05 fz-14">Initial amount</span>
+	                                        </div>
+	                                        <div class="col-xs-6 text-right sub-section-right">
+	                                            <span class="fz-14" style="font-weight: normal;">₱1,595,000.00</span>
+	                                        </div>
+	                                    </div>
+									<#else>
+										<div class="form-group row">
+	                                        <div class="col-xs-6 sub-section-left">
+	                                            <span>Exclude insurance</span>
+	                                        </div>
+	                                    </div>
+									</#if>
+                                </div>
+
+                                <div class="vehicle__order--item">
+                                    <div class="form-group row mb-2 vehicle__order--top">
+                                        <div class="col-xs-6">
+                                            <h4 class="mb-0">Delivery</h4>
+                                        </div>
+
+                                    </div>
+                                    
+                                    <#if isShowLtoFee>
+	                                    <div class="form-group row">
+	                                        <div class="col-xs-6 sub-section-left">
+	                                            <span>LTO Registration Fees</span>
+	                                            <span class="d-inline-block text-grey ml-05 fz-14">Initial amount</span>
+	                                        </div>
+	                                        <div class="col-xs-6 text-right sub-section-right">
+	                                            <span class="fz-14">${ltoFee}</span>
+	                                        </div>
+	                                    </div>
+                                    </#if>
+                                    
+                                    <#if isShowChattelMortgageFee>
+	                                    <div class="form-group row">
+	                                        <div class="col-xs-6 sub-section-left">
+	                                            <span>Chattel Mortgage Fee</span>
+	                                            <span class="d-inline-block text-grey ml-05 fz-14">Initial amount</span>
+	                                        </div>
+	                                        <div class="col-xs-6 text-right sub-section-right">
+	                                            <span class="fz-14">${chattelMortgageFee}</span>
+	                                        </div>
+	                                    </div>
+                                    </#if>
+                                    
+                                    <div class="form-group row">
+						                <div class="col-xs-6 sub-section-left">
+						                    Delivery Method
+						                </div>
+						                <div class="col-xs-6 text-right sub-section-right">
+						                    <span class="fz-14">${deliveryMethod}</span>
+						                </div>
+						            </div>
+						            <div class="form-group row">
+						                <div class="col-xs-6 sub-section-left">
+						                    Preferred Purchase
+						                </div>
+						                <div class="col-xs-6 text-right sub-section-right">
+						                    <span class="fz-14">${purchasePlan}</span>
+						                </div>
+						            </div>
+						            <div class="form-group row">
+						                <div class="col-xs-6 sub-section-left">
+						                    Expected Released Date
+						                </div>
+						                <div class="col-xs-6 text-right sub-section-right">
+						                    <span class="fz-14">${expectedDeliveryDate}</span>
+						                </div>
+						            </div>
+                                </div>
+
+								<#if isShowPromotions>
+	                                <div class="vehicle__order--item">
+	                                    <div class="form-group row mb-2 vehicle__order--top">
+	                                        <div class="col-xs-6">
+	                                            <h4 class="mb-0">Promotions</h4>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                    <#list orderPromotions as orderPromotion>
+		                                    <div class="form-group row">
+		                                        <div class="col-xs-6 sub-section-left">
+		                                            ${orderPromotion.description}
+		                                        </div>
+		                                    </div>
+										</#list>
+										<#list productPromotions as productPromotion>
+		                                    <div class="form-group row">
+		                                        <div class="col-xs-6 sub-section-left">
+		                                            ${productPromotion.description}
+		                                        </div>
+		                                    </div>
+										</#list>
+										<#list vouchers as voucher>
+		                                    <div class="form-group row">
+		                                        <div class="col-xs-6 sub-section-left">
+		                                            ${voucher}
+		                                        </div>
+		                                    </div>
+										</#list>
+										<#if showTotalDiscounts>
+		                                    <div class="form-group row">
+		                                        <div class="col-xs-6 sub-section-left">
+		                                            Discounts
+		                                        </div>
+		                                        <div class="col-xs-6 text-right sub-section-right">
+		                                            <span class="fz-14 text-green fw-bold">${totalDiscounts}</span>
+		                                        </div>
+		                                    </div>
+	                                    </#if>
+	                                    
+	                                    <#if hasFreeGifts>
+	                                    	<div class="form-group row">
+								           		<div class="col-xs-6">
+								                	Free items
+										        </div>
+								           	</div>
+	                                    	<#list freeGifts as freeGift>
+	                                    		<div class="form-group row">
+	                                    			<div class="col-xs-6 sub-section-left">
+	                                    				${freeGift.product.name}
+	                                    			</div>
+		                                    		<div class="col-xs-6 text-right sub-section-right">
+								                        <span class="tmp-icon ic-gift-outline"></span>
+								                        <span class="ml-h1 fw-bold text-gift-green mt-h1">Free</span>
+									                </div>
+								                </div>
+	                                    	</#list>
+	                                    </#if>
+	                                </div>
+                                </#if>
+                                
+                                <div class="vehicle__order--item">
+                                    <div class="form-group row mb-2 vehicle__order--top mb-0">
+                                        <div class="col-xs-6 sub-section-left">
+                                            <h4 class="mb-0">Current building price</h4>
+                                        </div>
+                                        <div class="col-xs-6 text-right sub-section-right">
+                                            <span class="h3 mt-0 mb-0">${buildingPrice}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <#if isShowFinancing>
+	                                <div class="vehicle__order--item">
+	                                    <div class="form-group row mb-2 vehicle__order--top bg-white financing">
+	                                        <div class="col-xs-6">
+	                                            <h4 class="mb-0">Financing</h4>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                    <div class="form-group row">
+	                                        <div class="col-xs-6 sub-section-left">
+	                                            MSRP
+	                                        </div>
+	                                        <div class="col-xs-6 text-right sub-section-right">
+	                                            <span class="fz-14">${MSRP}</span>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                    <div class="form-group row">
+	                                        <div class="col-xs-6 sub-section-left">
+	                                            Downpayment
+	                                        </div>
+	                                        <div class="col-xs-6 text-right sub-section-right">
+	                                            <span class="fz-14">${totalDownpayment}</span>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                    <div class="form-group row">
+	                                        <div class="col-xs-6 sub-section-left">
+	                                            Loan Amount
+	                                        </div>
+	                                        <div class="col-xs-6 text-right sub-section-right">
+	                                            <span class="fz-14">${loadAmount}</span>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                    <div class="form-group row">
+	                                        <div class="col-xs-6 sub-section-left">
+	                                            Term
+	                                        </div>
+	                                        <div class="col-xs-6 text-right sub-section-right">
+	                                            <span class="fz-14">${termValue}</span>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                    <div class="form-group row">
+	                                        <div class="col-xs-6 sub-section-left">
+	                                            Estimated Monthly Amount
+	                                        </div>
+	                                        <div class="col-xs-6 text-right sub-section-right">
+	                                            <span class="fz-14">${monthlyAmount}</span>
+	                                        </div>
+	                                    </div>
+	                                    
+	                                     <div class="form-group row">
+	                                        <div class="col-xs-6 sub-section-left">
+	                                            Total Payable
+	                                        </div>
+	                                        <div class="col-xs-6 text-right sub-section-right">
+	                                            <span class="fz-14">${totalPayable}</span>
+	                                        </div>
+	                                    </div>
+	                                </div>
+                                </#if>
+
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 col-md-4 checkout-summary pb-2" id="checkoutOrderSumary">
+                            <div id="sticky-anchor"></div>
+                            <div class="sidebar sidebar-new-car">
+                                <div class="product-summary-img mb-2">
+                                	<img src="data:image/png;base64,${vehicleImage}" class="img-responsive" alt="vehicle image" title="">
+                                </div>
+                                <div class="row ml-1 mr-1 mb-3">
+                                    <div class="col-xs-12  no-padding">
+                                        <h3 class="mb-0 mt-0 text-grey">${vehicleName}</h3>
+                                    </div>
+
+                                </div>
+                                
+                                <#if isShowVariantColor>
+	                                <div class="row ml-1 mr-1 mb-5">
+	                                    <div class="col-xs-12 mb-2  no-padding">
+	                                        <span class="h4 mt-0">Color</span>
+	                                    </div>
+	                                    <div class="col-xs-12  no-padding">
+	                                        <div class="form__color--item">
+	                                            <label class="form__color--radio __web-inspector-hide-shortcut__">
+	                                                <span class="bg__gradient--top"></span>
+	                                                <span class="form__color--style mb-1"
+	                                                    style="background-color: ${vehicleEntry.variantColor.colorHex}">
+	                                                </span>
+	                                                <span class="form__color--name font-weight-normal">${vehicleEntry.variantColor.colorName}</span>
+	                                            </label>
+	                                        </div>
+	                                    </div>
+	                                </div>
+                                </#if>
+                                
+                                
+                                <div class="row ml-1 mr-1 font-weight-normal">
+                                    <div class="col-xs-12 mb-1 no-padding">
+                                        <span class="fw-500">
+                                        	<img src="data:image/svg;base64,${infoIcon}" alt="info" />
+                                        <span class="ml-05">Keep in mind</span> </span>
+                                    </div>
+                                    <div class="col-xs-12 mb-2 no-padding">
+                                        <hr />
+                                    </div>
+                                    <div class="col-xs-12 no-padding">
+                                        <p class="fz-14">Computations listed in this order summary are an initial estimate only.</p>
+                                        <p class="fz-14">Contact a Marketing Professional from ${preferDealer.displayName} for your final quotation.</p>
+                                    </div>
+                                    <#if isShowLtoFeeMsg>
+	                                    <div class="col-xs-12 no-padding">
+	                                    	${ltoFeeMsg}
+	                                    </div>
+                                    </#if>
+                                </div>
+
+                                <div class="row ml-1 mr-1 dealder__address--info mt-5">
+                                    <div class="col-xs-12 no-padding">
+                                         <div class="info-dealer">
+                                             <img style="width:35px; height: 32px; margin-right: 15px; float: left;" src="data:image/svg;base64,${dealerImg}" alt="dealer" />
+                                             <div class="infor-dealer-detail" style="width: 80%; float: left;">
+                                                 <h3 class="text-uppercase mt-0 mb-0">${preferDealer.displayName}</h3>
+                                                 <p class="text-grey font-weight-normal">Dealer</p>
+                                          </div>
+                                         </div>
+                                    </div>
+                                    <div class="col-xs-12 no-padding font-weight-normal">
+                                    	<#if preferDealer.address??>
+	                                        <p>${preferDealer.address.phone}</p>
+                                    	</#if>
+                                        <p>${preferDealer.addressDisplay}</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <!--page 2-->
+                <div id="pdf-canvas2" class="pdf2 page-break-after" style="padding: 40px 0px 40px 0px;" >
+                    <div class="row mb-8">
+                        <div class="col-xs-12 col-md-8 checkout-left">
+                            <div class="vehicle__order--detail mb-4">
+                                <h3 class="bg-white text-uppercase vehicle__order--title">Specifications</h3>
+                                
+                                <#if isShowClassifications>
+                                	<#list classifications as classification>
+		                                <div class="vehicle__order--item">
+		                                    <div class="form-group row mb-2 vehicle__order--top">
+		                                        <div class="col-xs-6">
+		                                            <h4 class="mb-0 mt-0">${classification.name}</h4>
+		                                        </div>
+		                                    </div>
+		                                    
+		                                    <#list classification.features as feature>
+			                                    <div class="form-group row">
+			                                        <div class="col-xs-6 sub-section-left">
+			                                           ${feature.name}
+			                                        </div>
+			                                        
+			                                        <div class="col-xs-6 sub-section-right">
+			                                        	 <#list feature.featureValues as value>
+			                                        	 	${value.value} 
+			                                        	 	<#if feature.featureUnit??>
+			                                        	 		${feature.featureUnit.symbol}
+			                                        	 	</#if>
+			                                        	 	<!-- range -->
+			                                        	 </#list>
+			                                        </div>
+			                                    </div>
+		                                    </#list>
+		                                </div>
+                                	</#list>
+                                </#if>
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-md-4 pb-2 pr-3">
+                            <div class="sidebar2 sidebar-new-car">
+                                <div class="row ml-1 mr-1 mb-3">
+                                    <div class="col-xs-12 no-padding">
+                                        <h3 class="mb-0 mt-0 text-uppercase">Available <br />
+                                            Service packages</h3>
+                                    </div>
+                                </div>
+                                <#list services as service>
+	                                <div class="row ml-1 mr-1">
+	                                    <div class="col-xs-12 mb-2 no-padding">
+	                                        <p class="h4 mt-0">${service.name}
+	                                        </p>
+	                                        <p class="font-weight-normal">
+	                                        	<#if service.price??>
+	                                        		${service.price.formattedValue}
+	                                        	</#if>
+	                                        </p>
+	                                    </div>
+	                                </div>
+                                </#list>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--page 3-->
+                <div id="pdf-canvas3" class="pdf3" style="padding: 40px 0px 40px 0px;">
+                    <div class="row mb-8">
+                        <div class="col-xs-12 mb-3">
+                            <div class="h2 mb-3 mt-2 text-uppercase"> Available Accessories</div>
+                        </div>
+                        <div class="content-pdf3">
+                            <div class="mb-2">
+                                <ul class="product-listing row">
+                                	  <#list accessories as acc>
+		                                    <li class="product-item col-xs-6 col-sm-3" style="width: 22%; float:left; margin-right: 20px;">
+		                                        <div style="margin-bottom: 15px; min-height:170px;">
+		                                            <img src="data:image/png;base64,${acc.exportPdfBase64Img}" alt='product image' style="width: 100% !important"/>
+		                                        </div>
+		
+		                                        <p class="h4">${acc.name}</p>
+		                                        <p class="price font-weight-normal">
+		                                        	<#if acc.price??>
+			                                        	${acc.price.formattedValue}
+		                                        	</#if>
+		                                       	</p>
+		                                    </li>
+                                	  </#list>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
