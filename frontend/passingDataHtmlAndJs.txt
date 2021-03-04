@@ -1,4 +1,4 @@
-+ dom reading value e.g. ("#input").val()
++ dom reading value e.g. ("#hiddenInput").val()
 + jquery data api: e.g.
     html: <a id="xxx" data-url="/abc"/>
     js: $(this).data('url');
