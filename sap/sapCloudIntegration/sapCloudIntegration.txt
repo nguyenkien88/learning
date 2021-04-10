@@ -1,0 +1,42 @@
+former name: SAP HANA Cloud Integration (SAP HCI)
+why? reliable message exchange between system
+  more later
+  cloud to cloud
+  cloud to on-premise
+  on-premise to on-premise
+there are some editions (with different features/prices)
+terms
+  integation scenario
+  adapter type: connectivity options (to sap integration cloud) (soap, odata...) are implemented by adapter types 
+    e.g. SOAP sender adapter, mail receiver adapter...  
+  account and sub-account
+  tenant: separated allocate for specific customers (all customers use same physical resources, nhung duoc chia ra nhieu tenant rieng biet) - runtime evironment rieng
+  1 tenant per sub-account
+  integration flow: define (using ui editor) how message is processed - run on JVM cua tenant
+architecture: is a clustered virtual system, main element is tenant (for each sub account)
+  tenant: management node and run time nodes - each node is 1 jvm
+  management node: interact with dev e.g. deploy, manage runtime nodes, query message log...
+  runtime node: processing messages (when deployed, the ifow is transfered to be processed by Apache Camel framework)
+persistence: mornitoring data and message data
+intergration flow (iflow) vs message flow: say, itergration flow models actual message flow
+  say, deploy integation flow on a specific tenant
+  channel: technical connection
+  step
+  design using WebUI
+how to start?
+  request sap cloud platform cockpit account: manage sub accounts, applications e.g. integration suite on each account
+  -> subscribe/register for expected application
+  https://cockpit.hanatrial.ondemand.com/trial  
+integration artifact types (to deploy)
+  data integration
+  intergration flow
+  value mapping
+  ODATA service/api
+
+integration flow
+  elements: participants, process...
+  
+
+
+  
+  
