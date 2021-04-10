@@ -1,0 +1,13 @@
+{
+    "specversion" : "1.0",
+    "type" : "SalesOrder.Changed",
+    "source" : "https://postman",
+    "id" : "OrderEvent1",
+    "time" : "2020-02-13T13:55:17.270Z",
+    "datacontenttype" : "application/json",
+    "data" : {
+	  "KEY": {
+      "SalesOrder": "10248"
+	 }
+  }
+}

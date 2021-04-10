@@ -1,0 +1,22 @@
+legacy storefronts vs the responsive storefront
+
+DeviceDetectionBeforeControllerHandler
+in session attribute: "UiExperienceService-Detected-Level"
+SetUiExperienceBeforeControllerHandler
+  override by set explicitly: ?uiel=Mobile
+
+UiExperienceViewResolver
+  /WEB-INF/views/: mobile or desktop
+
+UiThemeResourceBeforeViewHandler: load resource base on context
+
+
+
+tmp
+  impex: page structure and smartedit - chung
+    update: initialdata - cms-content.impex and cms-mobile-content.impex are triggerd
+  js/css: rieng - khi build se copy tu responsive qua: neu can cho mobile => import to javascriptMobile.tag
+  jsp/tag: rieng
+  
+  
+  

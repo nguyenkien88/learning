@@ -1,0 +1,9 @@
+{
+    "specversion" : "1.0",
+    "type" : "SalesOrder.Consumed",
+    "source" : "https://cpi.sap.com",
+    "id" : "${header.SAP_MessageProcessingLogID}",
+    "time" : "${property.CamelCreatedTimestamp}",
+    "datacontenttype" : "application/json",
+    "data":{"KEY":[{"SalesOrder":"${header.OrderNumber}"}]}
+}
