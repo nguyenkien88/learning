@@ -1,6 +1,5 @@
 former name: SAP HANA Cloud Integration (SAP HCI)
-why? reliable message exchange between system
-  more later
+why? reliable message exchange between system: more later, is the layer between
   cloud to cloud
   cloud to on-premise
   on-premise to on-premise
@@ -13,12 +12,15 @@ terms
   tenant: separated allocate for specific customers (all customers use same physical resources, nhung duoc chia ra nhieu tenant rieng biet) - runtime evironment rieng
   1 tenant per sub-account
   integration flow: define (using ui editor) how message is processed - run on JVM cua tenant
+  pool (BPMN): sender/receiver/integration process (run by Apache Camel)
+  sequence flow: solid arrow
+
 architecture: is a clustered virtual system, main element is tenant (for each sub account)
   tenant: management node and run time nodes - each node is 1 jvm
   management node: interact with dev e.g. deploy, manage runtime nodes, query message log...
   runtime node: processing messages (when deployed, the ifow is transfered to be processed by Apache Camel framework)
 persistence: mornitoring data and message data
-intergration flow (iflow) vs message flow: say, itergration flow models actual message flow
+intergration flow (iflow) vs message flow: say, itergration flow models actual message flow - base on BPMN
   say, deploy integation flow on a specific tenant
   channel: technical connection
   step
@@ -32,11 +34,62 @@ integration artifact types (to deploy)
   intergration flow
   value mapping
   ODATA service/api
+  rest api (new)
+  soap api (new)
 
 integration flow
   elements: participants, process...
   
+ESBMessaging.send(SendingMessage role): the user role that authorizes a sender when sending message with sap integration cloud
+  setup: https://github.com/SAPDocuments/Tutorials/issues/5519\
+  e.g. using soap ui with username/password --sendmessage--> sap integration cloud: the username should be setup with the role SendingMessage to allow receive any incoming message
+  
+integration content catalog
+  pre built integration scenarios
+    usage term and condition notice (edit or configure only)
+    download/import artifact
+    revert deploy with version number
+    common packages by SAP - connection: 1 way or 2 ways
+      successfator
+      c4c and sap erp/sap crm/sap marketing cloud e.g. dev for sap erp will use sap integation cloud and this packages to integrate with sap c4c
+      sap commerce cloud and ...
+      sap marketing cloud and ...
+  custom package: can reuse later
+
+message processing
+  with Apache Camel: message routing and mediation engine
+  message id
+  message structure
+    header: meta data - sender, encoding, authentication
+  message container (exchange): message with some additinal data - pass container along
+    exchange id
+	exception: error when process message
+	MEP: message exchange pattern
+	  InOnly: asynchnorous message handling
+	  Inout: sysnchnorous message handling
+	Properties: additinal data e.g. for global info - differ from header: properties is not transferred to receiver
+	in-message
+	out-message
+  Camel expression: ${}
+  built-in Camel variable
+    in e.g. in.body
+	property
+	header
+  say, retrieve orderNo from the incoming message and store it in header(be carefully)/exchange properties
+  OData source/OData service provider e.g. https://services.odata.org/Northwind/Northwind.svc/
+
+message monitoring
+how to reuse? externalize - parameter and configure later
+  repeated step?
+  repeated data?
+  dynamic value (depend on other steps/environment)? e.g. soap address on dev/stg/prod environment
+  
+  
+      
 
 
   
-  
+
+
+
+
