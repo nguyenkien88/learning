@@ -4,6 +4,7 @@ why? reliable message exchange between system: more later, is the layer between
   cloud to on-premise
   on-premise to on-premise
 there are some editions (with different features/prices)
+
 terms
   integation scenario
   adapter type: connectivity options (to sap integration cloud) (soap, odata...) are implemented by adapter types 
@@ -14,6 +15,9 @@ terms
   integration flow: define (using ui editor) how message is processed - run on JVM cua tenant
   pool (BPMN): sender/receiver/integration process (run by Apache Camel)
   sequence flow: solid arrow
+  wsdl, xsd?
+  OData
+  
 
 architecture: is a clustered virtual system, main element is tenant (for each sub account)
   tenant: management node and run time nodes - each node is 1 jvm
@@ -84,6 +88,15 @@ how to reuse? externalize - parameter and configure later
   repeated data?
   dynamic value (depend on other steps/environment)? e.g. soap address on dev/stg/prod environment
   
+ODataService
+  invoking
+    Request-Reply
+	Query Editor: filter, sort, aggregation algorithm
+  define ODataService
+
+mapping
+  define value mapping artifact: source and target message
+  then add message mapping to the flow
   
       
 
