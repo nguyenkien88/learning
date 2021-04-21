@@ -1,19 +1,29 @@
-other way to import data to hybris, based on spring integration, periodically scan a predefined directory, if new file => processing
+hot folder = scan periodically + auto processing
+import line by line, 1 dong fail van process may dong khac
+other way to import data to hybris, based on spring integration, periodically scan a predefined directory, if new file => 
+processing
   e.g. critical business data such as master data, price, stock and order information need to be moved from external systems to SAP Hybris
   e.g. just place the file into a directory => import automatically
-  ImpexConverter (transformer?)
-  ImportService (impex)
-  beans: acceleratorservices/hot-folder-spring.xml
-  implement
-    define base directory (other than the devault)
-	define input channel adapter e.g. file:inbound-channel-adapter
-	define outbound gateway to move new files to processing directory
-	define the converter (neu chua co) e.g. UnitConverter and mapping
-	customization if needed
-	  filter
-	  decorator
-	  translator
+  
+flow
+  spring itegration will scan periodically e.g. <file:inbound-channel-adapter id="batchFilestmp" .../>
+    with baseDirectorytmp e.g.D:\work\tmp\hybris2005V1\hybris\data\acceleratorservices\import\master\tmp
+	and fileOrderComparator
+  then files are moved to /processing order e.g. <file:outbound-gateway request-channel="batchFilestmp" reply-channel="batchFilestmpProc" ../>
+  then the header is setup e.g. tmpHeaderSetupTask-HeaderSetupTask
+  then the header is init e.g. headerInitTask-HeaderInitTask - init some info sequencedId, language for the header e.g. BatchHeader used during import process
+  then trigger transform task e.g. batchTransformerTask - ImpexTransformerTask
+    get the file from BatchHeader
+	get converters by mapping file name prefix e.g. unit-en-2121.csv
+	then convert to impex (header and impexRow setup in the converter) - ;{+0}  ;{+1}  ;{2}  ;{3} - + means mandatory
+	and call cleanupHelper to remove file
+  then trigger batchRunnerTask e.g. AbstractImpexRunnerTask to execute import (using ImportService) - multi-threads here
+	custom filter/decorator/
+	translator e.g. import unit value from external check by product code 
+	are used in this step 
+  then call cleanupHelper to clean transformed and source file (archive, error dir)
 
 ref
   https://www.stackextend.com/hybris/everything-about-hot-folder-in-hybris/
+  https://www.slideshare.net/AzriAbdelghani/sap-hybris-hot-folder
   

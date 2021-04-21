@@ -5,6 +5,13 @@ why? reliable message exchange between system: more later, is the layer between
   on-premise to on-premise
 there are some editions (with different features/prices)
 
+tools: https://tinyurl.com/h947dyfx
+  BTP cockpit
+  adapter development kit
+  cloud connector
+  reporting dashboard
+
+version management
 terms
   integation scenario
   adapter type: connectivity options (to sap integration cloud) (soap, odata...) are implemented by adapter types 
@@ -58,7 +65,6 @@ OData: from microsoft
     using OData client e.g. odata4j to access OData service
 	or build OData service e.g. with odata4j
     
-	
 architecture: is a clustered virtual system, main element is tenant (for each sub account)
   tenant: management node and run time nodes - each node is 1 jvm
   management node: interact with dev e.g. deploy, manage runtime nodes, query message log...
@@ -137,11 +143,17 @@ mapping
   define value mapping artifact: source and target message
   then add message mapping to the flow
 aggregator
-    
-      
 
+SAP commerce cloud (hybris) and Sap cloud integration
+       
 
-  
+process message pattern
+  splitter
+
+speedup with
+  simulate tools
+  error tracking using admin backoffice integration tools
+  error tracking with log message monitor
 
 
 
