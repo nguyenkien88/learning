@@ -1,0 +1,18 @@
+Overview
+  Web service vs standard website: 
+    website for human interact while web service for code/application
+    e.g. flight searching
+  Java specification for web service
+    rest: JAX-RS
+    soap: JAX-WS
+  how can I send argument and get result over different technologies?
+    send through http (medium)
+    and use same format (independent over technologies) to send/receiver data
+	
+soap vs rest
+  method
+    soap only support POST: for all get, delete or sending data
+    rest support all
+  format
+    soap supports xml
+	rest support all e.g. xml, json, text...

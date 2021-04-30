@@ -174,9 +174,12 @@ integration object
 	config: https://tinyurl.com/abyspehs
   create integation object with rest request e.g. https://localhost:9002/odata2webservices/InboundProduct/Products 
     
+	
 messsage mapping
-  function
-value mapping
+  function e.g. transform date format
+  custom function with script
+  testing with simulator
+value mapping e.g. country name to isocode
 
 	
 sample outbound flow: INT-121 - after place order, if customer dmbid is null => send request to create in dbm
