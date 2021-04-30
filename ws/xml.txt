@@ -1,0 +1,49 @@
+to carrying data
+elements: no-predefined
+attribute - for metadata vs element - for data itself
+
+namespace
+  to avoid element conflict
+  define by xmlns attribute of parent element, all child element with the prefix will have that namespace 
+    e.g. xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    thuong define in root element
+	the URI is just a way to give the namespace unique name, not use for any lookup info
+  default namespace: no prefix e.g. all elements without prefix is belong to default namespace
+  
+XML DOM object(similar to HTML DOM): say, parse an xml text to DOM structure to access and manipulate
+  e.g. new DOMParser().parseFromString(text,"text/xml");
+
+XPath: selector by using path to an xml element
+  e.g. /bookstore/book[last()]
+  
+XSLT(eXtensible Stylesheet Language Transformations): a language to transform XML documents into other formats 
+  use XPath to lookup xml element
+  e.g. <xsl:for-each select="breakfast_menu/food">
+  more: https://www.w3schools.com/xml/xsl_intro.asp	
+
+XQuery: query data from xml documents
+  e.g. select all CD records with a price less than $10 from the CD collection stored in cd_catalog.xml
+  use XPath to lookup xml element
+  
+well-formed and valid xml documents
+  well-formed: no error
+  valid: well-formed + follow and document type definition (using dtd or xml schema)
+  
+dtd: document type definition - difine structure and legal elements
+xsd: XML Schema describes - alternative for dtd, more powerful
+  targetNamespace="http://www.hybris.de/xsd/processdefinition" e.g. elements define in this schema belong to this namespace
+  simple element: no child element, no attribute, only content(data) e.g. <xs:element name="lastname" type="xs:string"/>
+  complex element
+    <xs:element name="employee">
+      <xs:complexType>
+      <xs:sequence>
+        <xs:element name="firstname" type="xs:string"/>
+        <xs:element name="lastname" type="xs:string"/>
+      </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+	more: https://www.w3schools.com/xml/schema_complex.asp
+  attribute e.g. <xs:attribute name="lang" type="xs:string"/>
+  restriction: for element and attribute e.g. <xs:minInclusive value="0"/>
+
+  
