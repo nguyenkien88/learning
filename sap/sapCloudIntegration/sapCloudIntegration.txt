@@ -170,10 +170,14 @@ integration object
 	or api e.g. POST https://localhost:9002/odata2webservices/IntegrationService/IntegrationObjects
 	  see: https://tinyurl.com/526bkyka
   then generate edmx: xml file that define an entity data model - is used by scpi to prepare data before import to commerce
-    /integrationObject/$metadata or using backoffice
+    /integrationObject/$metadata or using backoffice e.g. https://localhost:9002/odata2webservices/OutboundVehicleOnboarding/$metadata
 	config: https://tinyurl.com/abyspehs
   create integation object with rest request e.g. https://localhost:9002/odata2webservices/InboundProduct/Products 
     
+messsage mapping
+  function
+value mapping
+
 	
 sample outbound flow: INT-121 - after place order, if customer dmbid is null => send request to create in dbm
   when place order e.g. order-process.xml
