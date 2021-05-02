@@ -1,0 +1,54 @@
+SAP commerce cloud (hybris) and Sap cloud integration
+  inbound: from other systems to scpi then to commert e.g. replicate product, stock from DBM
+  outbound: from commerce to scpi then to other systems e.g. when customer register in storefront then replicate to SAP ERP
+  built-in commerce implementation and scpi flow: master data, order, order transaction with sap hana, erp, crm
+  architecture (8 extentions): later
+  implementation
+    integration object
+	Inbound persistence hooks: triggered before the integration object is persisted e.g. trigger event, update other status - Pre-Persist-Hook
+
+  scenario: 
+    commerce send
+      soap request?
+	  rest request (https) (push notification)
+	  odata request (outbound) -> soap -> odata mapping to commerce
+
+integration object
+  each integration object is map to 1 ODataService
+  can create using
+    impex
+	backoffice
+	or api e.g. POST https://localhost:9002/odata2webservices/IntegrationService/IntegrationObjects
+	  see: https://tinyurl.com/526bkyka
+  then generate edmx: xml file that define an entity data model - is used by scpi to prepare data before import to commerce or send data out
+    /integrationObject/$metadata or using backoffice e.g. https://localhost:9002/odata2webservices/OutboundVehicleOnboarding/$metadata
+	config: https://tinyurl.com/abyspehs
+  create integation object with rest request e.g. https://localhost:9002/odata2webservices/InboundProduct/Products 
+	
+sample outbound flow: INT-121 - after place order, if customer dmbid is null => send request to create in dbm
+  when place order e.g. order-process.xml
+  will call updateCustomerDBMID to execute action
+  that will call TmpSapCpiIntegrationOutboundService.createDbmCustomer()
+    does convert from CustomerModel to SAPCpiOutboundDbmCustomerModel (map with external dbm customer)
+	that will call TmpSapCpiOutboundService.createDbmCustomer to send [the model] with [integationobjectcode] to [a ConsumedDestination]
+	  that will construct the HttpEntity (sping object that represents a request/response entity, consisting of headers and body) with payload is built from related integationobjectcode and the related model
+	  and call REST(spring RestTemplate - a REST client api) then return ResponseEntity object
+  that will call ODataService (with url match from ConsumedDestination.url and them imported edmx in scpi)
+
+sample inbound flow: INT-031 - C4C sends VSQ to commerce
+  c4c send soap request with an endpoint in /wsdl/vsq.wsdl
+  scpi will catch the request 
+    and mapping to correct ODataService
+	then set Pre-Persist-Hook e.g. tmpSapCpiVSQPersistenceHook - to run before the integration object is saved
+    then send to commerce ODataService e.g. /TmpVSQs
+  commerce ODataService will handle the request
+    and saved the integration object 
+	  that will trigger PersistenceHandler
+	  which will call tmpSapCpiVSQPersistenceHook to get data from the integration object e.g. TmpVSQModel - getOrder -> save Order status
+	
+	
+	
+  
+	
+	
+	

@@ -1,0 +1,43 @@
+OData: from microsoft
+  why?
+    diversity of data source ---> common approach ---> diversity of consume clients
+  astract modelling base on entities and associations
+  participants
+    normal data source: e.g. json, database...
+	ODataService: expose endpoint of normal data source to OData Model (describe using EDM)
+	client: access the data from ODataService through OData protocol (to crud and query) with OData library
+  EMD: describe the OData model: just the logical relation with Entity and Association - not the physical storage
+    entity container
+	entity set
+	entity
+	property
+	data type
+	navigation property
+  OData protocol
+    base on REST and HTTP
+	authentication: any work with REST
+  Client get OData with
+    xml (the structure from atom)
+	or json format tuy nhu cau
+  data format and a protocol for consuming and manipulating data in a uniform way, including
+    service document (and metadata document)
+	entities set and entities
+	set of operations
+  OData service e.g. Northwind services
+    service document <service>, <collection> (types of data available in a service)
+    metadata document $metadata: describe the data in and OData service (EDM model)
+	feed/entries
+  OData expression, operations e.g. for date/time, string...
+  OData query language with
+    $top
+	$skip
+	$format
+	$orderby
+	$filter
+	$select
+  dev will
+    using OData client e.g. odata4j to access OData service
+	or build OData service e.g. with odata4j
+	
+ODataService: e.g. https://services.odata.org/V3/Northwind/Northwind.svc
+  

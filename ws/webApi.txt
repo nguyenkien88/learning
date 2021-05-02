@@ -1,0 +1,7 @@
+ODataService vs soap and rest
+  ODataService is consider a REST child (implement by rest over http)
+  with purpose is expose data in many data sources
+
+building soap api with java
+building rest api with java (spring)
+building ODataService with java 

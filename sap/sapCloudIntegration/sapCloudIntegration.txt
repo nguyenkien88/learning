@@ -1,18 +1,22 @@
-former name: SAP HANA Cloud Integration (SAP HCI)
-why? reliable message exchange between system: more later, is the layer between
-  cloud to cloud
-  cloud to on-premise
-  on-premise to on-premise
-there are some editions (with different features/prices)
-
-tools: https://tinyurl.com/h947dyfx
-  BTP cockpit
-  adapter development kit
-  cloud connector
-  reporting dashboard
-  connection testing tools
-
-version management
+overview
+  former name: SAP HANA Cloud Integration (SAP HCI)
+  why? reliable message exchange between system: more later, is the layer between
+    cloud to cloud
+    cloud to on-premise
+    on-premise to on-premise
+  there are some editions (with different features/prices)
+ 
+  tools: https://tinyurl.com/h947dyfx
+    adapter development kit
+  
+  integration artifact types (to deploy)
+    data integration
+    intergration flow
+    value mapping
+    ODATA service/api
+    rest api (new)
+    soap api (new)
+	
 terms
   integation scenario
   adapter type: connectivity options (to sap integration cloud) (soap, odata...) are implemented by adapter types 
@@ -23,75 +27,26 @@ terms
   integration flow: define (using ui editor) how message is processed - run on JVM cua tenant
   pool (BPMN): sender/receiver/integration process (run by Apache Camel)
   sequence flow: solid arrow
-  wsdl, xsd?
-
-OData: from microsoft
-  why?
-    diversity of data source ---> common approach ---> diversity of consume clients
-  astract modelling base on entities and associations
-  participants
-    normal data source: e.g. json, database...
-	ODataService: expose endpoint of normal data source to OData Model (describe using EDM)
-	client: access the data from ODataService through OData protocol (to crud and query) with OData library
-  EMD: describe the OData model: just the logical relation with Entity and Association - not the physical storage
-    entity container
-	entity set
-	entity
-	property
-	data type
-	navigation property
-  OData protocol
-    base on REST and HTTP
-	authentication: any work with REST
-  Client get OData with
-    xml (the structure from atom)
-	or json format tuy nhu cau
-  data format and a protocol for consuming and manipulating data in a uniform way, including
-    service document (and metadata document)
-	entities set and entities
-	set of operations
-  OData service e.g. Northwind services
-    service document <service>, <collection> (types of data available in a service)
-    metadata document $metadata: describe the data in and OData service (EDM model)
-	feed/entries
-  OData expression, operations e.g. for date/time, string...
-  OData query language with
-    $top
-	$skip
-	$format
-	$orderby
-	$filter
-	$select
-  dev will
-    using OData client e.g. odata4j to access OData service
-	or build OData service e.g. with odata4j
+  wsdl, xsd
+  channel: technical connection
+  step
+  intergration flow (iflow) vs message flow: say, itergration flow models actual message flow - base on BPMN
+    say, deploy integation flow on a specific tenant
     
 architecture: is a clustered virtual system, main element is tenant (for each sub account)
   tenant: management node and run time nodes - each node is 1 jvm
   management node: interact with dev e.g. deploy, manage runtime nodes, query message log...
   runtime node: processing messages (when deployed, the ifow is transfered to be processed by Apache Camel framework)
-persistence: mornitoring data and message data
-intergration flow (iflow) vs message flow: say, itergration flow models actual message flow - base on BPMN
-  say, deploy integation flow on a specific tenant
-  channel: technical connection
-  step
-  design using WebUI
+
 how to start?
   request sap cloud platform cockpit account: manage sub accounts, applications e.g. integration suite on each account
   -> subscribe/register for expected application
   https://cockpit.hanatrial.ondemand.com/trial  
-integration artifact types (to deploy)
-  data integration
-  intergration flow
-  value mapping
-  ODATA service/api
-  rest api (new)
-  soap api (new)
-  
-ESBMessaging.send(SendingMessage role): the user role that authorizes a sender when sending message with sap integration cloud
-  setup: https://github.com/SAPDocuments/Tutorials/issues/5519\
-  e.g. using soap ui with username/password --sendmessage--> sap integration cloud: the username should be setup with the role SendingMessage to allow receive any incoming message
-  
+  roles: set up in BTP cockpit
+    ESBMessaging.send(SendingMessage role): the user role that authorizes a sender when sending message with sap integration cloud
+      setup: https://github.com/SAPDocuments/Tutorials/issues/5519\
+      e.g. using soap ui with username/password --sendmessage--> sap integration cloud: the username should be setup with the role SendingMessage to allow receive any incoming message
+      
 integration content catalog
   pre built integration scenarios
     usage term and condition notice (edit or configure only)
@@ -102,8 +57,14 @@ integration content catalog
       c4c and sap erp/sap crm/sap marketing cloud e.g. dev for sap erp will use sap integation cloud and this packages to integrate with sap c4c
       sap commerce cloud and ...
       sap marketing cloud and ...
-  custom package: can reuse later
+  custom package
 
+adapter
+  ftp
+  OData
+	Query Editor: filter, sort, aggregation algorithm
+
+message monitoring with WebUI
 message processing
   with Apache Camel: message routing and mediation engine
   message id
@@ -126,93 +87,29 @@ message processing
   say, retrieve orderNo from the incoming message and store it in header(be carefully)/exchange properties
   OData source/OData service provider e.g. https://services.odata.org/Northwind/Northwind.svc/
 
-message monitoring with WebUI
-how to reuse? externalize - parameter and configure later
-  repeated step?
-  repeated data?
-  dynamic value (depend on other steps/environment)? e.g. soap address on dev/stg/prod environment
-  
-ODataService
-  invoking
-    Request-Reply
-	Query Editor: filter, sort, aggregation algorithm
-  define ODataService
-mapping
-  define value mapping artifact: source and target message
-  then add message mapping to the flow
-aggregator
+  externalize - parameter and configure later
+    repeated step?
+    repeated data?
+    dynamic value (depend on other steps/environment)? e.g. soap address on dev/stg/prod environment
 
-process message pattern
-  splitter
+steps
+  extenal calls
+    request-reply: 
+	  use for synchronous call e.g. waiting for response
+	  only works with adapters OData, http, https, soap
+	content enrichment
+  routing
+    splitter
+  messsage mapping e.g. map soap xml response to odata entity
+    function e.g. transform date format
+    custom function with script
+    testing with simulator
+    value mapping e.g. country name to isocode
 
-speedup with
-  simulate tools
+
+error tracking
   error tracking using admin backoffice integration tools and cloud commons menu (admin)
   error tracking with log message monitor
   
-adapter
-  ftp
 
-SAP commerce cloud (hybris) and Sap cloud integration
-  inbound: from other systems to scpi then to commert e.g. replicate product, stock from DBM
-  outbound: from commerce to scpi then to other systems e.g. when customer register in storefront then replicate to SAP ERP
-  built-in commerce implementation and scpi flow: master data, order, order transaction with sap hana, erp, crm
-  architecture (8 extentions): later
-  implementation
-    integration object
-	Inbound persistence hooks: triggered before the integration object is persisted e.g. trigger event, update other status - Pre-Persist-Hook
-
-integration object
-  each integration object is map to 1 ODataService
-  can create using
-    impex
-	backoffice
-	or api e.g. POST https://localhost:9002/odata2webservices/IntegrationService/IntegrationObjects
-	  see: https://tinyurl.com/526bkyka
-  then generate edmx: xml file that define an entity data model - is used by scpi to prepare data before import to commerce
-    /integrationObject/$metadata or using backoffice e.g. https://localhost:9002/odata2webservices/OutboundVehicleOnboarding/$metadata
-	config: https://tinyurl.com/abyspehs
-  create integation object with rest request e.g. https://localhost:9002/odata2webservices/InboundProduct/Products 
-    
-	
-messsage mapping
-  function e.g. transform date format
-  custom function with script
-  testing with simulator
-value mapping e.g. country name to isocode
-
-	
-sample outbound flow: INT-121 - after place order, if customer dmbid is null => send request to create in dbm
-  when place order e.g. order-process.xml
-  will call updateCustomerDBMID to execute action
-  that will call TmpSapCpiIntegrationOutboundService.createDbmCustomer()
-    does convert from CustomerModel to SAPCpiOutboundDbmCustomerModel (map with external dbm customer)
-	that will call TmpSapCpiOutboundService.createDbmCustomer to send [the model] with [integationobjectcode] to [a ConsumedDestination]
-	  that will construct the HttpEntity (sping object that represents a request/response entity, consisting of headers and body) with payload is built from related integationobjectcode and the related model
-	  and call REST(spring RestTemplate - a REST client api) then return ResponseEntity object
-  that will call ODataService (with url match from ConsumedDestination.url and them imported edmx in scpi)
-
-sample inbound flow: INT-031 - C4C sends VSQ to commerce
-  c4c send soap request with an endpoint in /wsdl/vsq.wsdl
-  scpi will catch the request 
-    and mapping to correct ODataService
-	then set Pre-Persist-Hook e.g. tmpSapCpiVSQPersistenceHook - to run before the integration object is saved
-    then send to commerce ODataService e.g. /TmpVSQs
-  commerce ODataService will handle the request
-    and saved the integration object 
-	  that will trigger PersistenceHandler
-	  which will call tmpSapCpiVSQPersistenceHook to get data from the integration object e.g. TmpVSQModel - getOrder -> save Order status
-	
-	
-	
-  
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
