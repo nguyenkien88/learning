@@ -1,3 +1,7 @@
+scenario
+  outbound: commerce send data to scpi-ODataService (using outbound integration object) -> process -> send to external (soap/rest)
+  inbound: external system send data to integration (soap/rest...) -> process -> send to commerce-OData
+
 SAP commerce cloud (hybris) and Sap cloud integration
   inbound: from other systems to scpi then to commert e.g. replicate product, stock from DBM
   outbound: from commerce to scpi then to other systems e.g. when customer register in storefront then replicate to SAP ERP

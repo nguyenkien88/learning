@@ -32,6 +32,7 @@ terms
   step
   intergration flow (iflow) vs message flow: say, itergration flow models actual message flow - base on BPMN
     say, deploy integation flow on a specific tenant
+  payload: message body
     
 architecture: is a clustered virtual system, main element is tenant (for each sub account)
   tenant: management node and run time nodes - each node is 1 jvm
@@ -61,12 +62,16 @@ integration content catalog
 
 adapter
   ftp
-  OData
-	Query Editor: filter, sort, aggregation algorithm
+  send OData request (to external ODataService)
+    request reply -> OData channel -> Query Editor: filter, sort, aggregation algorithm -> message mapping
+  receive OData request
+    create by scpi web ui or
+	create by hybris with outbound integration object
+	
 
 message monitoring with WebUI
-message processing
-  with Apache Camel: message routing and mediation engine
+message processing with Apache Camel: message routing and mediation engine
+  key point: message is pass along the flow, can change content by flow step or after get response when call external service
   message id
   message structure
     header: meta data - sender, encoding, authentication
@@ -84,8 +89,6 @@ message processing
     in e.g. in.body
 	property
 	header
-  say, retrieve orderNo from the incoming message and store it in header(be carefully)/exchange properties
-  OData source/OData service provider e.g. https://services.odata.org/Northwind/Northwind.svc/
 
   externalize - parameter and configure later
     repeated step?
@@ -94,17 +97,31 @@ message processing
 
 steps
   extenal calls
-    request-reply: 
-	  use for synchronous call e.g. waiting for response
+    request-reply
+	  use for synchronous call when need response message
 	  only works with adapters OData, http, https, soap
-	content enrichment
-  routing
-    splitter
-  messsage mapping e.g. map soap xml response to odata entity
-    function e.g. transform date format
-    custom function with script
+	content enrichment: merge response and request message
+	  use when need to enrich the origin message with additional data
+	  combine vs enrich
+	send: no reply needed	  
+  messsage mapping
+    e.g. map commerce OData request to SOAP dbm xml request or map SOAP xml response to commerce odata entity
+	the mapping engine works for xml format only => need schema for source and target (xsd or wsdl)
+    complex mapping with
+	  built-in function e.g. transform date format
+      custom function with script
+	  custom with java function
+	  custom with xslt
+      custom with value mapping e.g. country name to isocode
     testing with simulator
-    value mapping e.g. country name to isocode
+	note: _MT is just a text because of the habit when define message type is wsdl
+  routing
+    aggregator: combine multiple incomming messages into 1
+	  only support xml
+	  define correlation (how to know incomming messages are related) and sequence (when merging)
+	  aggregate algorithm
+	  timeout
+    splitter
 
 
 error tracking
