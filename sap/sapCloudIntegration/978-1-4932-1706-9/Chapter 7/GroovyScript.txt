@@ -1,0 +1,29 @@
+import com.sap.gateway.ip.core.customdev.util.Message;
+import java.util.HashMap;
+import com.sap.it.api.pd.PartnerDirectoryService;
+import com.sap.it.api.ITApiFactory;
+def Message processData(Message message) {
+       def service = ITApiFactory.getApi(PartnerDirectoryService.class, null); 
+       if (service == null){
+          throw new IllegalStateException("Partner Directory Service not found");
+       }
+       def map = message.getHeaders();
+       def receiverId = map.get("SAP_EDI_Receiver_ID");
+       if (receiverId == null){
+          throw new IllegalStateException("Receiver ID is not set in the header 'SAP_EDI_Receiver_ID'")      
+       }
+
+     def parameterValue = service.getParameter("Endpoint", receiverId , String.class);
+     if (parameterValue == null){
+        throw new IllegalStateException("Endpoint parameter not found in the Partner Directory for the partner ID "+receiverId);      
+     }
+     def parameterValueCredential = service.getParameter("CredentialAlias", receiverId , String.class);
+     if (parameterValueCredential == null){
+        throw new IllegalStateException("CredentialAlias parameter not found in the Partner Directory for the partner ID "+receiverId);      
+     }
+
+      message.setProperty("RECEIVER_Endpoint", parameterValue );
+      message.setProperty("RECEIVER_CredentialAlias", parameterValueCredential );
+
+       return message;
+}

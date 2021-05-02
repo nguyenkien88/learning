@@ -1,0 +1,12 @@
+SAP Cloud Platform Integration
+  to integrate sap commerce with external SAP system e.g. SAP CRM, ERP (e.g. ByDesign), and S/4HANA
+  e.g. replicate customer data from external into sap commerce (inbound)
+  or when place order, the order also is replicated to external system (outbound)
+
+features
+  inbound communication: external searvices --[iDoc, soap, rest]--> scpi --[oData]--> sap commerce
+  outbound communication: sap commerce --[http]--> scpi --[iDoc, soap, rest, oData]--> external searvices
+  details with each services: https://tinyurl.com/y4mduana
+
+architecture
+
