@@ -1,66 +1,42 @@
-say, integrate sap commerce with other services e.g. hana, erp (backend)...using 2 types of middleware
-  scpi (recommended)
-  or data hub
-
-integrate what?
-  master data: product, address, customer....
-  processes: e.g. sap commerce for front end, erp for order processing
-  features: leverage features between services/products
-
-core module
-  includes extentions: for all type of integration - setting up communication between SAP Commerce and the SAP back end
-    sapcore
-    sapcorebol
-    sapcoreconfiguration
-    sapcorejco
-    sapcoreodata
-    sapcoreaddon AddOn
-    sapcoretest
-    others extentions depend on specific integration: https://help.sap.com/viewer/50c996852b32456c96d3161a95544cdb/1905/en-US/8c6b6e89866910149343a4c0cde27c61.html
-  define data flow (communication): https://help.sap.com/viewer/50c996852b32456c96d3161a95544cdb/1905/en-US/8b552fca86691014848dee1217937b88.html
-    http: impex (data hub)
-    http: OData (scpi)
-    RFC (remote function call)
-    http: IDoc
-    architecture: https://help.sap.com/viewer/50c996852b32456c96d3161a95544cdb/1905/en-US/8b552fca86691014848dee1217937b88.html
-    communication setting (backoffice) - essential-data.impex
-      RFC destination setting
-      HTTP destination setting	
-
-next?
-  scpi => integration suite trial => specific services
-
+overview
+  say, integrate sap commerce with other services e.g. hana, erp (backend)...using 2 types of middleware
+    scpi(recommended)
+    or data hub
+  integrate what?
+    master data: product, address, customer....
+    processes: e.g. sap commerce for front end, erp for order processing
+    features: leverage features between services/products
+  core module
+    includes extentions: for all type of integration - setting up communication between SAP Commerce and the SAP back end
+      sapcore
+      sapcorebol
+      sapcoreconfiguration
+      sapcorejco
+      sapcoreodata
+      sapcoreaddon AddOn
+      sapcoretest
+      others extentions depend on specific integration: https://tinyurl.com/vpxwj9v7
+  built-in commerce implementation to integration with scpi: master data, order, order transaction with sap hana, erp, crm
 
 scenario
-  outbound: commerce send data to scpi-ODataService (using outbound integration object) -> process -> send to external (soap/rest)
-  inbound: external system send data to integration (soap/rest...) -> process -> send to commerce-OData
+  outbound e.g. when customer register in storefront then replicate to SAP ERP
+    commerce send data to scpi-ODataService (using outbound integration object) -> process -> send to external (soap/rest)
+  inbound e.g. replicate product, stock from DBM
+    external system send data to integration (soap/rest...) -> process -> send to commerce-OData
 
-SAP commerce cloud (hybris) and Sap cloud integration
-  inbound: from other systems to scpi then to commert e.g. replicate product, stock from DBM
-  outbound: from commerce to scpi then to other systems e.g. when customer register in storefront then replicate to SAP ERP
-  built-in commerce implementation and scpi flow: master data, order, order transaction with sap hana, erp, crm
-  architecture (8 extentions): later
-  implementation
-    integration object
-	Inbound persistence hooks: triggered before the integration object is persisted e.g. trigger event, update other status - Pre-Persist-Hook
-
-  scenario: 
-    commerce send
-      soap request?
-	  rest request (https) (push notification)
-	  odata request (outbound) -> soap -> odata mapping to commerce
-
-integration object
-  each integration object is map to 1 ODataService
-  can create using
-    impex
-	backoffice
-	or api e.g. POST https://localhost:9002/odata2webservices/IntegrationService/IntegrationObjects
-	  see: https://tinyurl.com/526bkyka
-  then generate edmx: xml file that define an entity data model - is used by scpi to prepare data before import to commerce or send data out
-    /integrationObject/$metadata or using backoffice e.g. https://localhost:9002/odata2webservices/OutboundVehicleOnboarding/$metadata
-	config: https://tinyurl.com/abyspehs
-  create integation object with rest request e.g. https://localhost:9002/odata2webservices/InboundProduct/Products 
+implementation
+  there are some built in implemetation for customer, product, order.
+  integration object
+    each integration object is map to 1 ODataService
+    can create using
+      impex
+  	backoffice
+  	or api e.g. POST https://localhost:9002/odata2webservices/IntegrationService/IntegrationObjects
+  	  see: https://tinyurl.com/526bkyka
+    then generate edmx: xml file that define an entity data model - is used by scpi to prepare data before import to commerce or send data out
+      /integrationObject/$metadata or using backoffice e.g. https://localhost:9002/odata2webservices/OutboundVehicleOnboarding/$metadata
+  	config: https://tinyurl.com/abyspehs
+    create integation object with rest request e.g. https://localhost:9002/odata2webservices/InboundProduct/Products 
 	
 sample outbound flow: INT-121 - after place order, if customer dmbid is null => send request to create in dbm
   when place order e.g. order-process.xml
@@ -69,8 +45,8 @@ sample outbound flow: INT-121 - after place order, if customer dmbid is null => 
     does convert from CustomerModel to SAPCpiOutboundDbmCustomerModel (map with external dbm customer)
 	that will call TmpSapCpiOutboundService.createDbmCustomer to send [the model] with [integationobjectcode] to [a ConsumedDestination]
 	  that will construct the HttpEntity (sping object that represents a request/response entity, consisting of headers and body) with payload is built from related integationobjectcode and the related model
-	  and call REST(spring RestTemplate - a REST client api) then return ResponseEntity object
-  that will call ODataService (with url match from ConsumedDestination.url and them imported edmx in scpi)
+	  and call REST(spring RestTemplate - a REST client api) then return ResponseEntity object (if synchronous message)
+  that will call matched scpi OdataService
 
 sample inbound flow: INT-031 - C4C sends VSQ to commerce
   c4c send soap request with an endpoint in /wsdl/vsq.wsdl

@@ -150,11 +150,6 @@ synchronous vs asynchnorous message handling: adatper dependent
 	WS-Standard: send and dont care
 	Robust: send and make sure the request came to scpi (scpi will send error to caller if any)
 	  
-	  
-	  
-	  
-	  
-
 
 error tracking
   error tracking using admin backoffice integration tools and cloud commons menu (admin)
