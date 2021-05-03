@@ -121,7 +121,39 @@ steps
 	  define correlation (how to know incomming messages are related) and sequence (when merging)
 	  aggregate algorithm
 	  timeout
-    splitter
+	content based routing
+	  router: condition by
+	    content
+		or header
+		overlapping decision with Order
+    splitter and gather
+	  say, the node use to splitting e.g. //orders (relative path - path by name vs absolute path /orderList/orders - path from root below Body)
+	  general spitter: copy parents for each splitted item
+	  vs iterating splitter: not copy parents node
+	  grouping e.g. 2 items in 1 message
+	  streaming: related to memory consumtion, if message large, with streaming scpi will start working on the message even if only a part of message just came.
+	  parallel processing
+	  stop on exception
+	multicast and join (and gather)
+	  send message to all branches
+	  parallel
+	  and sequential
+	  
+synchronous vs asynchnorous message handling: adatper dependent
+  note: phan biet usage of synchronous/asynchnorous message vs synchronous/asynchnorous step (request-reply/content enrich and send)
+  are set in MEP field (InOnly/InOut)of the exchange when setting up the channel Message Exchange Pattern property
+  synchronous: connection keep open util get response back or timeout
+    input ms come -> MEP is set to InOut -> be processed -> at the end, copy input ms body to out ms body and send the out ms to caller
+  asynchnorous: close connection after get confirm that receiver got the request
+    set by One-Way for message exchange pattern
+	or from wsdl define for soap adapter
+	WS-Standard: send and dont care
+	Robust: send and make sure the request came to scpi (scpi will send error to caller if any)
+	  
+	  
+	  
+	  
+	  
 
 
 error tracking
