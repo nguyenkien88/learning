@@ -1,3 +1,36 @@
+say, integrate sap commerce with other services e.g. hana, erp (backend)...using 2 types of middleware
+  scpi (recommended)
+  or data hub
+
+integrate what?
+  master data: product, address, customer....
+  processes: e.g. sap commerce for front end, erp for order processing
+  features: leverage features between services/products
+
+core module
+  includes extentions: for all type of integration - setting up communication between SAP Commerce and the SAP back end
+    sapcore
+    sapcorebol
+    sapcoreconfiguration
+    sapcorejco
+    sapcoreodata
+    sapcoreaddon AddOn
+    sapcoretest
+    others extentions depend on specific integration: https://help.sap.com/viewer/50c996852b32456c96d3161a95544cdb/1905/en-US/8c6b6e89866910149343a4c0cde27c61.html
+  define data flow (communication): https://help.sap.com/viewer/50c996852b32456c96d3161a95544cdb/1905/en-US/8b552fca86691014848dee1217937b88.html
+    http: impex (data hub)
+    http: OData (scpi)
+    RFC (remote function call)
+    http: IDoc
+    architecture: https://help.sap.com/viewer/50c996852b32456c96d3161a95544cdb/1905/en-US/8b552fca86691014848dee1217937b88.html
+    communication setting (backoffice) - essential-data.impex
+      RFC destination setting
+      HTTP destination setting	
+
+next?
+  scpi => integration suite trial => specific services
+
+
 scenario
   outbound: commerce send data to scpi-ODataService (using outbound integration object) -> process -> send to external (soap/rest)
   inbound: external system send data to integration (soap/rest...) -> process -> send to commerce-OData
