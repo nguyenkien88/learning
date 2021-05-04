@@ -1,3 +1,4 @@
+Integration API Module
 overview
   say, integrate sap commerce with other services e.g. hana, erp (backend)...using 2 types of middleware
     scpi(recommended)
@@ -17,26 +18,60 @@ overview
       sapcoretest
       others extentions depend on specific integration: https://tinyurl.com/vpxwj9v7
   built-in commerce implementation to integration with scpi: master data, order, order transaction with sap hana, erp, crm
+  enabel request monitoring for Integration Tool: https://tinyurl.com/3fhyynre
 
 scenario
   outbound e.g. when customer register in storefront then replicate to SAP ERP
-    commerce send data to scpi-ODataService (using outbound integration object) -> process -> send to external (soap/rest)
+    commerce send integrationobject to scpi-ODataService (using rest -> can test with json) -> mapping/process -> send to external (soap/rest)
   inbound e.g. replicate product, stock from DBM
-    external system send data to integration (soap/rest...) -> process -> send to commerce-OData
+    external system send data to integration (soap/rest...) -> process/mapping -> send integrationobject to commerce-OData
 
 implementation
   there are some built in implemetation for customer, product, order.
+  see all integation objects: https://localhost:9002/odata2webservices/IntegrationService/IntegrationObjects
   integration object
-    each integration object is map to 1 ODataService
-    can create using
-      impex
-  	backoffice
-  	or api e.g. POST https://localhost:9002/odata2webservices/IntegrationService/IntegrationObjects
-  	  see: https://tinyurl.com/526bkyka
-    then generate edmx: xml file that define an entity data model - is used by scpi to prepare data before import to commerce or send data out
-      /integrationObject/$metadata or using backoffice e.g. https://localhost:9002/odata2webservices/OutboundVehicleOnboarding/$metadata
-  	config: https://tinyurl.com/abyspehs
-    create integation object with rest request e.g. https://localhost:9002/odata2webservices/InboundProduct/Products 
+    central of Integration API
+	the structure 
+	  for inbound
+	    should base on items.xml structure, let ootb set correct reference 
+	    e.g. replicate Product -> need set correct for catalog version, unit
+	    thuong se di 1 root model item, need to create new wrapper model if needed e.g. SAPCpiOutboundOrder
+	  for outbound
+	    same or can be more flexible: because just need to send data out (can use message mapping to map with external structure)
+		
+	can create using
+      mannual impex
+  	  or backoffice => generate to impex (recommended)
+  	  or api e.g. POST https://localhost:9002/odata2webservices/IntegrationService/IntegrationObjects see: https://tinyurl.com/526bkyka
+	
+	represents many things
+      the payload container
+	  and exposed OData endpoints: GET/POST/DELETE (let external system get/insert data to hybris) - note: the outbound and inbound expose the same apis
+	    say, i create an integration object with code ExampleProduct with root is Product type and items are Catalog and Catalog Version,
+		and item attributes of those items, then i get ODataServices as following
+		GET endpoint
+		  e.g. https://localhost:9002/odata2webservices/ExampleProduct show the integration object
+		  or https://localhost:9002/odata2webservices/ExampleProduct/Products show products
+		  or https://localhost:9002/odata2webservices/ExampleProduct/Catalogs show catalogs
+		  or https://localhost:9002/odata2webservices/ExampleProduct/Products('Staged|tmpProductCatalog|23210') to get Product with the integration key
+		  refer: https://tinyurl.com/yw7d8u66
+	    POST endpoint: enable to persist root item into commerce with rest request (payload is the integrationobject data)
+		   e.g https://localhost:9002/odata2webservices/ExampleProduct/Products for ExampleProduct
+		   refer: https://tinyurl.com/ycpf52rf
+		DELETE endpoint: notice isPartOf
+	  and EDMX Schema
+	  	
+  	config: https://tinyurl.com/abyspehs - effect to geneated edmx
+	  isUnique: from item type or integrationObjectItemAttribute
+	  autoCreate vs partOf
+
+outbound API (vs outbound sync)
+  define integration object, ConsumedDestination
+  then use IntegrationObjectConversionService to convert the system model to payload
+  and OutBoundServiceFacade.send()
+  modify request header and payload with decorator
+    add to outboundRequestDecoratorList
+	or define new one for only needed facade code
 	
 sample outbound flow: INT-121 - after place order, if customer dmbid is null => send request to create in dbm
   when place order e.g. order-process.xml
@@ -59,9 +94,13 @@ sample inbound flow: INT-031 - C4C sends VSQ to commerce
 	  that will trigger PersistenceHandler
 	  which will call tmpSapCpiVSQPersistenceHook to get data from the integration object e.g. TmpVSQModel - getOrder -> save Order status
 	
-	
-	
-  
+speedup with
+  groovy script to send outbound request
+  	
+
+extend IntegrationObject?
+outbound sync?  
+ 
 	
 	
 	
