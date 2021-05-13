@@ -1,7 +1,6 @@
 hot folder = scan periodically + auto processing
 import line by line, 1 dong fail van process may dong khac
-other way to import data to hybris, based on spring integration, periodically scan a predefined directory, if new file => 
-processing
+other way to import data to hybris, based on spring integration, periodically scan a predefined directory, if new file => processing
   e.g. critical business data such as master data, price, stock and order information need to be moved from external systems to SAP Hybris
   e.g. just place the file into a directory => import automatically
   
@@ -26,4 +25,14 @@ flow
 ref
   https://www.stackextend.com/hybris/everything-about-hot-folder-in-hybris/
   https://www.slideshare.net/AzriAbdelghani/sap-hybris-hot-folder
+  
+
+custom
+  with cell decorator 
+  and translator
+  
+execute code for each line after import
+  impex.legacy.scripting=false (neu thu bang hac => anable code execution)
+  => fire event lam gi thi lam -> cool
+  groovy example
   

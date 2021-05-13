@@ -81,12 +81,12 @@ message processing with Apache Camel: message routing and mediation engine
 	MEP: message exchange pattern
 	  InOnly: asynchnorous message handling
 	  Inout: sysnchnorous message handling
-	Properties: additinal data e.g. for global info - differ from header: properties is not transferred to receiver
+	Properties: additinal data e.g. for global info - differ from header: properties is not transferred to receiver e.g. content-type will affect on receiver side
 	in-message
 	out-message
   Camel expression: ${}
   built-in Camel variable
-    in e.g. in.body
+    in e.g. ${in.body}
 	property
 	header
 
@@ -143,13 +143,18 @@ synchronous vs asynchnorous message handling: adatper dependent
   note: phan biet usage of synchronous/asynchnorous message vs synchronous/asynchnorous step (request-reply/content enrich and send)
   are set in MEP field (InOnly/InOut)of the exchange when setting up the channel Message Exchange Pattern property
   synchronous: connection keep open util get response back or timeout
-    input ms come -> MEP is set to InOut -> be processed -> at the end, copy input ms body to out ms body and send the out ms to caller
+    input ms come -> MEP is set to InOut -> be processed -> at the end, copy input ms body to out ms body and send the out ms back to caller
   asynchnorous: close connection after get confirm that receiver got the request
     set by One-Way for message exchange pattern
 	or from wsdl define for soap adapter
 	WS-Standard: send and dont care
 	Robust: send and make sure the request came to scpi (scpi will send error to caller if any)
 	  
+exception handling
+  exception sub process: send back (custom) error to sender
+  retry
+    with jms (enterprice edition only)
+	with data store
 
 error tracking
   error tracking using admin backoffice integration tools and cloud commons menu (admin)
