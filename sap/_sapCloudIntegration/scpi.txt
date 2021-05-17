@@ -85,7 +85,7 @@ message processing with Apache Camel: message routing and mediation engine
 	in-message
 	out-message
   Camel expression: ${}
-  built-in Camel variable
+  built-in Camel variable: https://tinyurl.com/4xe55vma
     in e.g. ${in.body}
 	property
 	header
@@ -149,7 +149,25 @@ synchronous vs asynchnorous message handling: adatper dependent
 	or from wsdl define for soap adapter
 	WS-Standard: send and dont care
 	Robust: send and make sure the request came to scpi (scpi will send error to caller if any)
-	  
+	 
+structure flow
+  integration process: main process
+  local integration process
+    use to simplify main process (group related steps), only can call by Process Call from parent
+	local process use the same message exchange from parent
+  exception subprocess: catch any exception from the wrapper process
+    error start
+	end
+	  error end: throw exception
+	  end message (the whole message is Completed, use this mainly to add error info to the message and return to caller)
+	  escalation
+  ProcessDirect adapter: send message from 1 flow to another flow (same tenant and producer:consumer=N:1), when use?
+    can be used to structure flow (like local process)
+	or used to reuse integration logic
+	or dynamic call processes base on data e.g. if country-Frech => call process1 otherwise call process 2 (dynamic endpoint)
+	
+  
+	 
 exception handling
   exception sub process: send back (custom) error to sender
   retry
@@ -159,6 +177,7 @@ exception handling
 error tracking
   error tracking using admin backoffice integration tools and cloud commons menu (admin)
   error tracking with log message monitor
+  trace mode to explore message content
   
   
   
