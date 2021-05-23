@@ -70,6 +70,7 @@ adapter
 	
 
 message monitoring with WebUI
+  each message for 1 integation process (not flow)
 message processing with Apache Camel: message routing and mediation engine
   key point: message is pass along the flow, can change content by flow step or after get response when call external service
   message id
@@ -165,10 +166,22 @@ structure flow
     can be used to structure flow (like local process)
 	or used to reuse integration logic
 	or dynamic call processes base on data e.g. if country-Frech => call process1 otherwise call process 2 (dynamic endpoint)
+	header propagation: base on setup 
 	
-  
-	 
+jms
+  send data to jsm receiver, sender e.g. dbm immediately receives a response with HTTP code 202 (Accepted). The message is processed internally in scpi
+  when message failed => is persisted to temporary storage and is pulled by jms sender adapter with the same queue name e.g. CX-INT-055
+  can separate the inbound (JMS recevier) and outbound message (JMS sender) to 2 integration flow (easy for testing), just need to make sure the jms id is identical
+  message comming => jms receiver store to jms queue (end story for jms receiver)
+  => jms sender get from the queue and process, if error the the message is persisted back to the queue
+
+transaction handling: chu y setup required jms transaction in the integration process
+  for jms (enable jms transaction handling on the integration process)
+    work for integration process level e.g. all jms queues on same integration process are persisted sucess or none.
+	after all queues in the same process are stored successfully then the jms senders tuong ung are execute in parallel
+
 exception handling
+  the message exchange?
   exception sub process: send back (custom) error to sender
   retry
     with jms (enterprice edition only)
@@ -179,8 +192,36 @@ error tracking
   error tracking with log message monitor
   trace mode to explore message content
   
-  
-  
+
+order exchange use case: 054: acc/service order - when user uploads payment proof
+  TmpSapCpiIntegrationOutboundServiceImpl.sendAccessoryOrderToDBM()
+  that will call SapCpiOmmOrderOutboundConversionService.convertOrderToSapCpiOrder(orderModel)
+    that wil call mappers to map the orderModel to SAPCpiOutboundOrderModel
+      which call TmpSapCpiOmmOrderMapperService (extends SapCpiOmmOrderMapperService) to execute mapping - return SAPCpiOutboundOrderModel
+        which is call TmpCpiOmmOrderConversionService (extends SapCpiOmmOrderConversionService).convertOrderToSapCpiOrder() - return return SapCpiOrder
+          which is call DefaultOrderContributor.createRows (1 row for the order)
+          and call TmpOrderEntryContributor.createRows(each row is an order entry)
+  then call TmpSapCpiOutboundServiceImpl.sendOrder to scpi 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
   
   
 	

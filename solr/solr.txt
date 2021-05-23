@@ -1,4 +1,4 @@
-a search engine (vs other data processing techs)
+search engine (vs other data processing techs)
   text-centric
   read-dominant
   document-oriented
