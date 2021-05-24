@@ -7,3 +7,6 @@ event
     Event extends AbstractEvent
 	EventListener extends AbstractEventListener
 	EventService publish event
+
+note: local se thay run synchronous but on cluster environment se run asyn trên node khác (bản thân node này vẫn run synchronous cho nhiều events)
+ref: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905/en-US/8e9c4cb98ca840388b704f754d48240a.html
