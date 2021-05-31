@@ -109,3 +109,12 @@ special cases: https://help.sap.com/viewer/d0224eca81e249cb821f2cdf45a82ace/1905
   
 scripting in impex: can use Beanshell, Groovy, or Javascript as scripting languages within ImpEx
 
+tom lai
+  initialize: chay het (convention + systemsetup java)
+  update
+    only select update running system: ko chay, chi update schema
+	select essential data: run het essential data (convention and systemsetup data) from all projects
+	select a project: run product data (convention and systemsetup java) from all projects
+	
+	
+	

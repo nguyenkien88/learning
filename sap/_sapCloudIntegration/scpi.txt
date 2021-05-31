@@ -162,6 +162,7 @@ structure flow
 	  error end: throw exception
 	  end message (the whole message is Completed, use this mainly to add error info to the message and return to caller)
 	  escalation
+	note: can not catch exception of sub process in main process, need to catch rieng
   ProcessDirect adapter: send message from 1 flow to another flow (same tenant and producer:consumer=N:1), when use?
     can be used to structure flow (like local process)
 	or used to reuse integration logic
